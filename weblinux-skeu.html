@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebLinux — Skeuomorphic</title>
+<style>
+/* ============================================================
+   DESIGN TOKENS — SHARED PALETTE (same across all 3 styles)
+   ============================================================ */
+:root {
+  /* Shared palette */
+  --c-primary:       #C84B31;
+  --c-primary-dark:  #A33A22;
+  --c-secondary:     #2D3561;
+  --c-accent:        #ECDBBA;
+  --c-success:       #2ECC71;
+  --c-warning:       #E67E22;
+  --c-danger:        #E74C3C;
+
+  /* Surface scale — warm grays, like brushed metal / leather */
+  --c-bg:        #2A2520;
+  --c-surface:   #332E28;
+  --c-s2:        #3D3730;
+  --c-s3:        #4A4238;
+  --c-s4:        #564D41;
+  --c-border:    #1A1612;
+  --c-border-hi: #6A5E50;
+  --c-text:      #EDE8E0;
+  --c-dim:       #8A7D6E;
+  --c-muted:     #5A5048;
+
+  /* SKEUOMORPHIC TOKENS */
+  --radius:        6px;
+  --radius-sm:     4px;
+  --radius-lg:     10px;
+  --shadow:        2px 3px 8px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.07);
+  --shadow-window: 4px 6px 24px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.4);
+  --shadow-inset:  inset 0 2px 4px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(0,0,0,0.3);
+  --shadow-btn:    0 2px 0 rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12);
+  --shadow-btn-press: inset 0 2px 4px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.05);
+  --header-bg:    #2A2520;
+  --header-grad:  linear-gradient(180deg, #4A4238 0%, #332E28 50%, #2A2520 100%);
+  --surface-grad: linear-gradient(180deg, #3D3730 0%, #332E28 100%);
+  --btn-grad:     linear-gradient(180deg, #564D41 0%, #3D3730 60%, #332E28 100%);
+  --btn-active:   linear-gradient(180deg, #2A2520 0%, #3D3730 100%);
+  --border-style: 1px solid var(--c-border);
+  --font-ui:      Georgia, 'Times New Roman', serif;
+  --font-mono:    'Courier New', monospace;
+  --font-label:   'Trebuchet MS', Tahoma, sans-serif;
+  --transition:   all 0.15s ease;
+
+  /* Texture overlays via repeating-gradient */
+  --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body {
+  font-family: var(--font-label);
+  user-select: none;
+  background: var(--c-bg);
+  color: var(--c-text);
+}
+svg { flex-shrink: 0; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--c-surface); border-radius: 4px; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--c-s4) 0%, var(--c-s3) 100%);
+  border-radius: 4px;
+  border: 1px solid var(--c-border);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--c-primary); }
+input[type=range] { accent-color: var(--c-primary); }
+input[type=checkbox] { accent-color: var(--c-primary); width: 15px; height: 15px; cursor: pointer; }
+.hidden { display: none !important; }
+
+/* ============================================================
+   DESKTOP — Leather-like texture
+   ============================================================ */
+#desktop {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.5s;
+  /* Default: dark leather */
+  background: #1E1A15;
+  background-image:
+    repeating-linear-gradient(0deg,   transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px),
+    repeating-linear-gradient(90deg,  transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
+}
+
+/* ============================================================
+   TASKBAR — brushed metal strip
+   ============================================================ */
+#taskbar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 46px;
+  background: var(--header-grad);
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  z-index: 1000;
+  border-top: 2px solid var(--c-border);
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+  gap: 5px;
+}
+
+/* Fine horizontal banding across taskbar */
+#taskbar::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.02) 3px, rgba(255,255,255,0.02) 4px);
+  pointer-events: none;
+}
+
+#start-btn {
+  width: 44px; height: 36px;
+  background: linear-gradient(180deg, #D4573A 0%, #C84B31 40%, #A33A22 100%);
+  border: 1px solid #7A2B18;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  box-shadow: var(--shadow-btn);
+  transition: var(--transition);
+  flex-shrink: 0;
+  position: relative;
+}
+#start-btn::before {
+  content: '';
+  position: absolute; top: 1px; left: 2px; right: 2px; height: 40%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  pointer-events: none;
+}
+#start-btn:hover { background: linear-gradient(180deg,#E06248 0%,#D4573A 40%,#B84428 100%); }
+#start-btn:active { box-shadow: var(--shadow-btn-press); transform: translateY(1px); }
+
+/* START MENU */
+#start-menu {
+  position: fixed;
+  bottom: 46px; left: 0;
+  background: var(--surface-grad);
+  border: 1px solid var(--c-border);
+  border-bottom: none;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  width: 240px;
+  z-index: 999;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.6), inset 1px 0 0 rgba(255,255,255,0.05);
+  overflow: hidden;
+}
+.start-header {
+  padding: 11px 16px;
+  background: linear-gradient(180deg, #D4573A 0%, #A33A22 100%);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  font-family: var(--font-ui);
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  border-bottom: 1px solid #7A2B18;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 2px 4px rgba(0,0,0,0.3);
+}
+.start-list { padding: 5px 0; }
+.app-btn {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; padding: 9px 16px;
+  background: none; border: none;
+  color: var(--c-text); cursor: pointer;
+  font-family: var(--font-label); font-size: 0.84rem;
+  text-align: left; transition: var(--transition);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+}
+.app-btn:hover {
+  background: linear-gradient(90deg, rgba(200,75,49,0.25) 0%, rgba(200,75,49,0.05) 100%);
+  color: var(--c-accent);
+}
+.app-btn svg { color: var(--c-dim); }
+.app-btn:hover svg { color: var(--c-primary); }
+.start-sep { height: 1px; background: linear-gradient(90deg, var(--c-border), transparent); margin: 3px 16px; }
+#shutdown {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; padding: 9px 16px;
+  background: none; border: none;
+  color: #CC5544; cursor: pointer;
+  font-family: var(--font-label); font-size: 0.84rem;
+  text-align: left; transition: var(--transition);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+}
+#shutdown:hover { background: linear-gradient(90deg, rgba(231,76,60,0.2) 0%, transparent 100%); color: var(--c-danger); }
+
+/* TASKBAR APPS */
+#taskbar-apps {
+  flex: 1;
+  display: flex; gap: 3px;
+  overflow-x: auto;
+  padding: 3px 4px;
+}
+.taskbar-app {
+  min-width: 130px; max-width: 180px; height: 30px;
+  background: var(--btn-grad);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-dim);
+  padding: 0 10px;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.78rem; font-family: var(--font-label);
+  transition: var(--transition);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  box-shadow: var(--shadow-btn);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+  position: relative;
+}
+.taskbar-app::before {
+  content: '';
+  position: absolute; top: 1px; left: 2px; right: 2px; height: 40%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.07) 0%, transparent 100%);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  pointer-events: none;
+}
+.taskbar-app:hover { background: var(--surface-grad); color: var(--c-text); }
+.taskbar-app.active {
+  background: var(--btn-active);
+  border-color: var(--c-primary);
+  color: var(--c-accent);
+  box-shadow: var(--shadow-btn-press);
+}
+.taskbar-app.minimized { opacity: 0.5; }
+
+#clock {
+  color: var(--c-text);
+  font-size: 0.82rem;
+  font-family: var(--font-mono);
+  padding: 0 10px;
+  letter-spacing: 0.1em;
+  border-left: 1px solid var(--c-border);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   WINDOWS — beveled chrome frames
+   ============================================================ */
+.window {
+  position: absolute;
+  min-width: 320px; min-height: 240px;
+  background: var(--c-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--c-border);
+  display: flex; flex-direction: column;
+  box-shadow: var(--shadow-window);
+  /* Outer bevel highlight */
+  outline: 1px solid rgba(255,255,255,0.05);
+}
+.window.maximized {
+  top: 0 !important; left: 0 !important;
+  width: 100vw !important;
+  height: calc(100vh - 46px) !important;
+  border-radius: 0;
+}
+.window-header {
+  height: 36px;
+  background: var(--header-grad);
+  display: flex; align-items: center;
+  padding: 0 0 0 10px;
+  cursor: move;
+  border-bottom: 1px solid var(--c-border);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.window-header::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+  pointer-events: none;
+}
+.window-title {
+  flex: 1;
+  font-size: 0.8rem;
+  font-family: var(--font-ui);
+  color: var(--c-text);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  font-style: italic;
+  letter-spacing: 0.04em;
+}
+.window-controls { display: flex; gap: 6px; padding-right: 8px; }
+.window-btn {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.5);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 1px 2px rgba(0,0,0,0.4);
+  color: transparent;
+}
+.window-btn:hover {
+  color: rgba(0,0,0,0.6);
+  transform: scale(1.1);
+}
+.window-btn.minimize { background: radial-gradient(circle at 40% 35%, #FFD162 0%, #E6B800 50%, #C4A000 100%); }
+.window-btn.maximize { background: radial-gradient(circle at 40% 35%, #65DA5F 0%, #28C622 50%, #1EA61A 100%); }
+.window-btn.close    { background: radial-gradient(circle at 40% 35%, #FF7E79 0%, #FF3B30 50%, #D62B21 100%); }
+.window-resize {
+  position: absolute; right: 0; bottom: 0;
+  width: 16px; height: 16px;
+  cursor: se-resize;
+  border-radius: 0 0 var(--radius-lg) 0;
+  background:
+    linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.08) 55%, transparent 55%),
+    linear-gradient(135deg, transparent 55%, rgba(255,255,255,0.08) 55%, rgba(255,255,255,0.08) 70%, transparent 70%);
+}
+.window-resize:hover { opacity: 0.6; }
+.window-content {
+  flex: 1; overflow: auto;
+  color: var(--c-text);
+  min-height: 0;
+  display: flex; flex-direction: column;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* ============================================================
+   CONTEXT MENU — polished dropdown
+   ============================================================ */
+#context-menu {
+  position: fixed;
+  background: var(--surface-grad);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: 4px 0;
+  min-width: 180px;
+  z-index: 2000;
+  box-shadow: 6px 8px 20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.07);
+}
+.context-menu-item {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 8px 16px;
+  background: none; border: none;
+  color: var(--c-text); text-align: left;
+  cursor: pointer; font-size: 0.82rem; font-family: var(--font-label);
+  transition: var(--transition);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+}
+.context-menu-item:hover {
+  background: linear-gradient(90deg, rgba(200,75,49,0.3) 0%, rgba(200,75,49,0.05) 100%);
+  color: var(--c-accent);
+}
+.ctx-sep { height: 1px; background: linear-gradient(90deg, transparent, var(--c-border), transparent); margin: 3px 10px; }
+
+/* ============================================================
+   TERMINAL
+   ============================================================ */
+.terminal-app {
+  background: #0A0806;
+  height: 100%; padding: 10px;
+  font-family: var(--font-mono); font-size: 13px;
+  overflow: auto; display: flex; flex-direction: column;
+  line-height: 1.5;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  /* Inset screen effect */
+  box-shadow: var(--shadow-inset);
+}
+.terminal-line { margin-bottom: 2px; white-space: pre-wrap; }
+.terminal-out  { color: #44CC66; text-shadow: 0 0 6px rgba(68,204,102,0.3); }
+.terminal-err  { color: var(--c-danger); }
+.terminal-info { color: var(--c-dim); }
+.terminal-input-line { display: flex; align-items: center; margin-top: 4px; }
+.terminal-prompt { color: var(--c-primary); margin-right: 6px; white-space: nowrap; text-shadow: 0 0 5px rgba(200,75,49,0.4); }
+.terminal-input {
+  flex: 1; background: transparent; border: none;
+  color: #eee; font-family: inherit; font-size: inherit;
+  outline: none; caret-color: var(--c-primary);
+}
+
+/* ============================================================
+   FILES APP
+   ============================================================ */
+.files-app { height: 100%; display: flex; flex-direction: column; }
+.files-toolbar {
+  padding: 6px 8px;
+  background: var(--header-grad);
+  border-bottom: 1px solid var(--c-border);
+  display: flex; align-items: center; gap: 6px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.files-nav-btn {
+  width: 28px; height: 26px;
+  background: var(--btn-grad);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-text); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-btn);
+  transition: var(--transition);
+}
+.files-nav-btn:hover { background: var(--surface-grad); }
+.files-nav-btn:active { box-shadow: var(--shadow-btn-press); transform: translateY(1px); }
+.files-nav-btn:disabled { opacity: 0.3; cursor: default; }
+.files-nav-btn:disabled:hover { background: var(--btn-grad); box-shadow: var(--shadow-btn); transform: none; }
+.files-path-bar {
+  flex: 1; padding: 4px 10px;
+  background: #0A0806;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-dim); font-family: var(--font-mono); font-size: 0.78rem;
+  box-shadow: var(--shadow-inset);
+}
+.files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
+  gap: 2px; padding: 10px;
+  flex: 1; align-content: start; overflow: auto;
+}
+.file-item {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 12px 6px; cursor: pointer;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  transition: var(--transition);
+}
+.file-item:hover {
+  background: linear-gradient(180deg, rgba(90,80,64,0.5) 0%, rgba(60,54,44,0.5) 100%);
+  border-color: var(--c-border-hi);
+  box-shadow: var(--shadow);
+}
+.file-icon { margin-bottom: 6px; color: var(--c-dim); transition: var(--transition); }
+.file-item:hover .file-icon { color: var(--c-accent); }
+.file-name { font-size: 0.72rem; text-align: center; word-break: break-all; color: var(--c-text); text-shadow: 0 1px 1px rgba(0,0,0,0.5); }
+.files-empty { color: var(--c-muted); font-size: 0.8rem; padding: 20px; text-align: center; }
+
+/* ============================================================
+   CALCULATOR
+   ============================================================ */
+.calc-app {
+  padding: 12px; height: 100%;
+  display: flex; flex-direction: column; gap: 8px;
+  background: var(--surface-grad);
+}
+.calc-display {
+  background: #0A0806;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  box-shadow: var(--shadow-inset);
+}
+.calc-expr { font-size: 0.72rem; color: var(--c-dim); min-height: 16px; font-family: var(--font-mono); }
+.calc-val {
+  font-size: 1.9rem; color: #44DD88;
+  font-family: var(--font-mono); letter-spacing: 0.04em;
+  text-align: right;
+  text-shadow: 0 0 10px rgba(68,221,136,0.35);
+}
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px; flex: 1;
+}
+.calc-btn {
+  background: var(--btn-grad);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-text); font-size: 0.95rem;
+  font-family: var(--font-label); cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition: var(--transition);
+  display: flex; align-items: center; justify-content: center;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+  position: relative; overflow: hidden;
+}
+.calc-btn::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+  pointer-events: none;
+}
+.calc-btn:hover { background: linear-gradient(180deg,#6A5E50 0%,#4A4238 60%,#3D3730 100%); }
+.calc-btn:active { box-shadow: var(--shadow-btn-press); transform: translateY(1px); }
+.calc-btn.op { color: var(--c-accent); }
+.calc-btn.op:hover { background: linear-gradient(180deg,#D4573A 0%,#A33A22 100%); color: #fff; border-color: #7A2B18; }
+.calc-btn.eq {
+  background: linear-gradient(180deg,#D4573A 0%,#A33A22 60%,#8A3020 100%);
+  color: #fff; border-color: #7A2B18;
+}
+.calc-btn.eq:hover { background: linear-gradient(180deg,#E06248 0%,#B84428 100%); }
+.calc-btn.clr { color: #EE8866; }
+.calc-btn.clr:hover { background: linear-gradient(180deg,#993322 0%,#772211 100%); color: #fff; }
+.calc-btn.wide { grid-column: span 2; }
+
+/* ============================================================
+   EDITOR
+   ============================================================ */
+.editor-app { display: flex; flex-direction: column; height: 100%; }
+.editor-toolbar {
+  padding: 6px 8px;
+  background: var(--header-grad);
+  border-bottom: 1px solid var(--c-border);
+  display: flex; gap: 5px; flex-shrink: 0; align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.editor-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 12px;
+  background: var(--btn-grad);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-text); cursor: pointer;
+  font-family: var(--font-label); font-size: 0.78rem;
+  box-shadow: var(--shadow-btn);
+  transition: var(--transition);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+}
+.editor-btn:hover { background: var(--surface-grad); }
+.editor-btn:active { box-shadow: var(--shadow-btn-press); transform: translateY(1px); }
+.editor-textarea {
+  flex: 1; background: #0D0B08; border: none;
+  color: #DDD8CC; padding: 14px;
+  font-family: var(--font-mono); font-size: 13px;
+  resize: none; outline: none; line-height: 1.6;
+  box-shadow: var(--shadow-inset);
+}
+.editor-statusbar {
+  padding: 3px 12px;
+  background: var(--header-grad);
+  border-top: 1px solid var(--c-border);
+  font-size: 0.7rem; color: var(--c-dim);
+  display: flex; gap: 16px; flex-shrink: 0;
+  font-family: var(--font-mono);
+}
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+.settings-app { height: 100%; display: flex; flex-direction: column; }
+.settings-tabs {
+  display: flex; background: var(--header-grad);
+  border-bottom: 1px solid var(--c-border);
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.stab {
+  padding: 10px 16px;
+  background: none; border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--c-dim); cursor: pointer;
+  font-family: var(--font-label); font-size: 0.78rem;
+  transition: var(--transition);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+}
+.stab:hover { color: var(--c-text); }
+.stab.active { color: var(--c-accent); border-bottom-color: var(--c-primary); }
+.settings-content { flex: 1; overflow-y: auto; padding: 16px; }
+.settings-section { margin-bottom: 22px; }
+.settings-section h3 {
+  font-size: 0.72rem;
+  font-family: var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: 10px; padding-bottom: 5px;
+  border-bottom: 1px solid var(--c-border);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+.settings-row {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  background: var(--btn-grad);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 4px;
+  box-shadow: var(--shadow-btn);
+}
+.settings-row label { font-size: 0.8rem; color: var(--c-text); font-family: var(--font-label); }
+.settings-row .val { font-size: 0.78rem; color: var(--c-dim); font-family: var(--font-mono); }
+
+/* WALLPAPER */
+.wp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px; margin-top: 8px;
+}
+.wp-item {
+  height: 50px; cursor: pointer;
+  border: 2px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  position: relative;
+  box-shadow: var(--shadow-btn);
+}
+.wp-item:hover { border-color: var(--c-border-hi); box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+.wp-item.wp-active { border-color: var(--c-primary); }
+.wp-item.wp-active::after {
+  content: '';
+  position: absolute; top: 3px; right: 3px;
+  width: 8px; height: 8px;
+  background: var(--c-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(200,75,49,0.8);
+}
+.wp-label { font-size: 0.65rem; text-align: center; margin-top: 4px; color: var(--c-dim); font-family: var(--font-label); }
+.custom-color-row {
+  display: flex; gap: 8px; align-items: center;
+  margin-top: 12px;
+}
+.custom-color-row label { font-size: 0.78rem; color: var(--c-dim); font-family: var(--font-label); }
+input[type=color] {
+  width: 38px; height: 30px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  background: var(--c-s3); padding: 2px;
+  box-shadow: var(--shadow-btn);
+}
+
+/* Toggle */
+.toggle {
+  width: 42px; height: 22px;
+  background: linear-gradient(180deg, #1A1612 0%, #2A2218 100%);
+  border: 1px solid var(--c-border);
+  border-radius: 11px;
+  cursor: pointer; position: relative;
+  box-shadow: var(--shadow-inset);
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+.toggle.on { background: linear-gradient(180deg, #B03C28 0%, #D4573A 100%); border-color: #7A2B18; }
+.toggle::after {
+  content: '';
+  position: absolute; top: 2px; left: 2px;
+  width: 16px; height: 16px;
+  background: radial-gradient(circle at 40% 35%, var(--c-border-hi) 0%, var(--c-s4) 60%, var(--c-s3) 100%);
+  border-radius: 50%;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
+  transition: var(--transition);
+}
+.toggle.on::after { left: 22px; background: radial-gradient(circle at 40% 35%, #FFF8F0 0%, #EDE0D0 60%, #D0C0A8 100%); }
+
+/* ============================================================
+   ABOUT
+   ============================================================ */
+.about-app {
+  height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 30px; text-align: center;
+  background: var(--surface-grad);
+}
+.about-logo {
+  width: 70px; height: 70px;
+  background: radial-gradient(circle at 40% 35%, #D4573A 0%, #A33A22 50%, #7A2B18 100%);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px; color: #fff;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.2);
+  border: 1px solid rgba(0,0,0,0.4);
+}
+.about-title {
+  font-size: 1.5rem; font-family: var(--font-ui); font-style: italic;
+  letter-spacing: 0.1em; margin-bottom: 4px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+.about-version { color: var(--c-dim); font-size: 0.78rem; margin-bottom: 16px; font-family: var(--font-mono); }
+.about-desc { color: var(--c-dim); font-size: 0.82rem; line-height: 1.9; font-family: var(--font-label); }
+.about-badge {
+  display: inline-block; margin-top: 16px;
+  padding: 5px 14px;
+  background: var(--btn-grad);
+  border: 1px solid var(--c-border);
+  border-radius: 20px;
+  color: var(--c-accent); font-size: 0.72rem;
+  font-family: var(--font-label); letter-spacing: 0.12em;
+  box-shadow: var(--shadow-btn);
+}
+
+/* ============================================================
+   PAINT
+   ============================================================ */
+.paint-app { display: flex; flex-direction: column; height: 100%; }
+.paint-toolbar {
+  padding: 6px 8px;
+  background: var(--header-grad);
+  border-bottom: 1px solid var(--c-border);
+  display: flex; gap: 8px; align-items: center;
+  flex-wrap: wrap; flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.paint-group {
+  display: flex; gap: 2px;
+  background: #1A1612;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+  box-shadow: var(--shadow-inset);
+}
+.paint-tool-btn {
+  width: 28px; height: 26px;
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c-dim);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+.paint-tool-btn:hover { background: rgba(255,255,255,0.06); color: var(--c-text); }
+.paint-tool-btn.active {
+  background: linear-gradient(180deg, #D4573A 0%, #A33A22 100%);
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+.paint-color-btn {
+  width: 22px; height: 22px;
+  border: 2px solid transparent; cursor: pointer;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 1px 2px rgba(0,0,0,0.4);
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+.paint-color-btn:hover { transform: scale(1.2); }
+.paint-color-btn.active { border-color: #fff; outline: 2px solid var(--c-primary); border-radius: 50%; }
+.paint-size-btn {
+  padding: 3px 8px;
+  background: var(--btn-grad);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-dim); cursor: pointer;
+  font-size: 0.72rem; font-family: var(--font-label);
+  box-shadow: var(--shadow-btn);
+  transition: var(--transition);
+}
+.paint-size-btn:hover { color: var(--c-text); }
+.paint-size-btn.active {
+  background: linear-gradient(180deg,#D4573A 0%,#A33A22 100%);
+  color: #fff; border-color: #7A2B18;
+  box-shadow: var(--shadow-btn-press);
+}
+.paint-act-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 5px 10px;
+  background: var(--btn-grad);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-text); cursor: pointer;
+  font-size: 0.75rem; font-family: var(--font-label);
+  box-shadow: var(--shadow-btn);
+  transition: var(--transition);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+}
+.paint-act-btn:hover { background: var(--surface-grad); }
+.paint-act-btn:active { box-shadow: var(--shadow-btn-press); transform: translateY(1px); }
+.paint-canvas-wrap {
+  flex: 1; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background: #888; padding: 10px;
+  box-shadow: var(--shadow-inset);
+}
+#paint-canvas { display: block; cursor: crosshair; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+
+/* ============================================================
+   MINESWEEPER
+   ============================================================ */
+.mines-app { display: flex; flex-direction: column; height: 100%; padding: 12px; }
+.mines-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 14px;
+  background: var(--header-grad);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 10px; flex-shrink: 0;
+  box-shadow: var(--shadow-btn);
+}
+.mines-stat {
+  font-size: 0.88rem; font-family: var(--font-mono);
+  color: #44DD88; letter-spacing: 0.1em;
+  text-shadow: 0 0 6px rgba(68,221,136,0.3);
+  background: #0A0806; padding: 3px 8px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-inset);
+}
+.mines-reset {
+  padding: 5px 14px;
+  background: var(--btn-grad);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-text); cursor: pointer;
+  font-family: var(--font-label); font-size: 0.75rem;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  box-shadow: var(--shadow-btn);
+  transition: var(--transition);
+}
+.mines-reset:hover { background: var(--surface-grad); }
+.mines-reset:active { box-shadow: var(--shadow-btn-press); transform: translateY(1px); }
+.mines-board {
+  display: grid;
+  grid-template-columns: repeat(9, 32px);
+  gap: 2px;
+  justify-content: center; flex-shrink: 0;
+  background: var(--c-border);
+  border: 2px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-inset);
+  padding: 3px;
+}
+.mines-cell {
+  width: 32px; height: 32px;
+  background: var(--btn-grad);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: bold; font-size: 0.82rem; cursor: pointer;
+  font-family: var(--font-mono);
+  border-radius: 2px;
+  box-shadow: var(--shadow-btn);
+  position: relative;
+  transition: background 0.08s;
+}
+.mines-cell:hover:not(.revealed) { background: linear-gradient(180deg,#6A5E50 0%,#4A4238 100%); }
+.mines-cell.revealed {
+  background: #1A1612;
+  box-shadow: var(--shadow-inset);
+  cursor: default;
+  border-radius: 2px;
+}
+.mines-cell.flagged { color: var(--c-danger); }
+.mines-cell.mine { background: linear-gradient(180deg,#CC3322 0%,#AA2211 100%); color: #fff; }
+.mines-cell.wrong { background: linear-gradient(180deg,#CC7722 0%,#AA5511 100%); }
+.mines-cell[data-n="1"] { color: #3498DB; }
+.mines-cell[data-n="2"] { color: #2ECC71; }
+.mines-cell[data-n="3"] { color: var(--c-danger); }
+.mines-cell[data-n="4"] { color: #8E44AD; }
+.mines-cell[data-n="5"] { color: #C0392B; }
+.mines-cell[data-n="6"] { color: #16A085; }
+.mines-cell[data-n="7"] { color: var(--c-text); }
+.mines-cell[data-n="8"] { color: var(--c-dim); }
+.mines-msg {
+  margin-top: 10px; padding: 8px;
+  font-size: 0.82rem; text-align: center;
+  color: var(--c-dim); text-transform: uppercase; letter-spacing: 0.14em;
+  font-family: var(--font-label);
+}
+.mines-msg.win { color: #44DD88; text-shadow: 0 0 8px rgba(68,221,136,0.4); }
+.mines-msg.lose { color: var(--c-danger); text-shadow: 0 0 8px rgba(231,76,60,0.4); }
+</style>
+</head>
+<body>
+<div id="desktop">
+  <div id="taskbar">
+    <div id="start-menu" class="hidden">
+      <div class="start-header">WebLinux</div>
+      <div class="start-list">
+        <button class="app-btn" data-app="terminal">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          Terminal
+        </button>
+        <button class="app-btn" data-app="files">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          Explorador
+        </button>
+        <button class="app-btn" data-app="paint">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+          Paint
+        </button>
+        <button class="app-btn" data-app="minesweeper">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><rect x="3" y="3" width="18" height="18"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+          Buscaminas
+        </button>
+        <button class="app-btn" data-app="calc">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><rect x="4" y="2" width="16" height="20"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="14" y1="18" x2="16" y2="18"/></svg>
+          Calculadora
+        </button>
+        <button class="app-btn" data-app="editor">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Editor
+        </button>
+        <div class="start-sep"></div>
+        <button class="app-btn" data-app="settings">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          Ajustes
+        </button>
+        <button class="app-btn" data-app="about">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Acerca de
+        </button>
+        <div class="start-sep"></div>
+        <button id="shutdown">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+          Apagar
+        </button>
+      </div>
+    </div>
+
+    <button id="start-btn" title="Menu">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+        <rect x="1" y="1" width="6" height="6"/><rect x="9" y="1" width="6" height="6"/>
+        <rect x="1" y="9" width="6" height="6"/><rect x="9" y="9" width="6" height="6"/>
+      </svg>
+    </button>
+    <div id="taskbar-apps"></div>
+    <div id="clock">00:00</div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   ICON HELPER
+   ============================================================ */
+const IC = {
+  terminal: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>`,
+  folder:   `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>`,
+  file:     `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>`,
+  paint:    `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>`,
+  bomb:     `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><circle cx="11" cy="13" r="7"/><path d="M14 4l2-2"/><line x1="11" y1="6" x2="14" y2="3"/><line x1="17" y1="4" x2="15" y2="6"/></svg>`,
+  calc:     `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><rect x="4" y="2" width="16" height="20"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="9" y1="11" x2="9" y2="11"/><line x1="15" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="9" y2="15"/><line x1="15" y1="15" x2="15" y2="15"/></svg>`,
+  editor:   `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
+  settings: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>`,
+  about:    `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+  power:    `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>`,
+  close:    `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+  minimize: `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+  maximize: `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><rect x="3" y="3" width="18" height="18"/></svg>`,
+  back:     `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>`,
+  save:     `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>`,
+  newfile:  `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>`,
+  brush:    `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18 3a3 3 0 00-3 3l-7 7a3 3 0 104 4l7-7a3 3 0 000-7z"/></svg>`,
+  eraser:   `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M20 20H7L3 16l10-10 7 7-1 1"/><path d="M6.0001 11L13 18"/></svg>`,
+  fill:     `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M19 11l-8-8-8.5 8.5a5.5 5.5 0 007.78 7.78L19 11z"/><path d="M20 23c0-1.11-.89-2-2-2a2 2 0 01-2-2c0-1.11.89-2 2-2a2 2 0 002-2"/></svg>`,
+  trash:    `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>`,
+  download: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`,
+  flag:     `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>`,
+  wallpaper:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><rect x="3" y="3" width="18" height="18"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
+  grid:     `<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6"/><rect x="9" y="1" width="6" height="6"/><rect x="1" y="9" width="6" height="6"/><rect x="9" y="9" width="6" height="6"/></svg>`,
+};
+
+const appIcons = {
+  terminal: IC.terminal, files: IC.folder, paint: IC.paint,
+  minesweeper: IC.bomb, calc: IC.calc, editor: IC.editor,
+  settings: IC.settings, about: IC.about
+};
+
+/* ============================================================
+   FILE SYSTEM
+   ============================================================ */
+const FileSystem = {
+  data: {
+    '/': { type:'dir', children:['home','usr','etc','var','tmp'] },
+    '/home': { type:'dir', children:['user'] },
+    '/home/user': { type:'dir', children:['documentos','descargas','escritorio'] },
+    '/home/user/documentos': { type:'dir', children:['nota.txt','proyecto.txt'] },
+    '/home/user/descargas': { type:'dir', children:[] },
+    '/home/user/escritorio': { type:'dir', children:[] },
+    '/usr': { type:'dir', children:['bin','lib'] },
+    '/etc': { type:'dir', children:['hostname','passwd'] },
+    '/var': { type:'dir', children:['log'] },
+    '/tmp': { type:'dir', children:[] }
+  },
+  contents: {
+    '/etc/hostname': 'weblinux',
+    '/etc/passwd': 'root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000:User:/home/user:/bin/bash',
+    '/home/user/documentos/nota.txt': 'Esta es una nota de prueba.\nWebLinux OS v1.0',
+    '/home/user/documentos/proyecto.txt': 'Mi proyecto:\n- Aprender Linux\n- Crear un mini OS\n- Disfrutar!'
+  },
+  isDir(p){ return this.data[p]?.type === 'dir'; },
+  isFile(p){ return Object.hasOwn(this.contents, p); },
+  readFile(p){ return this.contents[p] ?? null; },
+  listDir(p){ return this.data[p]?.children ?? []; },
+  getParent(p){ if(p==='/')return '/'; const pts=p.split('/').filter(Boolean); pts.pop(); return '/'+pts.join('/')||'/'; },
+  createDir(path,name){
+    const full = path==='/' ? '/'+name : path+'/'+name;
+    if(!this.data[full]){ this.data[full]={type:'dir',children:[]}; this.data[path]?.children.push(name); return true; }
+    return false;
+  },
+  writeFile(path,content){ this.contents[path]=content; },
+};
+
+/* ============================================================
+   COMMANDS
+   ============================================================ */
+const Commands = {
+  currentPath: '/home/user',
+  execute(cmd) {
+    const [command, ...args] = cmd.trim().split(/\s+/);
+    switch(command.toLowerCase()) {
+      case '': return '';
+      case 'help': return this.help();
+      case 'ls': return this.ls();
+      case 'cd': return this.cd(args[0]);
+      case 'pwd': return this.currentPath;
+      case 'cat': return this.cat(args[0]);
+      case 'echo': return args.join(' ');
+      case 'clear': return '__clear__';
+      case 'date': return new Date().toString();
+      case 'whoami': return 'guest';
+      case 'uname': return args[0]==='-a' ? 'WebLinux 1.0.0 x86_64 GNU/Linux' : 'WebLinux';
+      case 'mkdir': return this.mkdir(args[0]);
+      case 'touch': return this.touch(args[0]);
+      case 'rm': return 'Archivo eliminado (simulacion)';
+      case 'calc': return this.calc(args.join(''));
+      case 'reboot': return 'Reiniciando...';
+      case 'exit': return 'Sesion cerrada';
+      case 'tree': return this.tree();
+      case 'history': return '1 help\n2 ls\n3 cd /home\n4 pwd';
+      case 'hostname': return FileSystem.readFile('/etc/hostname') || 'weblinux';
+      case 'ps': return '  PID TTY    TIME CMD\n    1 ?    00:00 init\n  234 ?    00:01 bash';
+      case 'df': return 'Filesystem   1K-blocks  Used Available Use% Mounted\n/dev/sda1       204800 10240    194560   5% /';
+      case 'free': return '       total   used   free\nMem:  1024000 512000 512000\nSwap:  204800      0 204800';
+      default: return `Comando no encontrado: ${command}`;
+    }
+  },
+  help(){ return `Comandos disponibles:
+  help, ls, cd, pwd, cat, echo, clear, date
+  whoami, uname [-a], mkdir, touch, rm, calc
+  tree, history, hostname, ps, df, free
+  reboot, exit`; },
+  ls(){ const f=FileSystem.listDir(this.currentPath); return f.length?f.join('  '):'(vacio)'; },
+  cd(p){
+    if(!p||p==='/'){ this.currentPath='/'; return ''; }
+    if(p==='..'){ this.currentPath=FileSystem.getParent(this.currentPath); return ''; }
+    const np = p.startsWith('/')?p:(this.currentPath==='/'?'/'+p:this.currentPath+'/'+p);
+    if(FileSystem.isDir(np)){ this.currentPath=np; return ''; }
+    return `Error: Directorio no encontrado: ${p}`;
+  },
+  cat(p){ if(!p)return 'Uso: cat <archivo>'; const fp=p.startsWith('/')?p:this.currentPath+'/'+p; return FileSystem.readFile(fp)||`Error: Archivo no encontrado: ${p}`; },
+  mkdir(n){ if(!n)return 'Uso: mkdir <dir>'; return FileSystem.createDir(this.currentPath,n)?'':'Error: El directorio ya existe'; },
+  touch(n){ if(!n)return 'Uso: touch <archivo>'; return 'Archivo creado (simulacion)'; },
+  calc(e){ if(!e)return 'Uso: calc <expr>'; try{ return eval(e).toString(); }catch{ return 'Error en la expresion'; } },
+  tree(){
+    const lines=[this.currentPath];
+    FileSystem.listDir(this.currentPath).forEach(f=>{
+      const cp=this.currentPath==='/'?'/'+f:this.currentPath+'/'+f;
+      lines.push('--- '+(FileSystem.isDir(cp)?'[DIR] ':'')+f);
+    });
+    return lines.join('\n');
+  }
+};
+
+/* ============================================================
+   CONTEXT MENU
+   ============================================================ */
+const ContextMenu = {
+  el: null,
+  init(){
+    this.el=document.createElement('div');
+    this.el.id='context-menu'; this.el.className='hidden';
+    document.body.appendChild(this.el);
+    document.addEventListener('click',()=>this.hide());
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape')this.hide(); });
+  },
+  show(x,y,items){
+    this.el.innerHTML=''; this.el.classList.remove('hidden');
+    items.forEach(item=>{
+      if(item==='-'){ const sep=document.createElement('div'); sep.className='ctx-sep'; this.el.appendChild(sep); return; }
+      const btn=document.createElement('button');
+      btn.className='context-menu-item';
+      btn.innerHTML=(item.icon||'')+item.label;
+      btn.addEventListener('click',e=>{ e.stopPropagation(); item.action(); this.hide(); });
+      this.el.appendChild(btn);
+    });
+    this.el.style.left=x+'px'; this.el.style.top=y+'px';
+    const r=this.el.getBoundingClientRect();
+    if(r.right>window.innerWidth) this.el.style.left=(window.innerWidth-r.width-10)+'px';
+    if(r.bottom>window.innerHeight) this.el.style.top=(window.innerHeight-r.height-10)+'px';
+  },
+  hide(){ this.el.classList.add('hidden'); }
+};
+
+/* ============================================================
+   TASKBAR
+   ============================================================ */
+const Taskbar = {
+  apps: new Map(),
+  init(){
+    this.container=document.getElementById('taskbar-apps');
+    this.startBtn=document.getElementById('start-btn');
+    this.startMenu=document.getElementById('start-menu');
+    this.clock=document.getElementById('clock');
+    this.startBtn.addEventListener('click',e=>{ e.stopPropagation(); this.startMenu.classList.toggle('hidden'); });
+    document.addEventListener('click',e=>{ if(!this.startMenu.contains(e.target)&&e.target!==this.startBtn) this.startMenu.classList.add('hidden'); });
+    setInterval(()=>this.tick(),1000); this.tick();
+  },
+  tick(){
+    const n=new Date();
+    this.clock.textContent=n.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+  },
+  addApp(id,title){
+    if(this.apps.has(id))return;
+    const btn=document.createElement('button');
+    btn.className='taskbar-app'; btn.dataset.app=id;
+    btn.innerHTML=(appIcons[id]||IC.file)+`<span>${title}</span>`;
+    btn.addEventListener('click',()=>{
+      const w=WindowManager.windows.get(id);
+      if(!w)return;
+      if(w.style.display==='none'){ w.style.display='flex'; btn.classList.remove('minimized'); }
+      WindowManager.bringToFront(w);
+    });
+    this.container.appendChild(btn); this.apps.set(id,btn);
+  },
+  removeApp(id){ const b=this.apps.get(id); if(b){ b.remove(); this.apps.delete(id); } },
+  minimizeApp(id){ const b=this.apps.get(id); if(b) b.classList.add('minimized'); },
+  setActive(id){ this.apps.forEach((b,k)=>b.classList.toggle('active',k===id)); }
+};
+
+/* ============================================================
+   WINDOW MANAGER
+   ============================================================ */
+const WindowManager = {
+  windows: new Map(), count: 0, z: 100, active: null,
+  init(){ this.desktop=document.getElementById('desktop'); },
+  open(id,title,w='600px',h='450px'){
+    if(this.windows.has(id)){
+      const ex=this.windows.get(id);
+      if(ex.style.display!=='none'){ this.bringToFront(ex); return ex; }
+    }
+    const el=document.createElement('div');
+    el.className='window'; el.dataset.app=id;
+    el.style.cssText=`left:${100+this.count*28}px;top:${50+this.count*28}px;width:${w};height:${h};z-index:${++this.z}`;
+    el.innerHTML=`
+      <div class="window-header">
+        <span class="window-title">${title}</span>
+        <div class="window-controls">
+          <button class="window-btn minimize" data-a="min" title="Minimizar">${IC.minimize}</button>
+          <button class="window-btn maximize" data-a="max" title="Maximizar">${IC.maximize}</button>
+          <button class="window-btn close" data-a="close" title="Cerrar">${IC.close}</button>
+        </div>
+      </div>
+      <div class="window-content" id="wc-${id}"></div>
+    `;
+    const resize=document.createElement('div'); resize.className='window-resize';
+    el.appendChild(resize);
+    this._drag(el); this._resize(el,resize); this._controls(el,id);
+    this.desktop.appendChild(el);
+    this.windows.set(id,el); this.count++;
+    Taskbar.addApp(id,title); this.bringToFront(el);
+    return el;
+  },
+  _drag(el){
+    const hdr=el.querySelector('.window-header');
+    hdr.addEventListener('mousedown',e=>{
+      if(e.target.closest('.window-btn'))return;
+      this.bringToFront(el);
+      const ox=e.clientX-el.offsetLeft, oy=e.clientY-el.offsetTop;
+      const mm=e2=>{ if(el.classList.contains('maximized'))return; el.style.left=(e2.clientX-ox)+'px'; el.style.top=(e2.clientY-oy)+'px'; };
+      const mu=()=>{ document.removeEventListener('mousemove',mm); document.removeEventListener('mouseup',mu); };
+      document.addEventListener('mousemove',mm); document.addEventListener('mouseup',mu);
+    });
+  },
+  _resize(el,handle){
+    handle.addEventListener('mousedown',e=>{
+      e.stopPropagation(); this.bringToFront(el);
+      const sx=e.clientX,sy=e.clientY,sw=el.offsetWidth,sh=el.offsetHeight;
+      const minW=el.dataset.app==='calc'?280:320, minH=240;
+      const mm=e2=>{ if(el.classList.contains('maximized'))return; el.style.width=Math.max(minW,sw+e2.clientX-sx)+'px'; el.style.height=Math.max(minH,sh+e2.clientY-sy)+'px'; };
+      const mu=()=>{ document.removeEventListener('mousemove',mm); document.removeEventListener('mouseup',mu); };
+      document.addEventListener('mousemove',mm); document.addEventListener('mouseup',mu);
+    });
+  },
+  _controls(el,id){
+    el.addEventListener('mousedown',()=>this.bringToFront(el));
+    el.querySelectorAll('.window-btn').forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        e.stopPropagation();
+        const a=btn.dataset.a;
+        if(a==='close'){ el.remove(); this.windows.delete(id); Taskbar.removeApp(id); }
+        else if(a==='min'){ el.style.display='none'; Taskbar.minimizeApp(id); }
+        else if(a==='max'){ el.classList.toggle('maximized'); }
+      });
+    });
+  },
+  bringToFront(el){ el.style.zIndex=++this.z; this.active=el; Taskbar.setActive(el.dataset.app); },
+  getContent(id){ return document.getElementById('wc-'+id); },
+  close(id){ const w=this.windows.get(id); if(w){ w.remove(); this.windows.delete(id); Taskbar.removeApp(id); } }
+};
+
+/* ============================================================
+   TERMINAL APP
+   ============================================================ */
+const TerminalApp = {
+  render(container){
+    container.innerHTML=`<div class="terminal-app" id="term-wrap">
+      <div class="terminal-line terminal-info">WebLinux v1.0 — escriba "help" para ver comandos</div>
+      <div class="terminal-input-line">
+        <span class="terminal-prompt">guest@weblinux:~$</span>
+        <input type="text" class="terminal-input" id="term-input" autocomplete="off">
+      </div>
+    </div>`;
+    const wrap=container.querySelector('#term-wrap');
+    const input=container.querySelector('#term-input');
+    input.addEventListener('keydown',e=>{
+      if(e.key!=='Enter')return;
+      const cmd=input.value.trim();
+      const promptLine=document.createElement('div');
+      promptLine.className='terminal-line';
+      promptLine.innerHTML=`<span style="color:var(--c-primary)">guest@weblinux:${Commands.currentPath==='/'?'':Commands.currentPath}$</span> ${cmd}`;
+      input.parentElement.parentElement.insertBefore(promptLine,input.parentElement);
+      const result=Commands.execute(cmd);
+      if(result==='__clear__'){
+        Array.from(wrap.querySelectorAll('.terminal-line')).forEach(l=>l.remove());
+      } else if(result){
+        const out=document.createElement('div');
+        out.className='terminal-line terminal-out';
+        out.textContent=result;
+        input.parentElement.parentElement.insertBefore(out,input.parentElement);
+      }
+      input.value=''; wrap.scrollTop=wrap.scrollHeight;
+    });
+    wrap.addEventListener('click',()=>input.focus());
+    input.focus();
+  }
+};
+
+/* ============================================================
+   FILES APP
+   ============================================================ */
+const FilesApp = {
+  currentPath: '/home/user',
+  reset(){ this.currentPath='/home/user'; },
+  render(container){
+    container.innerHTML='';
+    const app=document.createElement('div');
+    app.className='files-app'; container.appendChild(app);
+    this._draw(app);
+  },
+  _draw(container){
+    const parent=FileSystem.getParent(this.currentPath);
+    const files=FileSystem.listDir(this.currentPath);
+    container.innerHTML=`
+      <div class="files-toolbar">
+        <button class="files-nav-btn" id="files-back" ${this.currentPath==='/'?'disabled':''} title="Atras">${IC.back}</button>
+        <div class="files-path-bar">${this.currentPath}</div>
+      </div>
+      <div class="files-grid" id="files-grid"></div>`;
+    if(this.currentPath!=='/'){
+      container.querySelector('#files-back').addEventListener('click',()=>{ this.currentPath=parent; this._draw(container); });
+    }
+    const grid=container.querySelector('#files-grid');
+    if(!files||files.length===0){ grid.innerHTML='<div class="files-empty">Carpeta vacia</div>'; return; }
+    files.forEach(name=>{
+      const full=this.currentPath==='/'?'/'+name:this.currentPath+'/'+name;
+      const isDir=FileSystem.isDir(full);
+      const item=document.createElement('div'); item.className='file-item';
+      item.innerHTML=`<div class="file-icon">${isDir?IC.folder:IC.file}</div><div class="file-name">${name}</div>`;
+      item.addEventListener('dblclick',()=>{
+        if(isDir){ this.currentPath=full; this._draw(container); }
+        else {
+          const content=FileSystem.readFile(full)||'';
+          const eid='editor-'+Date.now();
+          WindowManager.open(eid,'Editor — '+name,'600px','450px');
+          const c=WindowManager.getContent(eid);
+          if(c) EditorApp.render(c,content);
+        }
+      });
+      item.addEventListener('contextmenu',e=>{
+        e.preventDefault(); e.stopPropagation();
+        ContextMenu.show(e.clientX,e.clientY,[
+          {label:'Abrir',action:()=>item.dispatchEvent(new MouseEvent('dblclick'))},
+          {label:'Eliminar',action:()=>alert('No implementado')}
+        ]);
+      });
+      grid.appendChild(item);
+    });
+  }
+};
+
+/* ============================================================
+   CALCULATOR APP
+   ============================================================ */
+const CalculatorApp = {
+  val: '0', expr: '',
+  render(container){
+    this.val='0'; this.expr='';
+    container.innerHTML=`<div class="calc-app">
+      <div class="calc-display">
+        <div class="calc-expr" id="calc-expr"></div>
+        <div class="calc-val" id="calc-val">0</div>
+      </div>
+      <div class="calc-grid">
+        <button class="calc-btn clr" data-v="C">C</button>
+        <button class="calc-btn op" data-v="/">/</button>
+        <button class="calc-btn op" data-v="*">x</button>
+        <button class="calc-btn clr" data-v="back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M21 4H8l-7 8 7 8h13a2 2 0 002-2V6a2 2 0 00-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg>
+        </button>
+        <button class="calc-btn" data-v="7">7</button>
+        <button class="calc-btn" data-v="8">8</button>
+        <button class="calc-btn" data-v="9">9</button>
+        <button class="calc-btn op" data-v="-">-</button>
+        <button class="calc-btn" data-v="4">4</button>
+        <button class="calc-btn" data-v="5">5</button>
+        <button class="calc-btn" data-v="6">6</button>
+        <button class="calc-btn op" data-v="+">+</button>
+        <button class="calc-btn" data-v="1">1</button>
+        <button class="calc-btn" data-v="2">2</button>
+        <button class="calc-btn" data-v="3">3</button>
+        <button class="calc-btn eq" data-v="=" style="grid-row:span 2">=</button>
+        <button class="calc-btn wide" data-v="0">0</button>
+        <button class="calc-btn" data-v=".">.</button>
+      </div>
+    </div>`;
+    const valEl=container.querySelector('#calc-val');
+    const exprEl=container.querySelector('#calc-expr');
+    container.querySelectorAll('.calc-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const v=btn.dataset.v;
+        if(v==='C'){ this.val='0'; this.expr=''; }
+        else if(v==='back'){ this.val=this.val.length>1?this.val.slice(0,-1):'0'; }
+        else if(v==='='){
+          try{ exprEl.textContent=this.val; this.val=String(eval(this.val)); }
+          catch{ this.val='Error'; }
+        } else {
+          this.val=this.val==='0'&&!'+-*/'.includes(v)?v:this.val+v;
+        }
+        valEl.textContent=this.val;
+      });
+    });
+  }
+};
+
+/* ============================================================
+   EDITOR APP
+   ============================================================ */
+const EditorApp = {
+  render(container, initial=''){
+    container.innerHTML=`<div class="editor-app">
+      <div class="editor-toolbar">
+        <button class="editor-btn" id="ed-save">${IC.save} Guardar</button>
+        <button class="editor-btn" id="ed-new">${IC.newfile} Nuevo</button>
+      </div>
+      <textarea class="editor-textarea" id="ed-area" placeholder="Escribe aqui...">${initial}</textarea>
+      <div class="editor-statusbar">
+        <span id="ed-chars">0 chars</span>
+        <span id="ed-lines">1 linea</span>
+        <span>UTF-8</span>
+      </div>
+    </div>`;
+    const area=container.querySelector('#ed-area');
+    const chars=container.querySelector('#ed-chars');
+    const lines=container.querySelector('#ed-lines');
+    const update=()=>{
+      chars.textContent=area.value.length+' chars';
+      lines.textContent=area.value.split('\n').length+' lineas';
+    };
+    area.addEventListener('input',update); update();
+    container.querySelector('#ed-new').addEventListener('click',()=>{ area.value=''; update(); });
+    container.querySelector('#ed-save').addEventListener('click',()=>{ alert('Guardado (simulacion)'); });
+  }
+};
+
+/* ============================================================
+   PAINT APP
+   ============================================================ */
+const PaintApp = {
+  canvas:null, ctx:null, drawing:false, lx:0, ly:0,
+  color:'#000000', tool:'brush', size:5, ro:null,
+  render(container){
+    this.drawing=false;
+    container.innerHTML=`<div class="paint-app">
+      <div class="paint-toolbar">
+        <div class="paint-group">
+          <button class="paint-tool-btn active" data-tool="brush" title="Pincel">${IC.brush}</button>
+          <button class="paint-tool-btn" data-tool="eraser" title="Borrador">${IC.eraser}</button>
+          <button class="paint-tool-btn" data-tool="fill" title="Relleno">${IC.fill}</button>
+        </div>
+        <div class="paint-group" id="paint-colors">
+          ${['#000000','#FFFFFF','#C84B31','#2D3561','#2ECC71','#E67E22','#3498DB','#9B59B6','#ECDBBA','#1A1A28']
+            .map((c,i)=>`<div class="paint-color-btn${i===0?' active':''}" data-color="${c}" style="background:${c}" title="${c}"></div>`).join('')}
+        </div>
+        <div class="paint-group">
+          <button class="paint-size-btn" data-size="2">S</button>
+          <button class="paint-size-btn active" data-size="5">M</button>
+          <button class="paint-size-btn" data-size="12">L</button>
+          <button class="paint-size-btn" data-size="25">XL</button>
+        </div>
+        <button class="paint-act-btn" id="paint-clear">${IC.trash} Limpiar</button>
+        <button class="paint-act-btn" id="paint-save">${IC.download} Guardar</button>
+      </div>
+      <div class="paint-canvas-wrap"><canvas id="paint-canvas"></canvas></div>
+    </div>`;
+    this._init();
+    this._events(container);
+    this._observe();
+  },
+  _init(){
+    this.canvas=document.getElementById('paint-canvas');
+    this.ctx=this.canvas.getContext('2d');
+    this._resize();
+  },
+  _resize(){
+    const wrap=this.canvas.parentElement;
+    const nw=wrap.clientWidth-16, nh=wrap.clientHeight-16;
+    if(this.canvas.width===nw&&this.canvas.height===nh)return;
+    const tmp=document.createElement('canvas');
+    tmp.width=this.canvas.width; tmp.height=this.canvas.height;
+    tmp.getContext('2d').drawImage(this.canvas,0,0);
+    this.canvas.width=nw; this.canvas.height=nh;
+    this.ctx.fillStyle='#ffffff'; this.ctx.fillRect(0,0,nw,nh);
+    this.ctx.drawImage(tmp,0,0);
+  },
+  _observe(){
+    if(this.ro)this.ro.disconnect();
+    this.ro=new ResizeObserver(()=>this._resize());
+    if(this.canvas?.parentElement) this.ro.observe(this.canvas.parentElement);
+  },
+  _events(container){
+    container.addEventListener('contextmenu',e=>{e.preventDefault();e.stopPropagation();});
+    container.querySelectorAll('.paint-tool-btn').forEach(b=>{
+      b.addEventListener('click',()=>{
+        container.querySelectorAll('.paint-tool-btn').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active'); this.tool=b.dataset.tool;
+      });
+    });
+    container.querySelectorAll('.paint-color-btn').forEach(b=>{
+      b.addEventListener('click',()=>{
+        container.querySelectorAll('.paint-color-btn').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active'); this.color=b.dataset.color;
+      });
+    });
+    container.querySelectorAll('.paint-size-btn').forEach(b=>{
+      b.addEventListener('click',()=>{
+        container.querySelectorAll('.paint-size-btn').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active'); this.size=parseInt(b.dataset.size);
+      });
+    });
+    container.querySelector('#paint-clear').addEventListener('click',()=>{
+      this.ctx.fillStyle='#ffffff'; this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+    });
+    container.querySelector('#paint-save').addEventListener('click',()=>{
+      const a=document.createElement('a'); a.download='dibujo.png'; a.href=this.canvas.toDataURL(); a.click();
+    });
+    this.canvas.addEventListener('mousedown',e=>this._start(e));
+    this.canvas.addEventListener('mousemove',e=>this._draw(e));
+    this.canvas.addEventListener('mouseup',()=>this.drawing=false);
+    this.canvas.addEventListener('mouseleave',()=>this.drawing=false);
+  },
+  _start(e){ this.drawing=true; const r=this.canvas.getBoundingClientRect(); this.lx=e.clientX-r.left; this.ly=e.clientY-r.top; },
+  _draw(e){
+    if(!this.drawing)return;
+    const r=this.canvas.getBoundingClientRect();
+    const x=e.clientX-r.left, y=e.clientY-r.top;
+    if(this.tool==='fill'){ this.ctx.fillStyle=this.color; this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height); this.drawing=false; return; }
+    this.ctx.beginPath(); this.ctx.moveTo(this.lx,this.ly); this.ctx.lineTo(x,y);
+    this.ctx.strokeStyle=this.tool==='eraser'?'#ffffff':this.color;
+    this.ctx.lineWidth=this.size; this.ctx.lineCap='round'; this.ctx.stroke();
+    this.lx=x; this.ly=y;
+  }
+};
+
+/* ============================================================
+   MINESWEEPER APP
+   ============================================================ */
+const MinesweeperApp = {
+  board:[], rows:9, cols:9, mines:10,
+  over:false, flags:0, revealed:0, time:0, timer:null,
+  render(container){
+    container.innerHTML=`<div class="mines-app">
+      <div class="mines-header">
+        <span class="mines-stat" id="mines-count">MINAS: ${this.mines}</span>
+        <button class="mines-reset" id="mines-reset">NUEVO</button>
+        <span class="mines-stat" id="mines-time">TIEMPO: 0</span>
+      </div>
+      <div class="mines-board" id="mines-board"></div>
+      <div class="mines-msg" id="mines-msg"></div>
+    </div>`;
+    container.querySelector('.mines-app').addEventListener('contextmenu',e=>{e.preventDefault();e.stopPropagation();});
+    container.querySelector('#mines-reset').addEventListener('click',()=>this._init());
+    this._init();
+  },
+  _init(){
+    this.board=[]; this.over=false; this.flags=0; this.revealed=0;
+    this._stopTimer(); this.time=0;
+    const msg=document.getElementById('mines-msg');
+    if(msg){ msg.textContent=''; msg.className='mines-msg'; }
+    for(let r=0;r<this.rows;r++){ this.board[r]=[]; for(let c=0;c<this.cols;c++) this.board[r][c]={mine:false,revealed:false,flagged:false,count:0}; }
+    let placed=0;
+    while(placed<this.mines){ const r=Math.floor(Math.random()*this.rows),c=Math.floor(Math.random()*this.cols); if(!this.board[r][c].mine){ this.board[r][c].mine=true; placed++; } }
+    for(let r=0;r<this.rows;r++) for(let c=0;c<this.cols;c++) if(!this.board[r][c].mine) this.board[r][c].count=this._count(r,c);
+    this._drawBoard();
+  },
+  _count(row,col){ let n=0; for(let r=row-1;r<=row+1;r++) for(let c=col-1;c<=col+1;c++) if(r>=0&&r<this.rows&&c>=0&&c<this.cols&&this.board[r][c].mine) n++; return n; },
+  _drawBoard(){
+    const board=document.getElementById('mines-board'); if(!board)return;
+    board.innerHTML='';
+    for(let r=0;r<this.rows;r++) for(let c=0;c<this.cols;c++){
+      const cell=document.createElement('div'); cell.className='mines-cell'; cell.dataset.r=r; cell.dataset.c=c;
+      cell.addEventListener('click',()=>this._reveal(r,c));
+      cell.addEventListener('contextmenu',e=>{ e.preventDefault(); e.stopPropagation(); this._flag(r,c); });
+      board.appendChild(cell);
+    }
+  },
+  _reveal(row,col){
+    if(this.over)return;
+    const cell=this.board[row][col];
+    if(cell.revealed||cell.flagged)return;
+    if(!this.timer) this._startTimer();
+    cell.revealed=true; this.revealed++;
+    const el=document.querySelector(`.mines-cell[data-r="${row}"][data-c="${col}"]`);
+    el.classList.add('revealed');
+    if(cell.mine){ el.classList.add('mine'); el.innerHTML=IC.bomb; this.over=true; this._stopTimer(); this._showAll(); const m=document.getElementById('mines-msg'); if(m){m.textContent='DERROTA'; m.className='mines-msg lose';} return; }
+    if(cell.count>0){ el.textContent=cell.count; el.dataset.n=cell.count; }
+    else { for(let r=row-1;r<=row+1;r++) for(let c=col-1;c<=col+1;c++) if(r>=0&&r<this.rows&&c>=0&&c<this.cols) this._reveal(r,c); }
+    if(this.revealed===this.rows*this.cols-this.mines){ this.over=true; this._stopTimer(); const m=document.getElementById('mines-msg'); if(m){m.textContent='VICTORIA'; m.className='mines-msg win';} }
+  },
+  _flag(row,col){
+    if(this.over)return; const cell=this.board[row][col]; if(cell.revealed)return;
+    cell.flagged=!cell.flagged; this.flags+=cell.flagged?1:-1;
+    const el=document.querySelector(`.mines-cell[data-r="${row}"][data-c="${col}"]`);
+    el.classList.toggle('flagged',cell.flagged); el.innerHTML=cell.flagged?IC.flag:'';
+    const mc=document.getElementById('mines-count'); if(mc) mc.textContent='MINAS: '+(this.mines-this.flags);
+  },
+  _showAll(){
+    for(let r=0;r<this.rows;r++) for(let c=0;c<this.cols;c++){
+      const cell=this.board[r][c];
+      const el=document.querySelector(`.mines-cell[data-r="${r}"][data-c="${c}"]`);
+      if(!el)continue;
+      if(cell.mine&&!cell.flagged){ el.classList.add('revealed','mine'); el.innerHTML=IC.bomb; }
+      else if(cell.flagged&&!cell.mine){ el.classList.add('wrong'); el.innerHTML='X'; }
+    }
+  },
+  _startTimer(){ this.timer=setInterval(()=>{ this.time++; const el=document.getElementById('mines-time'); if(el)el.textContent='TIEMPO: '+this.time; },1000); },
+  _stopTimer(){ if(this.timer){ clearInterval(this.timer); this.timer=null; } }
+};
+
+/* ============================================================
+   SETTINGS APP  (with wallpaper changer)
+   ============================================================ */
+const WALLPAPERS = [
+  { id:'default',  label:'Cuero',     style:'background:#1E1A15;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px),repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px)' },
+  { id:'navy',     label:'Marino',    style:'background:#0D1B2A' },
+  { id:'charcoal', label:'Carbon',    style:'background:#1C1C1C' },
+  { id:'crimson',  label:'Carmesi',   style:'background:linear-gradient(135deg,#1A0808 0%,#2D0A0A 100%)' },
+  { id:'ocean',    label:'Oceano',    style:'background:linear-gradient(135deg,#0B1622 0%,#0D2137 100%)' },
+  { id:'forest',   label:'Bosque',    style:'background:linear-gradient(135deg,#071A0E 0%,#0D2B18 100%)' },
+  { id:'slate',    label:'Pizarra',   style:'background:linear-gradient(135deg,#141428 0%,#1E1E38 100%)' },
+  { id:'aurora',   label:'Aurora',    style:'background:linear-gradient(135deg,#0B0B14 0%,#1A0B2E 50%,#0B1A14 100%)' },
+  { id:'grid',     label:'Cuadricula',style:'background:#0B0B14;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px' },
+  { id:'dots',     label:'Puntos',    style:'background:#0B0B14;background-image:radial-gradient(rgba(200,75,49,.25) 1px,transparent 1px);background-size:24px 24px' },
+  { id:'custom',   label:'Propio',    style:'background:#222233' },
+];
+let activeWP = 'default';
+
+function applyWallpaper(id, customColor){
+  const desktop=document.getElementById('desktop');
+  if(id==='custom' && customColor){
+    desktop.style.cssText=''; desktop.style.background=customColor;
+  } else {
+    const wp=WALLPAPERS.find(w=>w.id===id);
+    if(!wp)return;
+    desktop.setAttribute('style',wp.style);
+  }
+  activeWP=id;
+}
+
+const SettingsApp = {
+  render(container){
+    container.addEventListener('contextmenu',e=>{e.preventDefault();e.stopPropagation();});
+    container.innerHTML=`<div class="settings-app">
+      <div class="settings-tabs">
+        <button class="stab active" data-tab="appearance">Apariencia</button>
+        <button class="stab" data-tab="system">Sistema</button>
+        <button class="stab" data-tab="info">Informacion</button>
+      </div>
+      <div class="settings-content" id="settings-content"></div>
+    </div>`;
+    const tabs=container.querySelectorAll('.stab');
+    const content=container.querySelector('#settings-content');
+    const render=tab=>{
+      tabs.forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+      if(tab==='appearance') this._appearance(content);
+      else if(tab==='system') this._system(content);
+      else this._info(content);
+    };
+    tabs.forEach(t=>t.addEventListener('click',()=>render(t.dataset.tab)));
+    render('appearance');
+  },
+  _appearance(el){
+    el.innerHTML=`
+      <div class="settings-section">
+        <h3>Fondo de pantalla</h3>
+        <div class="wp-grid" id="wp-grid">
+          ${WALLPAPERS.map(w=>`
+            <div>
+              <div class="wp-item${w.id===activeWP?' wp-active':''}" data-wp="${w.id}" style="${w.style}"></div>
+              <div class="wp-label">${w.label}</div>
+            </div>`).join('')}
+        </div>
+        <div class="custom-color-row" style="margin-top:12px">
+          <label>Color propio:</label>
+          <input type="color" id="wp-color" value="#1A1A2E">
+          <button class="editor-btn" id="wp-apply-color">Aplicar</button>
+        </div>
+      </div>
+      <div class="settings-section">
+        <h3>Interfaz</h3>
+        <div class="settings-row"><label>Barra de tareas abajo</label><div class="toggle on" id="tog-taskbar"></div></div>
+        <div class="settings-row"><label>Animaciones</label><div class="toggle on" id="tog-anim"></div></div>
+      </div>`;
+    el.querySelectorAll('.wp-item').forEach(item=>{
+      item.addEventListener('click',()=>{
+        el.querySelectorAll('.wp-item').forEach(i=>i.classList.remove('wp-active'));
+        item.classList.add('wp-active');
+        applyWallpaper(item.dataset.wp);
+      });
+    });
+    el.querySelector('#wp-apply-color').addEventListener('click',()=>{
+      const color=el.querySelector('#wp-color').value;
+      el.querySelectorAll('.wp-item').forEach(i=>i.classList.remove('wp-active'));
+      el.querySelector('[data-wp="custom"]').classList.add('wp-active');
+      applyWallpaper('custom',color);
+    });
+    el.querySelectorAll('.toggle').forEach(t=>{
+      t.addEventListener('click',()=>t.classList.toggle('on'));
+    });
+  },
+  _system(el){
+    el.innerHTML=`
+      <div class="settings-section">
+        <h3>Audio</h3>
+        <div class="settings-row"><label>Volumen del sistema</label><input type="range" min="0" max="100" value="75"></div>
+      </div>
+      <div class="settings-section">
+        <h3>Notificaciones</h3>
+        <div class="settings-row"><label>Notificaciones activas</label><div class="toggle on"></div></div>
+        <div class="settings-row"><label>Notificaciones de sistema</label><div class="toggle"></div></div>
+      </div>`;
+    el.querySelectorAll('.toggle').forEach(t=>t.addEventListener('click',()=>t.classList.toggle('on')));
+  },
+  _info(el){
+    el.innerHTML=`
+      <div class="settings-section">
+        <h3>Sistema</h3>
+        <div class="settings-row"><label>Nombre del sistema</label><span class="val">WebLinux</span></div>
+        <div class="settings-row"><label>Version</label><span class="val">1.0.0</span></div>
+        <div class="settings-row"><label>Estilo visual</label><span class="val">Skeuomorphic</span></div>
+        <div class="settings-row"><label>Kernel</label><span class="val">WebLinux 1.0.0 x86_64</span></div>
+        <div class="settings-row"><label>Usuario</label><span class="val">guest</span></div>
+        <div class="settings-row"><label>Directorio home</label><span class="val">/home/user</span></div>
+      </div>`;
+  }
+};
+
+/* ============================================================
+   ABOUT APP
+   ============================================================ */
+const AboutApp = {
+  render(container){
+    container.addEventListener('contextmenu',e=>{e.preventDefault();e.stopPropagation();});
+    container.innerHTML=`<div class="about-app">
+      <div class="about-logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect x="2" y="2" width="13" height="13" fill="white"/>
+          <rect x="17" y="2" width="13" height="13" fill="white" opacity=".7"/>
+          <rect x="2" y="17" width="13" height="13" fill="white" opacity=".7"/>
+          <rect x="17" y="17" width="13" height="13" fill="white" opacity=".4"/>
+        </svg>
+      </div>
+      <div class="about-title">WebLinux</div>
+      <div class="about-version">Version 1.0.0 — Skeuomorphic</div>
+      <div class="about-desc">
+        Un mini sistema operativo simulado<br>
+        funcionando en tu navegador web.<br><br>
+        Construido con HTML, CSS y JavaScript.<br>
+        Sin frameworks. Sin librerias externas.
+      </div>
+      <div class="about-badge">Skeuomorphic Edition</div>
+    </div>`;
+  }
+};
+
+/* ============================================================
+   APP REGISTRY & MANAGER
+   ============================================================ */
+const Apps = {
+  terminal:    { title:'Terminal',           w:'600px', h:'450px', render:c=>TerminalApp.render(c) },
+  files:       { title:'Explorador',         w:'500px', h:'450px', render:c=>FilesApp.render(c), reset:()=>FilesApp.reset() },
+  calc:        { title:'Calculadora',        w:'300px', h:'420px', render:c=>CalculatorApp.render(c) },
+  editor:      { title:'Editor de Texto',    w:'600px', h:'450px', render:c=>EditorApp.render(c) },
+  paint:       { title:'Paint',              w:'700px', h:'500px', render:c=>PaintApp.render(c) },
+  minesweeper: { title:'Buscaminas',         w:'380px', h:'470px', render:c=>MinesweeperApp.render(c) },
+  settings:    { title:'Ajustes del sistema',w:'500px', h:'480px', render:c=>SettingsApp.render(c) },
+  about:       { title:'Acerca de',          w:'400px', h:'380px', render:c=>AboutApp.render(c) },
+};
+
+const AppManager = {
+  open(name){
+    const app=Apps[name]; if(!app)return;
+    if(app.reset) app.reset();
+    WindowManager.open(name,app.title,app.w,app.h);
+    const c=WindowManager.getContent(name);
+    if(c&&app.render) app.render(c);
+  }
+};
+
+/* ============================================================
+   BOOT / INIT
+   ============================================================ */
+function init(){
+  WindowManager.init();
+  Taskbar.init();
+  ContextMenu.init();
+
+  const desktop=document.getElementById('desktop');
+
+  // Desktop right-click
+  desktop.addEventListener('contextmenu',e=>{
+    const onWindow=e.target.closest('.window');
+    if(onWindow)return;
+    e.preventDefault();
+    ContextMenu.show(e.clientX,e.clientY,[
+      {label:'Terminal',     icon:IC.terminal+'&nbsp;', action:()=>AppManager.open('terminal')},
+      {label:'Explorador',   icon:IC.folder+'&nbsp;',   action:()=>AppManager.open('files')},
+      {label:'Paint',        icon:IC.paint+'&nbsp;',    action:()=>AppManager.open('paint')},
+      {label:'Buscaminas',   icon:IC.bomb+'&nbsp;',     action:()=>AppManager.open('minesweeper')},
+      '-',
+      {label:'Ajustes',      icon:IC.settings+'&nbsp;', action:()=>AppManager.open('settings')},
+    ]);
+  });
+
+  // Start menu buttons
+  document.querySelectorAll('.app-btn[data-app]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      AppManager.open(btn.dataset.app);
+      document.getElementById('start-menu').classList.add('hidden');
+    });
+  });
+
+  // Shutdown
+  document.getElementById('shutdown').addEventListener('click',()=>{
+    if(confirm('Confirmar apagado del sistema?')){
+      document.body.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#000;color:#fff;font-family:monospace;gap:12px"><div style="color:#C84B31;font-size:1.5rem;letter-spacing:.3em">WEBLINUX</div><div style="color:#444;font-size:.85rem;letter-spacing:.2em">Sistema apagado. Puedes cerrar la pestana.</div></div>';
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
