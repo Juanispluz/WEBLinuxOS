@@ -47,7 +47,7 @@ body.anim-off *{animation:none!important;transition:none!important;}
   background:#1E1A15;
   background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px),repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px);
 }
-body.light #desktop{background:#B0A070!important;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px),repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px)!important;}
+
 
 #taskbar{
   position:fixed;bottom:0;left:0;right:0;height:46px;
@@ -306,7 +306,9 @@ body.light .settings-section h3{color:var(--c-dim);}
 .settings-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--c-s2);border:var(--border-style);border-radius:var(--radius-sm);margin-bottom:3px;box-shadow:var(--shadow-inset);}
 .settings-row label{font-size:0.8rem;color:var(--c-text);}.settings-row .val{font-size:0.78rem;color:var(--c-dim);}
 .wp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:8px;}
-.wp-item{height:48px;cursor:pointer;border:2px solid var(--c-border);border-radius:var(--radius-sm);transition:var(--transition);position:relative;box-shadow:var(--shadow-btn);}
+.wp-item{height:48px;cursor:pointer;border:2px solid var(--c-border);border-radius:var(--radius-sm);transition:var(--transition);position:relative;box-shadow:var(--shadow-btn);display:flex;overflow:hidden;padding:0;}
+.wp-half{flex:1;height:100%;}
+.wp-half+.wp-half{border-left:2px solid rgba(128,128,128,0.3);}
 .wp-item:hover{border-color:var(--c-border-hi);}
 .wp-item.wp-active{border-color:var(--c-primary);box-shadow:0 0 8px rgba(200,75,49,0.4);}
 .wp-item.wp-active::after{content:'';position:absolute;top:2px;right:2px;width:8px;height:8px;background:var(--c-primary);border-radius:50%;}
@@ -431,6 +433,7 @@ const ThemeManager={isDark:true,
   toggle(){
     this.isDark=!this.isDark;
     document.body.classList.toggle('light',!this.isDark);
+    applyWallpaper(activeWP);
     const btn=document.getElementById('theme-btn');
     if(btn)btn.innerHTML=this.isDark
       ?`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>`
@@ -666,22 +669,26 @@ const Taskbar={
 
 /* ---- Wallpapers ---- */
 const WALLPAPERS=[
-  {id:'default',label:'Cuero oscuro',style:'background:#1E1A15;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px),repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px)'},
-  {id:'mahogany',label:'Caoba',style:'background:#2A1810;background-image:repeating-linear-gradient(45deg,rgba(0,0,0,0.05) 0px,rgba(0,0,0,0.05) 1px,transparent 1px,transparent 8px)'},
-  {id:'walnut',label:'Nogal',style:'background:#1C1810;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,0.02) 0px,rgba(255,255,255,0.02) 1px,transparent 1px,transparent 6px)'},
-  {id:'copper',label:'Cobre',style:'background:#2C1808;background-image:radial-gradient(ellipse at 30% 50%,rgba(180,80,20,0.2),transparent 60%)'},
-  {id:'slate',label:'Pizarra',style:'background:#1A1A1A;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.02) 0px,rgba(255,255,255,0.02) 1px,transparent 1px,transparent 4px)'},
-  {id:'forest',label:'Bosque',style:'background:#0A1408;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,0.02) 0px,rgba(255,255,255,0.02) 1px,transparent 1px,transparent 6px)'},
-  {id:'custom',label:'Color',style:'background:#222233'},
+  {id:'default',label:'Cuero oscuro',style:'background:#1E1A15;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px),repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px)',lightStyle:'background:#C8B89A;background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px),repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(0,0,0,0.02) 2px,rgba(0,0,0,0.02) 4px)'},
+  {id:'mahogany',label:'Caoba',style:'background:#2A1810;background-image:repeating-linear-gradient(45deg,rgba(0,0,0,0.05) 0px,rgba(0,0,0,0.05) 1px,transparent 1px,transparent 8px)',lightStyle:'background:#C8A880;background-image:repeating-linear-gradient(45deg,rgba(0,0,0,0.03) 0px,rgba(0,0,0,0.03) 1px,transparent 1px,transparent 8px)'},
+  {id:'walnut',label:'Nogal',style:'background:#1C1810;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,0.02) 0px,rgba(255,255,255,0.02) 1px,transparent 1px,transparent 6px)',lightStyle:'background:#C8B898;background-image:repeating-linear-gradient(135deg,rgba(0,0,0,0.02) 0px,rgba(0,0,0,0.02) 1px,transparent 1px,transparent 6px)'},
+  {id:'copper',label:'Cobre',style:'background:#2C1808;background-image:radial-gradient(ellipse at 30% 50%,rgba(180,80,20,0.2),transparent 60%)',lightStyle:'background:#D4B88A;background-image:radial-gradient(ellipse at 30% 50%,rgba(180,120,60,0.15),transparent 60%)'},
+  {id:'slate',label:'Pizarra',style:'background:#1A1A1A;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.02) 0px,rgba(255,255,255,0.02) 1px,transparent 1px,transparent 4px)',lightStyle:'background:#C8C8C8;background-image:repeating-linear-gradient(0deg,rgba(0,0,0,0.03) 0px,rgba(0,0,0,0.03) 1px,transparent 1px,transparent 4px)'},
+  {id:'forest',label:'Bosque',style:'background:#0A1408;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,0.02) 0px,rgba(255,255,255,0.02) 1px,transparent 1px,transparent 6px)',lightStyle:'background:#B0C8A0;background-image:repeating-linear-gradient(90deg,rgba(0,0,0,0.03) 0px,rgba(0,0,0,0.03) 1px,transparent 1px,transparent 6px)'},
+  {id:'custom',label:'Color',style:'background:#222233',lightStyle:'background:#D0D0E8'},
 ];
 let activeWP='default';
 function applyWallpaper(id,src){
   const desktop=document.getElementById('desktop');
+  const isDark=ThemeManager.isDark;
   if(id==='custom-img'&&src){desktop.style.cssText='';desktop.style.backgroundImage=`url(${src})`;desktop.style.backgroundSize='cover';desktop.style.backgroundPosition='center';activeWP='custom-img';return;}
   if(id==='custom'&&src){desktop.style.cssText='';desktop.style.background=src;activeWP='custom';return;}
-  if(id==='default'){desktop.removeAttribute('style');activeWP='default';return;}
-  const wp=WALLPAPERS.find(w=>w.id===id);if(!wp)return;
-  desktop.setAttribute('style',wp.style);activeWP=id;
+  const wp=WALLPAPERS.find(w=>w.id===id);
+  if(!wp){desktop.removeAttribute('style');activeWP='default';return;}
+  const style=isDark?wp.style:(wp.lightStyle||wp.style);
+  if(style)desktop.setAttribute('style',style);
+  else desktop.removeAttribute('style');
+  activeWP=id;
 }
 
 /* ---- App Renderers ---- */
@@ -848,7 +855,7 @@ const SettingsApp={
       <div class="settings-section">
         <h3>Fondo de pantalla</h3>
         <div class="wp-grid" id="wp-grid">
-          ${WALLPAPERS.map(w=>`<div><div class="wp-item${w.id===activeWP?' wp-active':''}" data-wp="${w.id}" style="${w.style};min-height:48px"></div><div class="wp-label">${w.label}</div></div>`).join('')}
+          ${WALLPAPERS.map(w=>`<div><div class="wp-item${w.id===activeWP?' wp-active':''}" data-wp="${w.id}"><div class="wp-half" style="${w.style}"></div><div class="wp-half" style="${w.lightStyle||w.style}"></div></div><div class="wp-label">${w.label}</div></div>`).join('')}
         </div>
         <div class="custom-color-row">
           <label>Color:</label>
