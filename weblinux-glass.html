@@ -94,6 +94,7 @@ body.anim-off *{animation:none!important;transition:none!important;}
 body.light #desktop{
   background:radial-gradient(ellipse 100% 100% at 50% 0%,#c8d8f8 0%,#d8e4ff 50%,#f0f4ff 100%)!important;
 }
+body.light #desktop::before{opacity:0.08;}
 #desktop::before{
   content:'';position:absolute;inset:0;
   background:
@@ -407,6 +408,7 @@ body.light .editor-toolbar{background:rgba(255,255,255,0.15);}
 .editor-btn:hover{background:rgba(200,75,49,0.25);border-color:rgba(200,75,49,0.4);color:#fff;}
 .editor-textarea{flex:1;background:rgba(0,0,0,0.25);border:none;color:var(--c-text);padding:14px;font-family:var(--font-mono);font-size:13px;resize:none;outline:none;line-height:1.65;}
 body.light .editor-textarea{background:rgba(0,0,0,0.04);}
+body.light .paint-canvas-wrap{background:rgba(240,244,255,0.5);}
 .editor-statusbar{padding:4px 14px;background:rgba(255,255,255,0.04);border-top:1px solid rgba(255,255,255,0.07);font-size:0.7rem;color:var(--c-dim);display:flex;gap:16px;flex-shrink:0;}
 
 /* ============================================================
