@@ -393,30 +393,72 @@ input[type=color]{width:36px;height:28px;border:var(--border-style);border-radiu
   <source src="lamondadetrabajo.mp3" type="audio/mpeg">
   <source src="lamondadetrabajo.mp4" type="audio/mp4">
 </audio>
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <linearGradient id="sk-metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7a7a7a"/><stop offset="40%" stop-color="#555"/><stop offset="100%" stop-color="#333"/>
+    </linearGradient>
+    <linearGradient id="sk-surface" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A4238"/><stop offset="100%" stop-color="#2A2520"/>
+    </linearGradient>
+    <linearGradient id="sk-primary" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E86040"/><stop offset="100%" stop-color="#A33A22"/>
+    </linearGradient>
+    <linearGradient id="sk-gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5D890"/><stop offset="100%" stop-color="#B89030"/>
+    </linearGradient>
+    <linearGradient id="sk-green" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#50D888"/><stop offset="100%" stop-color="#208040"/>
+    </linearGradient>
+    <linearGradient id="sk-blue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#60A0F0"/><stop offset="100%" stop-color="#2050A0"/>
+    </linearGradient>
+    <linearGradient id="sk-red" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E86060"/><stop offset="100%" stop-color="#902020"/>
+    </linearGradient>
+    <linearGradient id="sk-paper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FAF5ED"/><stop offset="100%" stop-color="#DCD0C0"/>
+    </linearGradient>
+    <linearGradient id="sk-folder" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8D090"/><stop offset="100%" stop-color="#B89840"/>
+    </linearGradient>
+    <linearGradient id="sk-wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D4A878"/><stop offset="100%" stop-color="#8A6040"/>
+    </linearGradient>
+    <filter id="sk-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="sk-noise" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" result="noise"/>
+      <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.06 0" in="noise" result="cn"/>
+      <feBlend mode="multiply" in="cn" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+</svg>
 <script>
 const IC={
-  terminal:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>`,
-  folder:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>`,
-  file:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>`,
-  paint:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>`,
-  bomb:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="13" r="7"/><path d="M14 4l2-2"/><line x1="11" y1="6" x2="14" y2="3"/></svg>`,
-  calc:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20"/><line x1="8" y1="6" x2="16" y2="6"/></svg>`,
-  editor:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
-  settings:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>`,
-  about:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
-  music:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`,
-  close:`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
-  minimize:`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
-  maximize:`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18"/></svg>`,
-  back:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>`,
-  save:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>`,
-  newfile:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>`,
-  brush:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 3a3 3 0 00-3 3l-7 7a3 3 0 104 4l7-7a3 3 0 000-7z"/></svg>`,
-  eraser:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20H7L3 16l10-10 7 7-1 1"/></svg>`,
-  fill:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 11l-8-8-8.5 8.5a5.5 5.5 0 007.78 7.78L19 11z"/></svg>`,
-  trash:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>`,
-  download:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`,
-  image:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
+  terminal:`<svg width="14" height="14" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="15" rx="2" fill="url(#sk-metal)" filter="url(#sk-shadow)"/><rect x="4" y="5" width="16" height="10" rx="1" fill="#0a1a0a"/><path d="M7 10l2.5-2L7 6" stroke="#33ff66" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="12" x2="17" y2="12" stroke="#33ff66" stroke-width="1.8" stroke-linecap="round"/><rect x="9" y="18" width="6" height="2" rx="1" fill="#3a3a3a"/><rect x="3" y="4" width="18" height="1" fill="rgba(255,255,255,0.12)"/></svg>`,
+  folder:`<svg width="14" height="14" viewBox="0 0 24 24"><path d="M3 7.5h7l2 2h8a2 2 0 012 2v6a2 2 0 01-2 2H3a2 2 0 01-2-2V7.5z" fill="url(#sk-folder)" filter="url(#sk-shadow)"/><path d="M3 7.5l2-4h5l2 4" fill="url(#sk-folder)" stroke="#a08838" stroke-width="0.5"/><rect x="3.5" y="8.5" width="16" height="1" fill="rgba(255,255,255,0.15)"/></svg>`,
+  file:`<svg width="14" height="14" viewBox="0 0 24 24"><path d="M7 2h7l6 6v12a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2z" fill="url(#sk-paper)" filter="url(#sk-shadow)"/><path d="M14 2v6h6" fill="#e8dcc8" stroke="#c0b098" stroke-width="0.5"/><rect x="7" y="10" width="6" height="1" rx="0.3" fill="#c0b098"/><rect x="7" y="12.5" width="8" height="0.8" rx="0.3" fill="#c0b098"/><rect x="7" y="15" width="5" height="0.8" rx="0.3" fill="#c0b098"/></svg>`,
+  paint:`<svg width="14" height="14" viewBox="0 0 24 24"><path d="M13 20l6-6 3 3-6 6zM19 13l-1.5-7.5L3 3l3.5 14.5L13 19l6-6z" fill="url(#sk-wood)" filter="url(#sk-shadow)"/><circle cx="9" cy="9" r="1.5" fill="#E86040"/><circle cx="6.5" cy="13" r="1.2" fill="#60A0F0"/><circle cx="12" cy="6.5" r="1.2" fill="#50D888"/><circle cx="14.5" cy="10.5" r="1" fill="#F5D890"/></svg>`,
+  bomb:`<svg width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="14" r="7" fill="#2a2a2a" filter="url(#sk-shadow)"/><circle cx="12" cy="14" r="7" fill="url(#sk-noise)"/><path d="M14 6l2-2" stroke="#555" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M12.5 7l2-2.5" stroke="#666" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M15 4.5l-1-1" stroke="#777" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M9 8c-2.5.5-3.5 3-3.5 3" stroke="#8a6040" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="8" cy="7.5" r="1.8" fill="#f5a020" filter="url(#sk-shadow)"/><path d="M16 10l2-2" stroke="#777" stroke-width="1.2" stroke-linecap="round" fill="none"/><ellipse cx="11" cy="12.5" rx="3.5" ry="2" fill="rgba(255,255,255,0.08)"/></svg>`,
+  calc:`<svg width="14" height="14" viewBox="0 0 24 24"><rect x="3" y="2" width="18" height="20" rx="2" fill="url(#sk-metal)" filter="url(#sk-shadow)"/><rect x="5" y="4" width="14" height="5" rx="1" fill="#1a2a1a"/><rect x="6" y="5.5" width="2" height="2.5" rx="0.3" fill="#33ff66"/><rect x="8.5" y="5.5" width="2" height="2.5" rx="0.3" fill="#33ff66"/><rect x="11" y="5.5" width="2" height="2.5" rx="0.3" fill="#33ff66"/><rect x="13.5" y="5.5" width="2" height="2.5" rx="0.3" fill="#33ff66"/><rect x="5" y="10.5" width="4" height="3" rx="0.8" fill="#555"/><rect x="9.5" y="10.5" width="4" height="3" rx="0.8" fill="#555"/><rect x="14" y="10.5" width="4" height="3" rx="0.8" fill="#c84b31"/><rect x="5" y="14" width="4" height="3" rx="0.8" fill="#555"/><rect x="9.5" y="14" width="4" height="3" rx="0.8" fill="#555"/><rect x="14" y="14" width="4" height="3" rx="0.8" fill="#555"/><rect x="5" y="17.5" width="4" height="3" rx="0.8" fill="#555"/><rect x="9.5" y="17.5" width="9" height="3" rx="0.8" fill="#555"/><rect x="4" y="3" width="16" height="1" fill="rgba(255,255,255,0.15)"/></svg>`,
+  editor:`<svg width="14" height="14" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="1" fill="url(#sk-paper)" filter="url(#sk-shadow)"/><rect x="7" y="6" width="10" height="1" rx="0.3" fill="#c0b098"/><rect x="7" y="8.5" width="8" height="0.8" rx="0.3" fill="#c0b098"/><rect x="7" y="11" width="9" height="0.8" rx="0.3" fill="#c0b098"/><rect x="7" y="13.5" width="6" height="0.8" rx="0.3" fill="#c0b098"/><rect x="7" y="16" width="7" height="0.8" rx="0.3" fill="#c0b098"/><circle cx="5" cy="4" r="1" fill="#aaa"/><circle cx="5" cy="7.5" r="1" fill="#aaa"/><circle cx="5" cy="11" r="1" fill="#aaa"/><circle cx="5" cy="14.5" r="1" fill="#aaa"/><line x1="6" y1="2" x2="6" y2="22" stroke="#aaa" stroke-width="0.5"/></svg>`,
+  settings:`<svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 1l2 3h3l1-3 2 2 3 1-2 3v3l3 2-2 2-1 3-2-1-3 2-1 3-2-1-3 2-1-3-3-1 1-2-3-2 2-2V7l3-2 1-3 2 2z" fill="url(#sk-metal)" filter="url(#sk-shadow)"/><circle cx="12" cy="12" r="4" fill="#2a2a2a"/><circle cx="12" cy="12" r="2.5" fill="url(#sk-metal)"/></svg>`,
+  about:`<svg width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="url(#sk-blue)" filter="url(#sk-shadow)"/><circle cx="12" cy="7" r="1.5" fill="#fff"/><rect x="11" y="10" width="2" height="7" rx="0.5" fill="#fff"/><circle cx="12" cy="12" r="10" fill="url(#sk-noise)"/></svg>`,
+  music:`<svg width="14" height="14" viewBox="0 0 24 24"><circle cx="8" cy="18" r="4" fill="url(#sk-gold)" filter="url(#sk-shadow)"/><circle cx="18" cy="16" r="3" fill="url(#sk-gold)" filter="url(#sk-shadow)"/><rect x="11.5" y="4" width="2" height="14" rx="0.5" fill="url(#sk-gold)"/><path d="M11.5 4l8-1.5v4l-8 1.5" fill="url(#sk-gold)"/></svg>`,
+  close:`<svg width="10" height="10" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="url(#sk-red)" filter="url(#sk-shadow)"/><line x1="8" y1="8" x2="16" y2="16" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><line x1="16" y1="8" x2="8" y2="16" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+  minimize:`<svg width="10" height="10" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="url(#sk-gold)" filter="url(#sk-shadow)"/><line x1="8" y1="12" x2="16" y2="12" stroke="#6a5010" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+  maximize:`<svg width="10" height="10" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="url(#sk-green)" filter="url(#sk-shadow)"/><rect x="8" y="8" width="8" height="8" rx="1" stroke="#1a4a20" stroke-width="2" fill="none"/></svg>`,
+  back:`<svg width="12" height="12" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="url(#sk-surface)" filter="url(#sk-shadow)"/><circle cx="12" cy="12" r="10" fill="url(#sk-noise)"/><line x1="17" y1="12" x2="7" y2="12" stroke="#EDE8E0" stroke-width="2" stroke-linecap="round"/><polyline points="10 9 7 12 10 15" stroke="#EDE8E0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  save:`<svg width="12" height="12" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="url(#sk-blue)" filter="url(#sk-shadow)"/><rect x="6" y="5" width="12" height="5" rx="0.5" fill="url(#sk-paper)"/><rect x="12" y="11" width="6" height="9" rx="0.5" fill="#e8dcc8"/><rect x="9" y="13" width="3" height="7" rx="0.3" fill="#888"/><rect x="5" y="4" width="14" height="1" fill="rgba(255,255,255,0.15)"/></svg>`,
+  newfile:`<svg width="12" height="12" viewBox="0 0 24 24"><path d="M7 3h7l5 5v11a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z" fill="url(#sk-paper)" filter="url(#sk-shadow)"/><path d="M14 3v5h5" fill="#e8dcc8" stroke="#c0b098" stroke-width="0.5"/><rect x="8" y="10" width="5" height="1" rx="0.3" fill="#c0b098"/><rect x="8" y="12.5" width="7" height="0.8" rx="0.3" fill="#c0b098"/><circle cx="18" cy="8" r="5" fill="url(#sk-green)" filter="url(#sk-shadow)"/><line x1="16" y1="8" x2="20" y2="8" stroke="#fff" stroke-width="2" stroke-linecap="round"/><line x1="18" y1="6" x2="18" y2="10" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>`,
+  brush:`<svg width="13" height="13" viewBox="0 0 24 24"><rect x="8" y="16" width="8" height="6" rx="1" fill="url(#sk-wood)" filter="url(#sk-shadow)"/><rect x="9.5" y="14" width="5" height="3" rx="0.5" fill="#aaa"/><path d="M6 12l5-5a3 3 0 014 4l-5 5c-2 2-6 1-6 1s0-4 2-5z" fill="#333"/><path d="M6 12l5-5a3 3 0 014 4" fill="none" stroke="#555" stroke-width="0.5"/></svg>`,
+  eraser:`<svg width="13" height="13" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="10" rx="2" fill="#e87090" filter="url(#sk-shadow)"/><rect x="4" y="8" width="10" height="10" rx="2" fill="#f090b0"/><rect x="4" y="8" width="16" height="10" rx="2" fill="url(#sk-noise)"/><path d="M13 8l7 7-3 3-7-7" fill="#e87090" stroke="#c05070" stroke-width="0.5"/><rect x="5" y="9" width="7" height="1" fill="rgba(255,255,255,0.2)"/></svg>`,
+  fill:`<svg width="13" height="13" viewBox="0 0 24 24"><path d="M12 3L4 12l6 6 8-8z" fill="url(#sk-metal)" filter="url(#sk-shadow)"/><path d="M16 8l4 4-6 6" stroke="#888" stroke-width="1.5" fill="none"/><path d="M12 3v16" stroke="#777" stroke-width="1"/><path d="M4 14l3 3" stroke="#999" stroke-width="1" fill="none"/><path d="M20 12q-2 4-4 2" stroke="#60A0F0" stroke-width="1.5" fill="none"/><path d="M9 18l-4 3h14l-4-3" fill="url(#sk-blue)" fill-opacity="0.6"/></svg>`,
+  trash:`<svg width="12" height="12" viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="13" rx="1" fill="url(#sk-metal)" filter="url(#sk-shadow)"/><rect x="7" y="10" width="10" height="9" rx="0.5" fill="#555"/><rect x="5" y="8" width="14" height="13" rx="1" fill="url(#sk-noise)"/><rect x="6" y="10" width="12" height="1" fill="rgba(255,255,255,0.1)"/><path d="M4 6h16" stroke="#777" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M10 6V4a1 1 0 011-1h2a1 1 0 011 1v2" stroke="#777" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`,
+  download:`<svg width="12" height="12" viewBox="0 0 24 24"><rect x="4" y="12" width="16" height="9" rx="1" fill="url(#sk-surface)" filter="url(#sk-shadow)"/><path d="M12 4v9" stroke="#EDE8E0" stroke-width="2.5" stroke-linecap="round"/><polyline points="8 9 12 13 16 9" stroke="#EDE8E0" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  image:`<svg width="13" height="13" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2" fill="url(#sk-surface)" filter="url(#sk-shadow)"/><rect x="4" y="4" width="16" height="16" rx="1" fill="#60a0d0"/><rect x="4" y="4" width="16" height="8" rx="1" fill="#5090c0"/><circle cx="8" cy="9" r="1.5" fill="#f5d890"/><polygon points="6 18 14 10 20 18" fill="#308050" fill-opacity="0.7"/><rect x="4" y="4" width="16" height="16" rx="1" fill="url(#sk-noise)" fill-opacity="0.5"/></svg>`,
 };
 const appIcons={terminal:IC.terminal,files:IC.folder,paint:IC.paint,minesweeper:IC.bomb,calc:IC.calc,editor:IC.editor,settings:IC.settings,about:IC.about,music:IC.music};
 
