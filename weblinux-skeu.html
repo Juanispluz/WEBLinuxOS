@@ -350,6 +350,18 @@ input[type=color]{width:36px;height:28px;border:var(--border-style);border-radiu
 .music-ctrl-btn.playing{background:linear-gradient(180deg,#E05030,#C84B31);color:#fff;border-color:#7A2818;}
 .music-vol-slider{flex:1;height:4px;}
 .music-empty{padding:30px;text-align:center;color:var(--c-muted);font-size:0.8rem;font-family:var(--font-serif);line-height:2;}
+
+/* ============================================================
+   PROGRESS BARS
+   ============================================================ */
+.progress{width:100%;height:8px;background:#C8B89A;border-radius:4px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,0.15);border:1px solid #A09080;}
+.progress-fill{height:100%;background:linear-gradient(180deg,#E86040 0%,#C84B31 50%,#A33A22 100%);border-radius:4px;transition:width 0.3s ease;box-shadow:inset 0 1px 0 rgba(255,255,255,0.3);}
+
+/* ============================================================
+   DARK MODE OVERRIDES
+   ============================================================ */
+body.light .progress{background:#C8B89A;border-color:#A09080;}
+body.light .progress-fill{background:linear-gradient(180deg,#E86040 0%,#C84B31 50%,#A33A22 100%);}
 </style>
 </head>
 <body>

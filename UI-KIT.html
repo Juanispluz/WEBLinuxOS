@@ -153,26 +153,26 @@
         .color-swatch__name { font-size: 12px; font-weight: var(--font-weight-bold); color: var(--text-primary); margin-bottom: 2px; }
         .color-swatch__hex { font-size: 11px; color: var(--text-muted); font-family: monospace; }
 
-        .flat-c1 { background: #667eea; } .flat-c2 { background: #764ba2; } .flat-c3 { background: #f093fb; }
-        .flat-c4 { background: #48bb78; } .flat-c5 { background: #ed8936; } .flat-c6 { background: #f56565; }
-        .flat-c7 { background: #4299e1; } .flat-c8 { background: #2d3748; }
-        .flat-c9 { background: #edf2f7; border: 1px solid #e2e8f0; }
+        .flat-c1 { background: #C84B31; } .flat-c2 { background: #2D3561; }
+        .flat-c3 { background: #ECDBBA; } .flat-c4 { background: #2ECC71; }
+        .flat-c5 { background: #E67E22; } .flat-c6 { background: #E74C3C; }
+        .flat-c7 { background: #FFFFFF; border: 1px solid #C0C0D8; }
+        .flat-c8 { background: #1A1A2E; } .flat-c9 { background: #5050A0; }
 
-        .skeu-c1 { background: linear-gradient(180deg, #8da4f0 0%, #5a7de0 50%, #4a6ad0 100%); }
-        .skeu-c2 { background: linear-gradient(180deg, #c4b4e8 0%, #9a7fd4 50%, #8868c4 100%); }
-        .skeu-c3 { background: linear-gradient(180deg, #f5c0e8 0%, #e894d0 50%, #d878b8 100%); }
-        .skeu-c4 { background: linear-gradient(180deg, #8ae0a0 0%, #5ac078 50%, #48a868 100%); }
-        .skeu-c5 { background: linear-gradient(180deg, #f5c080 0%, #e09850 50%, #d08040 100%); }
-        .skeu-c6 { background: linear-gradient(180deg, #f59090 0%, #e06060 50%, #d04848 100%); }
-        .skeu-c7 { background: linear-gradient(180deg, #70a8f0 0%, #5090d8 50%, #4080c8 100%); }
-        .skeu-c8 { background: linear-gradient(180deg, #5a6470 0%, #3a4450 50%, #2a3440 100%); }
-        .skeu-c9 { background: linear-gradient(180deg, #f8fafc 0%, #e8ecf0 50%, #d8dce0 100%); border: 1px solid #d8dce0; }
+        .skeu-c1 { background: linear-gradient(180deg, #E86040 0%, #C84B31 50%, #A33A22 100%); }
+        .skeu-c2 { background: linear-gradient(180deg, #DDD0B8 0%, #C8B89A 50%, #BCA888 100%); }
+        .skeu-c3 { background: linear-gradient(180deg, #FFFFFF 0%, #F0E8D8 50%, #E0D5C0 100%); }
+        .skeu-c4 { background: linear-gradient(180deg, #50D888 0%, #2ECC71 50%, #20A858 100%); }
+        .skeu-c5 { background: linear-gradient(180deg, #E8C050 0%, #E67E22 50%, #D06020 100%); }
+        .skeu-c6 { background: linear-gradient(180deg, #E86060 0%, #E74C3C 50%, #902020 100%); }
+        .skeu-c7 { background: #2A1A0A; } .skeu-c8 { background: #6A5040; }
+        .skeu-c9 { background: linear-gradient(180deg, #E8DECA 0%, #D4C4A8 50%, #C8B89A 100%); border: 1px solid #A09080; }
 
-        .glass-c1 { background: rgba(102, 126, 234, 0.65); } .glass-c2 { background: rgba(118, 75, 162, 0.65); }
-        .glass-c3 { background: rgba(240, 147, 251, 0.65); } .glass-c4 { background: rgba(72, 187, 120, 0.65); }
-        .glass-c5 { background: rgba(237, 137, 54, 0.65); } .glass-c6 { background: rgba(245, 101, 101, 0.65); }
-        .glass-c7 { background: rgba(66, 153, 225, 0.65); } .glass-c8 { background: rgba(20, 20, 40, 0.55); }
-        .glass-c9 { background: rgba(237, 242, 247, 0.4); }
+        .glass-c1 { background: rgba(200,75,49,0.65); } .glass-c2 { background: rgba(45,53,97,0.65); }
+        .glass-c3 { background: rgba(236,219,186,0.65); } .glass-c4 { background: rgba(46,204,113,0.65); }
+        .glass-c5 { background: rgba(230,126,34,0.65); } .glass-c6 { background: rgba(231,76,60,0.65); }
+        .glass-c7 { background: rgba(230,238,255,0.60); border: 1px solid rgba(0,0,0,0.10); }
+        .glass-c8 { background: rgba(10,15,40,0.92); } .glass-c9 { background: rgba(10,15,40,0.50); }
 
         /* ============================================
            ICONS
@@ -214,7 +214,7 @@
         }
         .btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink: 0; }
         .btn--rounded { border-radius: 20px; }
-        .btn--angular { clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%); border-radius: 0; }
+        .btn--angular { border-radius: 0; }
 
         .btn-state-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-bottom: 16px; }
         .btn-state-label { min-width: 100px; font-size: 13px; font-weight: var(--font-weight-bold); color: var(--text-primary); text-align: right; }
@@ -222,50 +222,50 @@
         .btn-state { display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .btn-state__label { font-size: 11px; color: var(--text-muted); text-align: center; font-weight: 500; }
 
-        .flat-btn--primary { background: #667eea; color: white; }
-        .flat-btn--primary:hover { background: #5a6fd6; transform: translateY(-1px); }
-        .flat-btn--primary:active { background: #4a5fc0; transform: translateY(0); }
-        .flat-btn--primary:disabled { background: #cbd5e0; color: #a0aec0; cursor: not-allowed; transform: none; }
-        .flat-btn--secondary { background: transparent; color: #667eea; border: 2px solid #667eea; }
-        .flat-btn--secondary:hover { background: #667eea; color: white; transform: translateY(-1px); }
-        .flat-btn--secondary:active { background: #4a5fc0; transform: translateY(0); }
-        .flat-btn--secondary:disabled { border-color: #cbd5e0; color: #a0aec0; cursor: not-allowed; transform: none; }
+        .flat-btn--primary { background: #C84B31; color: white; }
+        .flat-btn--primary:hover { background: #B33A22; transform: translateY(-1px); }
+        .flat-btn--primary:active { background: #A33A22; transform: translateY(0); }
+        .flat-btn--primary:disabled { background: #C0C0D8; color: #8888A0; cursor: not-allowed; transform: none; pointer-events: none; }
+        .flat-btn--secondary { background: transparent; color: #C84B31; border: 2px solid #C84B31; }
+        .flat-btn--secondary:hover { background: #C84B31; color: white; transform: translateY(-1px); }
+        .flat-btn--secondary:active { background: #A33A22; transform: translateY(0); }
+        .flat-btn--secondary:disabled { border-color: #C0C0D8; color: #8888A0; cursor: not-allowed; transform: none; pointer-events: none; }
 
         .skeu-btn--primary {
-            background: linear-gradient(180deg, #8da4f0 0%, #5a7de0 45%, #4a6ad0 55%, #3d5dc0 100%);
-            color: white; border-radius: 8px; border: 1px solid rgba(0,0,0,0.15);
-            box-shadow: 0 3px 0 #3450a0, 0 5px 12px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.1);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            background: linear-gradient(180deg, #E86040 0%, #C84B31 45%, #A33A22 55%, #902010 100%);
+            color: white; border-radius: 8px; border: 1px solid rgba(0,0,0,0.3);
+            box-shadow: 0 3px 0 #6A2010, 0 5px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 0 rgba(0,0,0,0.15);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.4);
         }
-        .skeu-btn--primary:hover { background: linear-gradient(180deg, #9db0ff 0%, #6a8df0 45%, #5a7de0 55%, #4a6ad0 100%); transform: translateY(0); box-shadow: 0 2px 0 #3450a0, 0 3px 8px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.1); }
-        .skeu-btn--primary:active { background: linear-gradient(180deg, #4a6ad0 0%, #3d5dc0 45%, #3450a0 55%, #2d4590 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.25), 0 1px 0 rgba(0,0,0,0.1); transform: translateY(2px); }
-        .skeu-btn--primary:disabled { background: linear-gradient(180deg, #c8d0e0 0%, #b0b8c8 100%); color: #8890a0; box-shadow: 0 2px 0 #9098a8, inset 0 1px 0 rgba(255,255,255,0.3); cursor: not-allowed; transform: none; }
+        .skeu-btn--primary:hover { background: linear-gradient(180deg, #FF7050 0%, #D86040 45%, #B84B31 55%, #A33A22 100%); transform: translateY(0); box-shadow: 0 2px 0 #6A2010, 0 3px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 0 rgba(0,0,0,0.15); }
+        .skeu-btn--primary:active { background: linear-gradient(180deg, #A33A22 0%, #902010 45%, #801808 55%, #701000 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.35), 0 1px 0 rgba(0,0,0,0.1); transform: translateY(2px); }
+        .skeu-btn--primary:disabled { background: linear-gradient(180deg, #C8C0B0 0%, #B8B0A0 100%); color: #888080; box-shadow: 0 2px 0 #A09888, inset 0 1px 0 rgba(255,255,255,0.3); cursor: not-allowed; transform: none; }
         .skeu-btn--secondary {
-            background: linear-gradient(180deg, #f8fafc 0%, #e8ecf0 45%, #d8dce0 55%, #c8ccd0 100%);
-            color: #4a5a70; border: 2px solid #a0a8b8; border-radius: 8px;
-            box-shadow: 0 3px 0 #8890a0, 0 5px 12px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.05);
-            text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+            background: linear-gradient(180deg, #E8DECA 0%, #D4C4A8 45%, #C8B89A 55%, #BCA888 100%);
+            color: #2A1A0A; border: 2px solid #A09080; border-radius: 8px;
+            box-shadow: 0 3px 0 #8A7A68, 0 5px 12px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05);
+            text-shadow: 0 1px 0 rgba(255,255,255,0.4);
         }
-        .skeu-btn--secondary:hover { background: linear-gradient(180deg, #fff 0%, #f0f4f8 45%, #e0e4e8 55%, #d0d4d8 100%); transform: translateY(0); }
-        .skeu-btn--secondary:active { background: linear-gradient(180deg, #d0d4d8 0%, #c0c4c8 45%, #b0b4b8 55%, #a0a4a8 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.15), 0 1px 0 rgba(0,0,0,0.08); transform: translateY(2px); }
-        .skeu-btn--secondary:disabled { background: linear-gradient(180deg, #e8ecf0 0%, #d8dce0 100%); color: #b0b8c0; box-shadow: 0 2px 0 #a0a8b0, inset 0 1px 0 rgba(255,255,255,0.5); cursor: not-allowed; transform: none; }
+        .skeu-btn--secondary:hover { background: linear-gradient(180deg, #F5ECD8 0%, #E0D0B8 45%, #D4C4A8 55%, #C8B89A 100%); transform: translateY(0); }
+        .skeu-btn--secondary:active { background: linear-gradient(180deg, #C8B89A 0%, #BCA888 45%, #B09878 55%, #A08868 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.15), 0 1px 0 rgba(0,0,0,0.08); transform: translateY(2px); }
+        .skeu-btn--secondary:disabled { background: linear-gradient(180deg, #E0D8C8 0%, #D0C8B8 100%); color: #A09888; box-shadow: 0 2px 0 #A09888, inset 0 1px 0 rgba(255,255,255,0.5); cursor: not-allowed; transform: none; }
 
         .glass-btn--primary {
-            background: linear-gradient(135deg, rgba(102,126,234,0.6) 0%, rgba(118,75,162,0.6) 100%);
+            background: linear-gradient(135deg, rgba(200,75,49,0.6) 0%, rgba(163,58,34,0.6) 100%);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.35); border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(102,126,234,0.25), 0 2px 8px rgba(0,0,0,0.08); color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 20px rgba(200,75,49,0.25), 0 2px 8px rgba(0,0,0,0.08); color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
-        .glass-btn--primary:hover { background: linear-gradient(135deg, rgba(102,126,234,0.75) 0%, rgba(118,75,162,0.75) 100%); box-shadow: 0 6px 28px rgba(102,126,234,0.35), 0 3px 12px rgba(0,0,0,0.12); transform: translateY(-1px); }
-        .glass-btn--primary:active { background: linear-gradient(135deg, rgba(102,126,234,0.5) 0%, rgba(118,75,162,0.5) 100%); box-shadow: 0 2px 10px rgba(102,126,234,0.2); transform: translateY(0); }
-        .glass-btn--primary:disabled { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.3); cursor: not-allowed; transform: none; }
+        .glass-btn--primary:hover { background: linear-gradient(135deg, rgba(200,75,49,0.75) 0%, rgba(163,58,34,0.75) 100%); box-shadow: 0 6px 28px rgba(200,75,49,0.35), 0 3px 12px rgba(0,0,0,0.12); transform: translateY(-1px); }
+        .glass-btn--primary:active { background: linear-gradient(135deg, rgba(200,75,49,0.5) 0%, rgba(163,58,34,0.5) 100%); box-shadow: 0 2px 10px rgba(200,75,49,0.2); transform: translateY(0); }
+        .glass-btn--primary:disabled { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.3); cursor: not-allowed; transform: none; pointer-events: none; }
         .glass-btn--secondary {
             background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(102,126,234,0.35); border-radius: 12px; color: #667eea; box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+            border: 1px solid rgba(200,75,49,0.35); border-radius: 12px; color: #C84B31; box-shadow: 0 4px 16px rgba(0,0,0,0.04);
         }
-        .glass-btn--secondary:hover { background: rgba(102,126,234,0.15); border-color: rgba(102,126,234,0.55); transform: translateY(-1px); }
-        .glass-btn--secondary:active { background: rgba(102,126,234,0.25); transform: translateY(0); }
-        .glass-btn--secondary:disabled { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.2); cursor: not-allowed; transform: none; }
+        .glass-btn--secondary:hover { background: rgba(200,75,49,0.15); border-color: rgba(200,75,49,0.55); transform: translateY(-1px); }
+        .glass-btn--secondary:active { background: rgba(200,75,49,0.25); transform: translateY(0); }
+        .glass-btn--secondary:disabled { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.2); cursor: not-allowed; transform: none; pointer-events: none; }
 
         /* ============================================
            WINDOWS — CORRECTED DESIGNS
@@ -285,9 +285,6 @@
         }
         .window__titlebar-left {
             display: flex; align-items: center; gap: 8px;
-        }
-        .window__icon {
-            width: 16px; height: 16px; opacity: 0.7;
         }
         .window__titlebar-left span {
             font-size: 13px; font-weight: 600;
@@ -335,10 +332,6 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
-        .window--flat .window__icon {
-            stroke: #5050A0; fill: none; stroke-width: 1.5;
-        }
-
         .window--flat .window__controls {
             display: flex;
             height: 36px;
@@ -411,9 +404,6 @@
         [data-theme="dark"] .window--flat .window__titlebar-left span {
             color: #DCDCF0;
         }
-        [data-theme="dark"] .window--flat .window__icon {
-            stroke: #6060A0;
-        }
         [data-theme="dark"] .window--flat .window__control {
             color: #6060A0;
             border-left-color: #2E2E44;
@@ -459,10 +449,6 @@
             font-family: Georgia, 'Times New Roman', serif;
             letter-spacing: 0.06em;
         }
-        .window--skeu .window__icon {
-            stroke: #6A5040; fill: none; stroke-width: 1.5;
-        }
-
         .window--skeu .window__controls {
             display: flex;
             height: 36px;
@@ -523,7 +509,6 @@
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
         }
         [data-theme="dark"] .window--skeu .window__titlebar-left span { color: #ECDBBA; }
-        [data-theme="dark"] .window--skeu .window__icon { stroke: #8A7D6E; }
         [data-theme="dark"] .window--skeu .window__card {
             background: linear-gradient(180deg, #3D3730 0%, #332E28 100%);
             border-color: #1A1612;
@@ -567,11 +552,6 @@
             text-transform: uppercase;
             letter-spacing: 0.08em;
         }
-        .window--glass .window__icon {
-            stroke: rgba(10,15,40,0.50);
-            fill: none; stroke-width: 1.5;
-        }
-
         .window--glass .window__controls {
             display: flex;
             height: 38px;
@@ -641,9 +621,6 @@
         }
         [data-theme="dark"] .window--glass .window__titlebar-left span {
             color: rgba(255,255,255,0.92);
-        }
-        [data-theme="dark"] .window--glass .window__icon {
-            stroke: rgba(255,255,255,0.42);
         }
         [data-theme="dark"] .window--glass .window__control {
             color: rgba(255,255,255,0.42);
@@ -719,7 +696,7 @@
         [data-theme="dark"] .volume-slider--skeu::-webkit-slider-thumb { background: linear-gradient(180deg, #4A4238 0%, #3D3730 50%, #332E28 100%); border-color: #1A1612; box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1); }
         [data-theme="dark"] .volume-slider--glass { background: rgba(30,30,50,0.3); backdrop-filter: blur(4px); border-color: rgba(255,255,255,0.08); }
         [data-theme="dark"] .toggle--skeu .toggle__slider { background: linear-gradient(180deg, #3D3730 0%, #332E28 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.05); border-color: #1A1612; }
-        [data-theme="dark"] .toggle--skeu .toggle__slider::before { background: linear-gradient(180deg, #4A4238 0%, #3D3730 100%); border-color: #1A1612; box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08); }
+        [data-theme="dark"] .toggle--skeu .toggle__slider::after { background: linear-gradient(180deg, #4A4238 0%, #3D3730 100%); border-color: #1A1612; box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08); }
         [data-theme="dark"] .player-bar--skeu { background: linear-gradient(180deg, #3D3730 0%, #332E28 50%, #2A2520 100%); border-color: #1A1612; box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 2px 6px rgba(0,0,0,0.2); }
         .progress__fill { height: 100%; transition: width 0.5s ease; }
 
@@ -729,19 +706,19 @@
         .toggle { position: relative; width: 48px; height: 26px; display: inline-block; }
         .toggle input { opacity: 0; width: 0; height: 0; }
         .toggle__slider { position: absolute; inset: 0; border-radius: 13px; cursor: pointer; transition: all 0.3s; }
-        .toggle__slider::before { content: ''; position: absolute; width: 20px; height: 20px; border-radius: 50%; top: 3px; left: 3px; transition: all 0.3s; }
+        .toggle__slider::after { content: ''; position: absolute; width: 20px; height: 20px; border-radius: 50%; top: 3px; left: 3px; transition: all 0.3s; }
         .toggle--flat .toggle__slider { background: var(--border-color); border-radius: 0; }
         .toggle--flat input:checked + .toggle__slider { background: #C84B31; }
-        .toggle--flat .toggle__slider::before { background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.2); border-radius: 0; }
-        .toggle--flat input:checked + .toggle__slider::before { transform: translateX(22px); }
+        .toggle--flat .toggle__slider::after { background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.2); border-radius: 0; }
+        .toggle--flat input:checked + .toggle__slider::after { transform: translateX(22px); }
         .toggle--skeu .toggle__slider { background: linear-gradient(180deg, #C8B89A 0%, #BCA888 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 1px 0 rgba(255,255,255,0.4); border: 1px solid #A09080; }
         .toggle--skeu input:checked + .toggle__slider { background: linear-gradient(180deg, #E86040 0%, #C84B31 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.15), 0 1px 0 rgba(255,255,255,0.2); border-color: #7A2818; }
-        .toggle--skeu .toggle__slider::before { background: linear-gradient(180deg, #DDD0B8 0%, #C8B89A 100%); box-shadow: 0 2px 4px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6); border: 1px solid #A09080; }
-        .toggle--skeu input:checked + .toggle__slider::before { transform: translateX(22px); }
+        .toggle--skeu .toggle__slider::after { background: linear-gradient(180deg, #DDD0B8 0%, #C8B89A 100%); box-shadow: 0 2px 4px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6); border: 1px solid #A09080; }
+        .toggle--skeu input:checked + .toggle__slider::after { transform: translateX(22px); }
         .toggle--glass .toggle__slider { background: rgba(255,255,255,0.12); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.18); }
         .toggle--glass input:checked + .toggle__slider { background: rgba(200,75,49,0.5); border-color: rgba(200,75,49,0.6); }
-        .toggle--glass .toggle__slider::before { background: rgba(255,255,255,0.9); backdrop-filter: blur(4px); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
-        .toggle--glass input:checked + .toggle__slider::before { transform: translateX(22px); }
+        .toggle--glass .toggle__slider::after { background: rgba(255,255,255,0.9); backdrop-filter: blur(4px); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .toggle--glass input:checked + .toggle__slider::after { transform: translateX(22px); }
         [data-theme="dark"] .toggle--glass .toggle__slider { background: rgba(30,30,50,0.4); border-color: rgba(255,255,255,0.08); }
 
         /* ============================================
@@ -752,8 +729,7 @@
         .player-bar--skeu { background: linear-gradient(180deg, #DDD0B8 0%, #C8B89A 50%, #BCA888 100%); border: 1px solid #A09080; box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 6px rgba(0,0,0,0.12); }
         .player-bar--glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.15); }
         [data-theme="dark"] .player-bar--glass { background: rgba(25,25,50,0.4); border-color: rgba(255,255,255,0.08); }
-        .player-btn { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; border: none; }
-        .player-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .player-btn { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; border: none; font-size: 18px; line-height: 1; }
         .player-btn--flat { background: #C84B31; color: white; border-radius: 0; }
         .player-btn--flat:hover { background: #A33A22; transform: scale(1.1); }
         .player-btn--skeu { background: linear-gradient(180deg, #E86040 0%, #C84B31 40%, #A33A22 100%); color: white; border: 1px solid #7A2818; border-top-color: #E86040; box-shadow: 0 2px 0 #7A2818, 0 4px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.3); }
@@ -843,17 +819,17 @@
             <div class="style-preview style-flat">
                 <div class="style-preview__label">Flat Design <span>— Colores sólidos, sin gradientes</span></div>
                 <div class="color-group">
-                    <div class="color-group__title">Paleta Principal</div>
+                    <div class="color-group__title">Paleta Flat</div>
                     <div class="color-grid">
-                        <div class="color-swatch"><div class="color-swatch__preview flat-c1"><span style="color:white;font-size:12px;font-weight:700;">Primary</span></div><div class="color-swatch__info"><div class="color-swatch__name">Primary</div><div class="color-swatch__hex">#667eea</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview flat-c2"><span style="color:white;font-size:11px;font-weight:700;">Secondary</span></div><div class="color-swatch__info"><div class="color-swatch__name">Secondary</div><div class="color-swatch__hex">#764ba2</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview flat-c3"><span style="color:white;font-size:11px;font-weight:700;">Accent</span></div><div class="color-swatch__info"><div class="color-swatch__name">Accent</div><div class="color-swatch__hex">#f093fb</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview flat-c4"><span style="color:white;font-size:11px;font-weight:700;">Success</span></div><div class="color-swatch__info"><div class="color-swatch__name">Success</div><div class="color-swatch__hex">#48bb78</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview flat-c5"><span style="color:white;font-size:11px;font-weight:700;">Warning</span></div><div class="color-swatch__info"><div class="color-swatch__name">Warning</div><div class="color-swatch__hex">#ed8936</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview flat-c6"><span style="color:white;font-size:11px;font-weight:700;">Error</span></div><div class="color-swatch__info"><div class="color-swatch__name">Error</div><div class="color-swatch__hex">#f56565</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview flat-c7"><span style="color:white;font-size:11px;font-weight:700;">Info</span></div><div class="color-swatch__info"><div class="color-swatch__name">Info</div><div class="color-swatch__hex">#4299e1</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview flat-c8"><span style="color:white;font-size:11px;font-weight:700;">Dark</span></div><div class="color-swatch__info"><div class="color-swatch__name">Dark</div><div class="color-swatch__hex">#2d3748</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview flat-c9"><span style="color:#4a5568;font-size:11px;font-weight:700;">Light</span></div><div class="color-swatch__info"><div class="color-swatch__name">Light</div><div class="color-swatch__hex">#edf2f7</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c1"><span style="color:white;font-size:12px;font-weight:700;">Primary</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-primary</div><div class="color-swatch__hex">#C84B31</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c2"><span style="color:white;font-size:11px;font-weight:700;">Secondary</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-secondary</div><div class="color-swatch__hex">#2D3561</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c3"><span style="color:#3a2a1a;font-size:11px;font-weight:700;">Accent</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-accent</div><div class="color-swatch__hex">#ECDBBA</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c4"><span style="color:white;font-size:11px;font-weight:700;">Success</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-success</div><div class="color-swatch__hex">#2ECC71</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c5"><span style="color:white;font-size:11px;font-weight:700;">Warning</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-warning</div><div class="color-swatch__hex">#E67E22</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c6"><span style="color:white;font-size:11px;font-weight:700;">Danger</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-danger</div><div class="color-swatch__hex">#E74C3C</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c7"><span style="color:#5050a0;font-size:11px;font-weight:700;">Surface</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-surface</div><div class="color-swatch__hex">#FFFFFF</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c8"><span style="color:#dcdcf0;font-size:11px;font-weight:700;">Text</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-text</div><div class="color-swatch__hex">#1A1A2E</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c9"><span style="color:white;font-size:11px;font-weight:700;">Dim</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-dim</div><div class="color-swatch__hex">#5050A0</div></div></div>
                     </div>
                 </div>
             </div>
@@ -861,17 +837,17 @@
             <div class="style-preview style-skeu">
                 <div class="style-preview__label">Skeuomorphism <span>— Gradientes multicapa, tonos suaves y profundos</span></div>
                 <div class="color-group">
-                    <div class="color-group__title">Paleta Principal</div>
+                    <div class="color-group__title">Paleta Skeu</div>
                     <div class="color-grid">
-                        <div class="color-swatch"><div class="color-swatch__preview skeu-c1"><span style="color:white;font-size:11px;font-weight:700;">Primary</span></div><div class="color-swatch__info"><div class="color-swatch__name">Primary</div><div class="color-swatch__hex">#5a7de0</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview skeu-c2"><span style="color:white;font-size:11px;font-weight:700;">Secondary</span></div><div class="color-swatch__info"><div class="color-swatch__name">Secondary</div><div class="color-swatch__hex">#8868c4</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview skeu-c3"><span style="color:white;font-size:11px;font-weight:700;">Accent</span></div><div class="color-swatch__info"><div class="color-swatch__name">Accent</div><div class="color-swatch__hex">#d878b8</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview skeu-c4"><span style="color:white;font-size:11px;font-weight:700;">Success</span></div><div class="color-swatch__info"><div class="color-swatch__name">Success</div><div class="color-swatch__hex">#48a868</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview skeu-c5"><span style="color:white;font-size:11px;font-weight:700;">Warning</span></div><div class="color-swatch__info"><div class="color-swatch__name">Warning</div><div class="color-swatch__hex">#d08040</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview skeu-c6"><span style="color:white;font-size:11px;font-weight:700;">Error</span></div><div class="color-swatch__info"><div class="color-swatch__name">Error</div><div class="color-swatch__hex">#d04848</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview skeu-c7"><span style="color:white;font-size:11px;font-weight:700;">Info</span></div><div class="color-swatch__info"><div class="color-swatch__name">Info</div><div class="color-swatch__hex">#4080c8</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview skeu-c8"><span style="color:white;font-size:11px;font-weight:700;">Dark</span></div><div class="color-swatch__info"><div class="color-swatch__name">Dark</div><div class="color-swatch__hex">#2a3440</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview skeu-c9"><span style="color:#4a5a70;font-size:11px;font-weight:700;">Light</span></div><div class="color-swatch__info"><div class="color-swatch__name">Light</div><div class="color-swatch__hex">#e8ecf0</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c1"><span style="color:white;font-size:11px;font-weight:700;">Primary</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-primary</div><div class="color-swatch__hex">#C84B31</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c2"><span style="color:#1a0a00;font-size:11px;font-weight:700;">Surface</span></div><div class="color-swatch__info"><div class="color-swatch__name">--surface-grad</div><div class="color-swatch__hex">#DDD0B8→#BCA888</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c3"><span style="color:#1a0a00;font-size:11px;font-weight:700;">Paper</span></div><div class="color-swatch__info"><div class="color-swatch__name">--sk-paper</div><div class="color-swatch__hex">#FFF→#E0D5C0</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c4"><span style="color:white;font-size:11px;font-weight:700;">Success</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-success</div><div class="color-swatch__hex">#2ECC71</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c5"><span style="color:white;font-size:11px;font-weight:700;">Warning</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-warning</div><div class="color-swatch__hex">#E67E22</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c6"><span style="color:white;font-size:11px;font-weight:700;">Danger</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-danger</div><div class="color-swatch__hex">#E74C3C</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c7"><span style="color:#cdb8a0;font-size:11px;font-weight:700;">Text</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-text</div><div class="color-swatch__hex">#2A1A0A</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c8"><span style="color:white;font-size:11px;font-weight:700;">Dim</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-dim</div><div class="color-swatch__hex">#6A5040</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c9"><span style="color:#1a0a00;font-size:11px;font-weight:700;">Bg</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-bg</div><div class="color-swatch__hex">#C8B89A</div></div></div>
                     </div>
                 </div>
             </div>
@@ -879,17 +855,17 @@
             <div class="style-preview style-glass">
                 <div class="style-preview__label">Glassmorphism <span>— Colores con transparencia y opacidad</span></div>
                 <div class="color-group">
-                    <div class="color-group__title">Paleta Principal (rgba)</div>
+                    <div class="color-group__title">Paleta Glass</div>
                     <div class="color-grid">
-                        <div class="color-swatch"><div class="color-swatch__preview glass-c1"><span style="color:white;font-size:10px;font-weight:700;">Primary</span></div><div class="color-swatch__info"><div class="color-swatch__name">Primary</div><div class="color-swatch__hex">rgba(102,126,234,0.65)</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview glass-c2"><span style="color:white;font-size:10px;font-weight:700;">Secondary</span></div><div class="color-swatch__info"><div class="color-swatch__name">Secondary</div><div class="color-swatch__hex">rgba(118,75,162,0.65)</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview glass-c3"><span style="color:white;font-size:10px;font-weight:700;">Accent</span></div><div class="color-swatch__info"><div class="color-swatch__name">Accent</div><div class="color-swatch__hex">rgba(240,147,251,0.65)</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview glass-c4"><span style="color:white;font-size:10px;font-weight:700;">Success</span></div><div class="color-swatch__info"><div class="color-swatch__name">Success</div><div class="color-swatch__hex">rgba(72,187,120,0.65)</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview glass-c5"><span style="color:white;font-size:10px;font-weight:700;">Warning</span></div><div class="color-swatch__info"><div class="color-swatch__name">Warning</div><div class="color-swatch__hex">rgba(237,137,54,0.65)</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview glass-c6"><span style="color:white;font-size:10px;font-weight:700;">Error</span></div><div class="color-swatch__info"><div class="color-swatch__name">Error</div><div class="color-swatch__hex">rgba(245,101,101,0.65)</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview glass-c7"><span style="color:white;font-size:10px;font-weight:700;">Info</span></div><div class="color-swatch__info"><div class="color-swatch__name">Info</div><div class="color-swatch__hex">rgba(66,153,225,0.65)</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview glass-c8"><span style="color:white;font-size:10px;font-weight:700;">Dark</span></div><div class="color-swatch__info"><div class="color-swatch__name">Dark</div><div class="color-swatch__hex">rgba(20,20,40,0.55)</div></div></div>
-                        <div class="color-swatch"><div class="color-swatch__preview glass-c9"><span style="color:#4a5568;font-size:10px;font-weight:700;">Light</span></div><div class="color-swatch__info"><div class="color-swatch__name">Light</div><div class="color-swatch__hex">rgba(237,242,247,0.4)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c1"><span style="color:white;font-size:10px;font-weight:700;">Primary</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-primary</div><div class="color-swatch__hex">rgba(200,75,49,0.65)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c2"><span style="color:white;font-size:10px;font-weight:700;">Secondary</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-secondary</div><div class="color-swatch__hex">rgba(45,53,97,0.65)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c3"><span style="color:#1a1a2e;font-size:10px;font-weight:700;">Accent</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-accent</div><div class="color-swatch__hex">rgba(236,219,186,0.65)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c4"><span style="color:white;font-size:10px;font-weight:700;">Success</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-success</div><div class="color-swatch__hex">rgba(46,204,113,0.65)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c5"><span style="color:white;font-size:10px;font-weight:700;">Warning</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-warning</div><div class="color-swatch__hex">rgba(230,126,34,0.65)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c6"><span style="color:white;font-size:10px;font-weight:700;">Danger</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-danger</div><div class="color-swatch__hex">rgba(231,76,60,0.65)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c7"><span style="color:#1a1a2e;font-size:10px;font-weight:700;">Surface</span></div><div class="color-swatch__info"><div class="color-swatch__name">--glass-bg</div><div class="color-swatch__hex">rgba(230,238,255,0.60)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c8"><span style="color:#e8e0d0;font-size:10px;font-weight:700;">Text</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-text</div><div class="color-swatch__hex">rgba(10,15,40,0.92)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c9"><span style="color:#e0d8c8;font-size:10px;font-weight:700;">Dim</span></div><div class="color-swatch__info"><div class="color-swatch__name">--c-dim</div><div class="color-swatch__hex">rgba(10,15,40,0.50)</div></div></div>
                     </div>
                 </div>
             </div>
@@ -943,14 +919,14 @@
                     <span class="icon-item__label">Apagar</span>
                 </div>
                 <div class="icon-item">
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
                     <span class="icon-item__label">Volumen</span>
                 </div>
             </div>
             <h3 style="font-family:var(--font-title);font-size:18px;margin:32px 0 12px;font-weight:var(--font-weight-title);">Skeu Design</h3>
             <div class="icons-grid">
                 <div class="icon-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><rect x="1" y="2" width="22" height="17" rx="3" fill="url(#sk-metal)" filter="url(#sk-shadow)"/><rect x="2" y="3" width="20" height="15" rx="2.5" fill="#2a2a2a"/><rect x="3.5" y="4.5" width="17" height="12" rx="1.5" fill="var(--sk-screen)"/><rect x="1" y="2" width="22" height="2" rx="1" fill="var(--sk-hi)"/><rect x="9" y="19" width="6" height="2" rx="1" fill="#3a3a3a"/><rect x="8" y="20.5" width="8" height="1" fill="#2a2a2a"/><path d="M6 10l2.5-2-2.5-2" stroke="#33ff66" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="11" y1="12" x2="17" y2="12" stroke="#33ff66" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24"><rect x="1" y="2" width="22" height="17" rx="3" fill="url(#sk-metal)" filter="url(#sk-shadow)"/><rect x="2" y="3" width="20" height="15" rx="2.5" fill="#2a2a2a"/><rect x="3.5" y="4.5" width="17" height="12" rx="1.5" fill="var(--sk-screen)"/><rect x="1" y="2" width="22" height="2" rx="1" fill="var(--sk-hi)"/><rect x="9" y="19" width="6" height="2" rx="1" fill="#3a3a3a"/><rect x="8" y="20.5" width="8" height="1" fill="#2a2a2a"/><path d="M6 10l2.5-2-2.5-2" stroke="#33ff66" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="11" y1="12" x2="17" y2="12" stroke="#33ff66" stroke-width="1.8" stroke-linecap="round"/><rect x="3.5" y="4.5" width="17" height="12" rx="1.5" fill="url(#sk-noise)" opacity="0.06"/></svg>
                     <span class="icon-item__label">Terminal</span>
                 </div>
                 <div class="icon-item">
@@ -958,15 +934,15 @@
                     <span class="icon-item__label">Explorador</span>
                 </div>
                 <div class="icon-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><rect x="11" y="3" width="2.5" height="15" rx="0.8" fill="url(#sk-gold)" filter="url(#sk-shadow)"/><path d="M11 4l8-2v5l-8 2" fill="url(#sk-gold)"/><circle cx="7" cy="18" r="4.5" fill="url(#sk-gold)" filter="url(#sk-shadow)"/><circle cx="7" cy="18" r="2" fill="#2a2010" opacity="0.4"/><circle cx="18" cy="16" r="3.5" fill="url(#sk-gold)" filter="url(#sk-shadow)"/><circle cx="18" cy="16" r="1.5" fill="#2a2010" opacity="0.4"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24"><rect x="11" y="3" width="2.5" height="15" rx="0.8" fill="url(#sk-gold)" filter="url(#sk-shadow)"/><path d="M11 4l8-2v5l-8 2" fill="url(#sk-gold)"/><circle cx="7" cy="18" r="4.5" fill="url(#sk-gold)" filter="url(#sk-shadow)"/><circle cx="7" cy="18" r="2" fill="#2a2010" opacity="0.4"/><circle cx="18" cy="16" r="3.5" fill="url(#sk-gold)" filter="url(#sk-shadow)"/><circle cx="18" cy="16" r="1.5" fill="#2a2010" opacity="0.4"/><path d="M11 18.5v-4l8-2v4" stroke="url(#sk-gold)" stroke-width="0.5" fill="none"/></svg>
                     <span class="icon-item__label">Reproductor</span>
                 </div>
                 <div class="icon-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="13" rx="9" ry="7" fill="url(#sk-wood)" filter="url(#sk-shadow)"/><ellipse cx="12" cy="13" rx="9" ry="7" fill="url(#sk-noise)" opacity="0.15"/><rect x="5" y="10" width="14" height="3" rx="1" fill="var(--sk-muted)" opacity="0.3"/><circle cx="8" cy="11" r="2.2" fill="#E86040"/><circle cx="12.5" cy="10" r="1.8" fill="#60A0F0"/><circle cx="16" cy="11.5" r="1.5" fill="#50D888"/><circle cx="10" cy="14.5" r="1.8" fill="#F5D890"/><circle cx="14.5" cy="14" r="1.2" fill="#9B59B6"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="13" rx="9" ry="7" fill="url(#sk-wood)" filter="url(#sk-shadow)"/><ellipse cx="12" cy="13" rx="9" ry="7" fill="url(#sk-noise)" opacity="0.15"/><rect x="5" y="10" width="14" height="3" rx="1" fill="var(--sk-muted)" opacity="0.3"/><circle cx="8" cy="11" r="2.2" fill="#E86040"/><circle cx="12.5" cy="10" r="1.8" fill="#60A0F0"/><circle cx="16" cy="11.5" r="1.5" fill="#50D888"/><circle cx="10" cy="14.5" r="1.8" fill="#F5D890"/><circle cx="14.5" cy="14" r="1.2" fill="#9B59B6"/><ellipse cx="12" cy="13" rx="9" ry="7" fill="none" stroke="var(--sk-hi)" stroke-width="0.5" opacity="0.5"/></svg>
                     <span class="icon-item__label">Paint</span>
                 </div>
                 <div class="icon-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="14" r="7.5" fill="var(--sk-bomb)" filter="url(#sk-shadow)"/><circle cx="12" cy="14" r="7.5" fill="url(#sk-noise)"/><ellipse cx="10" cy="12" rx="3.5" ry="2.5" fill="var(--sk-hi)"/><path d="M14.5 5.5l2-2" stroke="var(--sk-muted)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M12.5 7l2-2.5" stroke="var(--sk-muted)" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M15.5 4l-1-1" stroke="var(--sk-muted)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M9 8.5c-2.5 0.5-3.5 3-3.5 3" stroke="#8a6040" stroke-width="2.5" stroke-linecap="round" fill="none"/><circle cx="8" cy="7.5" r="2" fill="#f5a020" filter="url(#sk-shadow)"/><circle cx="8" cy="7.5" r="1" fill="#ffdd44"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="14" r="7.5" fill="var(--sk-bomb)" filter="url(#sk-shadow)"/><circle cx="12" cy="14" r="7.5" fill="url(#sk-noise)"/><ellipse cx="10" cy="12" rx="3.5" ry="2.5" fill="var(--sk-hi)"/><circle cx="12" cy="14" r="7.5" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/><path d="M14.5 5.5l2-2" stroke="var(--sk-muted)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M12.5 7l2-2.5" stroke="var(--sk-muted)" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M15.5 4l-1-1" stroke="var(--sk-muted)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M9 8.5c-2.5 0.5-3.5 3-3.5 3" stroke="#8a6040" stroke-width="2.5" stroke-linecap="round" fill="none"/><circle cx="8" cy="7.5" r="2" fill="#f5a020" filter="url(#sk-shadow)"/><circle cx="8" cy="7.5" r="1" fill="#ffdd44"/><path d="M16.5 9.5l2-2" stroke="var(--sk-muted)" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg>
                     <span class="icon-item__label">Buscaminas</span>
                 </div>
                 <div class="icon-item">
@@ -1010,18 +986,18 @@
                         <div class="btn-state-label">Primario</div>
                         <div class="btn-states">
                             <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn flat-btn--primary btn--rounded">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn flat-btn--primary btn--rounded" style="background:#5a6fd6;transform:translateY(-1px);">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn flat-btn--primary btn--rounded" style="background:#4a5fc0;">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn flat-btn--primary btn--rounded" disabled style="background:#cbd5e0;color:#a0aec0;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn flat-btn--primary btn--rounded" style="background:#B33A22;transform:translateY(-1px);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn flat-btn--primary btn--rounded" style="background:#A33A22;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn flat-btn--primary btn--rounded" disabled style="background:#C0C0D8;color:#8888A0;">Button</button></div>
                         </div>
                     </div>
                     <div class="btn-state-row">
                         <div class="btn-state-label">Secundario</div>
                         <div class="btn-states">
                             <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn flat-btn--secondary btn--rounded">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn flat-btn--secondary btn--rounded" style="background:#667eea;color:white;">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn flat-btn--secondary btn--rounded" style="background:#4a5fc0;color:white;">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn flat-btn--secondary btn--rounded" disabled style="border-color:#cbd5e0;color:#a0aec0;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn flat-btn--secondary btn--rounded" style="background:#C84B31;color:white;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn flat-btn--secondary btn--rounded" style="background:#A33A22;color:white;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn flat-btn--secondary btn--rounded" disabled style="border-color:#C0C0D8;color:#8888A0;">Button</button></div>
                         </div>
                     </div>
                 </div>
@@ -1031,18 +1007,18 @@
                         <div class="btn-state-label">Primario</div>
                         <div class="btn-states">
                             <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn flat-btn--primary btn--angular">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn flat-btn--primary btn--angular" style="background:#5a6fd6;transform:translateY(-1px);">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn flat-btn--primary btn--angular" style="background:#4a5fc0;">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn flat-btn--primary btn--angular" disabled style="background:#cbd5e0;color:#a0aec0;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn flat-btn--primary btn--angular" style="background:#B33A22;transform:translateY(-1px);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn flat-btn--primary btn--angular" style="background:#A33A22;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn flat-btn--primary btn--angular" disabled style="background:#C0C0D8;color:#8888A0;">Button</button></div>
                         </div>
                     </div>
                     <div class="btn-state-row">
                         <div class="btn-state-label">Secundario</div>
                         <div class="btn-states">
                             <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn flat-btn--secondary btn--angular">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn flat-btn--secondary btn--angular" style="background:#667eea;color:white;">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn flat-btn--secondary btn--angular" style="background:#4a5fc0;color:white;">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn flat-btn--secondary btn--angular" disabled style="border-color:#cbd5e0;color:#a0aec0;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn flat-btn--secondary btn--angular" style="background:#C84B31;color:white;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn flat-btn--secondary btn--angular" style="background:#A33A22;color:white;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn flat-btn--secondary btn--angular" disabled style="border-color:#C0C0D8;color:#8888A0;">Button</button></div>
                         </div>
                     </div>
                 </div>
@@ -1056,18 +1032,18 @@
                         <div class="btn-state-label">Primario</div>
                         <div class="btn-states">
                             <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn skeu-btn--primary btn--rounded">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn skeu-btn--primary btn--rounded" style="background:linear-gradient(180deg,#9db0ff 0%,#6a8df0 45%,#5a7de0 55%,#4a6ad0 100%);box-shadow:0 2px 0 #3450a0,0 3px 8px rgba(0,0,0,0.18),inset 0 1px 0 rgba(255,255,255,0.35),inset 0 -1px 0 rgba(0,0,0,0.1);">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn skeu-btn--primary btn--rounded" style="background:linear-gradient(180deg,#4a6ad0 0%,#3d5dc0 45%,#3450a0 55%,#2d4590 100%);box-shadow:inset 0 2px 4px rgba(0,0,0,0.25),0 1px 0 rgba(0,0,0,0.1);transform:translateY(2px);">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn skeu-btn--primary btn--rounded" disabled style="background:linear-gradient(180deg,#c8d0e0 0%,#b0b8c8 100%);color:#8890a0;box-shadow:0 2px 0 #9098a8,inset 0 1px 0 rgba(255,255,255,0.3);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn skeu-btn--primary btn--rounded" style="background:linear-gradient(180deg,#FF7050 0%,#D86040 45%,#B84B31 55%,#A33A22 100%);box-shadow:0 2px 0 #6A2010,0 3px 8px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.3),inset 0 -1px 0 rgba(0,0,0,0.15);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn skeu-btn--primary btn--rounded" style="background:linear-gradient(180deg,#A33A22 0%,#902010 45%,#801808 55%,#701000 100%);box-shadow:inset 0 2px 4px rgba(0,0,0,0.35),0 1px 0 rgba(0,0,0,0.1);transform:translateY(2px);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn skeu-btn--primary btn--rounded" disabled style="background:linear-gradient(180deg,#C8C0B0 0%,#B8B0A0 100%);color:#888080;box-shadow:0 2px 0 #A09888,inset 0 1px 0 rgba(255,255,255,0.3);">Button</button></div>
                         </div>
                     </div>
                     <div class="btn-state-row">
                         <div class="btn-state-label">Secundario</div>
                         <div class="btn-states">
                             <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn skeu-btn--secondary btn--rounded">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn skeu-btn--secondary btn--rounded" style="background:linear-gradient(180deg,#fff 0%,#f0f4f8 45%,#e0e4e8 55%,#d0d4d8 100%);">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn skeu-btn--secondary btn--rounded" style="background:linear-gradient(180deg,#d0d4d8 0%,#c0c4c8 45%,#b0b4b8 55%,#a0a4a8 100%);box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 0 rgba(0,0,0,0.08);transform:translateY(2px);">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn skeu-btn--secondary btn--rounded" disabled style="background:linear-gradient(180deg,#e8ecf0 0%,#d8dce0 100%);color:#b0b8c0;border-color:#b0b8c0;box-shadow:0 2px 0 #a0a8b0,inset 0 1px 0 rgba(255,255,255,0.5);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn skeu-btn--secondary btn--rounded" style="background:linear-gradient(180deg,#F5ECD8 0%,#E0D0B8 45%,#D4C4A8 55%,#C8B89A 100%);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn skeu-btn--secondary btn--rounded" style="background:linear-gradient(180deg,#C8B89A 0%,#BCA888 45%,#B09878 55%,#A08868 100%);box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 0 rgba(0,0,0,0.08);transform:translateY(2px);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn skeu-btn--secondary btn--rounded" disabled style="background:linear-gradient(180deg,#E0D8C8 0%,#D0C8B8 100%);color:#A09888;border-color:#A09888;box-shadow:0 2px 0 #A09888,inset 0 1px 0 rgba(255,255,255,0.5);">Button</button></div>
                         </div>
                     </div>
                 </div>
@@ -1081,8 +1057,8 @@
                         <div class="btn-state-label">Primario</div>
                         <div class="btn-states">
                             <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn glass-btn--primary btn--rounded">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn glass-btn--primary btn--rounded" style="background:linear-gradient(135deg,rgba(102,126,234,0.75) 0%,rgba(118,75,162,0.75) 100%);box-shadow:0 6px 28px rgba(102,126,234,0.35),0 3px 12px rgba(0,0,0,0.12);">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn glass-btn--primary btn--rounded" style="background:linear-gradient(135deg,rgba(102,126,234,0.5) 0%,rgba(118,75,162,0.5) 100%);box-shadow:0 2px 10px rgba(102,126,234,0.2);transform:translateY(0);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn glass-btn--primary btn--rounded" style="background:linear-gradient(135deg,rgba(200,75,49,0.75) 0%,rgba(163,58,34,0.75) 100%);box-shadow:0 6px 28px rgba(200,75,49,0.35),0 3px 12px rgba(0,0,0,0.12);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn glass-btn--primary btn--rounded" style="background:linear-gradient(135deg,rgba(200,75,49,0.5) 0%,rgba(163,58,34,0.5) 100%);box-shadow:0 2px 10px rgba(200,75,49,0.2);transform:translateY(0);">Button</button></div>
                             <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn glass-btn--primary btn--rounded" disabled style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.12);color:rgba(255,255,255,0.3);">Button</button></div>
                         </div>
                     </div>
@@ -1090,8 +1066,8 @@
                         <div class="btn-state-label">Secundario</div>
                         <div class="btn-states">
                             <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn glass-btn--secondary btn--rounded">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn glass-btn--secondary btn--rounded" style="background:rgba(102,126,234,0.15);border-color:rgba(102,126,234,0.55);">Button</button></div>
-                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn glass-btn--secondary btn--rounded" style="background:rgba(102,126,234,0.25);transform:translateY(0);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn glass-btn--secondary btn--rounded" style="background:rgba(200,75,49,0.15);border-color:rgba(200,75,49,0.55);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn glass-btn--secondary btn--rounded" style="background:rgba(200,75,49,0.25);transform:translateY(0);">Button</button></div>
                             <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn glass-btn--secondary btn--rounded" disabled style="background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.08);color:rgba(255,255,255,0.2);">Button</button></div>
                         </div>
                     </div>
@@ -1115,7 +1091,6 @@
                         <div class="window window--flat">
                             <div class="window__titlebar">
                                 <div class="window__titlebar-left">
-                                    <svg class="window__icon" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="4" y1="4" x2="12" y2="4" stroke="currentColor" stroke-width="1"/></svg>
                                     <span>Dashboard</span>
                                 </div>
                                 <div class="window__controls">
@@ -1162,7 +1137,6 @@
                         <div class="window window--skeu">
                             <div class="window__titlebar">
                                 <div class="window__titlebar-left">
-                                    <svg class="window__icon" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="4" y1="4" x2="12" y2="4" stroke="currentColor" stroke-width="1"/></svg>
                                     <span>Dashboard</span>
                                 </div>
                                 <div class="window__controls">
@@ -1203,7 +1177,46 @@
                         <div class="window window--glass">
                             <div class="window__titlebar">
                                 <div class="window__titlebar-left">
-                                    <svg class="window__icon" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="4" y1="4" x2="12" y2="4" stroke="currentColor" stroke-width="1"/></svg>
+                                    <span>Dashboard</span>
+                                </div>
+                                <div class="window__controls">
+                                    <button class="window__control window__control--minimize" aria-label="Minimizar">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                    </button>
+                                    <button class="window__control window__control--maximize" aria-label="Maximizar">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                                    </button>
+                                    <button class="window__control window__control--close" aria-label="Cerrar">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="window__body">
+                                <div class="window__card">
+                                    <div class="window__card-row">
+                                        <div class="window__card">
+                                            <div class="stat-value">515</div>
+                                            <div class="stat-label">Usuarios</div>
+                                            <span class="stat-change stat-change--up">↑ 12%</span>
+                                        </div>
+                                        <div class="window__card">
+                                            <div class="stat-value">830</div>
+                                            <div class="stat-label">Requests</div>
+                                            <span class="stat-change stat-change--down">↓ 3%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="window__resize-grip"></div>
+                        </div>
+                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Skeuomorphism</div>
+                    </div>
+
+                    <!-- GLASS WINDOW (Windows 11 Fluent) -->
+                    <div>
+                        <div class="window window--glass">
+                            <div class="window__titlebar">
+                                <div class="window__titlebar-left">
                                     <span>Dashboard</span>
                                 </div>
                                 <div class="window__controls">
@@ -1248,7 +1261,7 @@
                     <div>
                         <div class="player-bar player-bar--flat">
                             <button class="player-btn player-btn--flat">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
+                                <span>⏯</span>
                             </button>
                             <div class="player-progress">
                                 <div class="progress progress--flat"><div class="progress__fill" style="width:35%;"></div></div>
@@ -1260,7 +1273,7 @@
                     <div>
                         <div class="player-bar player-bar--skeu">
                             <button class="player-btn player-btn--skeu">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
+                                <span>⏯</span>
                             </button>
                             <div class="player-progress">
                                 <div class="progress progress--skeu"><div class="progress__fill" style="width:35%;"></div></div>
@@ -1272,7 +1285,7 @@
                     <div>
                         <div class="player-bar player-bar--glass">
                             <button class="player-btn player-btn--glass">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
+                                <span>⏯</span>
                             </button>
                             <div class="player-progress">
                                 <div class="progress progress--glass"><div class="progress__fill" style="width:35%;"></div></div>
@@ -1350,26 +1363,6 @@
             </div>
         </section>
 
-        <!-- THEME -->
-        <section class="section" id="theme">
-            <h2 class="section__title">Modo Oscuro / Claro</h2>
-            <p class="section__subtitle">Clic en 🌙/☀️ del header para alternar. Tokens CSS redefinidos con [data-theme="dark"].</p>
-            <hr class="section__divider">
-            <div class="style-preview style-flat">
-                <div style="text-align:center;padding:40px;">
-                    <p style="font-family:var(--font-title);font-size:24px;margin-bottom:12px;font-weight:var(--font-weight-title);">Dark Mode Adaptativo</p>
-                    <p style="color:var(--text-secondary);max-width:600px;margin:0 auto;line-height:1.8;">
-                        Todos los tokens se redefinen con <code style="background:var(--bg-tertiary);padding:2px 8px;border-radius:4px;font-size:13px;">[data-theme="dark"]</code>.
-                        Mismas estructuras visuales, paletas calibradas para ambos modos.
-                    </p>
-                    <div style="margin-top:24px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;font-size:13px;font-weight:600;">
-                        <span style="padding:4px 10px;border-radius:20px;background:rgba(102,126,234,0.12);color:#667eea;">prefers-color-scheme</span>
-                        <span style="padding:4px 10px;border-radius:20px;background:rgba(72,187,120,0.12);color:#48bb78;">WCAG AA Contrast</span>
-                        <span style="padding:4px 10px;border-radius:20px;background:rgba(237,137,54,0.12);color:#ed8936;">CSS Custom Properties</span>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
 
     <script>
