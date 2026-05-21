@@ -46,6 +46,7 @@
             --sk-paper-bot: #F0E8D8;
             --sk-sfc-top: #E8DECA;
             --sk-sfc-bot: #C8B89A;
+        }
 
         [data-theme="dark"] {
             --bg-primary: #0a0a1a;
@@ -78,7 +79,7 @@
         .uikit__header {
             text-align: center; margin-bottom: 60px; padding: 50px 40px;
             border-radius: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background: #C84B31;
             color: white; position: relative; overflow: hidden;
         }
         .uikit__header::before { content: ''; position: absolute; inset: 0; background: rgba(10,10,30,0.35); }
@@ -104,7 +105,7 @@
         }
         .section__subtitle { font-size: var(--font-size-body); color: var(--text-secondary); margin-bottom: 28px; font-weight: 400; }
         .section__divider {
-            height: 2px; background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            height: 2px; background: #C84B31;
             border: none; margin-bottom: 40px; border-radius: 1px;
         }
 
@@ -120,7 +121,7 @@
 
         .style-flat { background: var(--bg-secondary); border: 1px solid var(--border-color); }
         .style-skeu {
-            background: linear-gradient(180deg, #e8ecf1 0%, #d5dbe3 100%);
+            background: linear-gradient(180deg, #DDD0B8 0%, #D4C4A8 100%);
             border: 1px solid rgba(0,0,0,0.08);
             box-shadow: 0 8px 32px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.7);
         }
@@ -130,6 +131,11 @@
             border: 1px solid rgba(255,255,255,0.18);
         }
         [data-theme="dark"] .style-glass { background: rgba(15, 15, 35, 0.5); border-color: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .style-skeu {
+            background: linear-gradient(180deg, #3D3730 0%, #332E28 100%);
+            border-color: #1A1612;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
+        }
 
         /* ============================================
            COLORS
@@ -190,7 +196,7 @@
            TYPOGRAPHY
            ============================================ */
         .typo-grid { display: grid; gap: 24px; }
-        .typo-item { padding: 24px; background: var(--bg-secondary); border-radius: 12px; border-left: 4px solid #667eea; }
+        .typo-item { padding: 24px; background: var(--bg-secondary); border-radius: 12px; border-left: 4px solid #C84B31; }
         .typo-item__label { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: var(--font-weight-bold); text-transform: uppercase; letter-spacing: 1px; }
         .typo-item__font { font-size: 14px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 400; }
         .typo-item__sample { font-size: var(--font-size-title); color: var(--text-primary); line-height: 1.3; font-weight: var(--font-weight-title); }
@@ -562,7 +568,7 @@
             color: rgba(10,15,40,0.50);
             background: transparent;
             border: none;
-            border-left: 1px solid rgba(255,255,255,0.06);
+            border-left: 1px solid rgba(255,255,255,0.15);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -624,7 +630,7 @@
         }
         [data-theme="dark"] .window--glass .window__control {
             color: rgba(255,255,255,0.42);
-            border-left-color: rgba(255,255,255,0.06);
+            border-left-color: rgba(255,255,255,0.12);
         }
         [data-theme="dark"] .window--glass .window__control:hover {
             background: rgba(255,255,255,0.08);
@@ -739,6 +745,104 @@
         .player-btn--glass:hover { background: rgba(200,75,49,0.7); transform: scale(1.1); }
         .player-time { font-size: 13px; color: var(--text-muted); font-family: monospace; font-weight: 400; }
         .player-progress { flex: 1; }
+
+        /* ============================================
+           BADGES
+           ============================================ */
+        .badge { display: inline-flex; align-items: center; padding: 4px 12px; font-size: 12px; font-weight: 600; line-height: 1.4; letter-spacing: 0.02em; }
+        .badge--flat { border-radius: 0; }
+        .badge--flat.badge--primary { background: #C84B31; color: white; }
+        .badge--flat.badge--success { background: #2ECC71; color: white; }
+        .badge--flat.badge--warning { background: #E67E22; color: white; }
+        .badge--flat.badge--danger { background: #E74C3C; color: white; }
+        .badge--flat.badge--info { background: #2D3561; color: white; }
+
+        .badge--skeu { border-radius: 6px; }
+        .badge--skeu.badge--primary { background: linear-gradient(180deg, #E86040 0%, #C84B31 50%, #A33A22 100%); color: white; box-shadow: 0 1px 0 rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2); border: 1px solid #7A2818; }
+        .badge--skeu.badge--success { background: linear-gradient(180deg, #50D888 0%, #2ECC71 50%, #20A858 100%); color: white; box-shadow: 0 1px 0 rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2); border: 1px solid #1A7838; }
+        .badge--skeu.badge--warning { background: linear-gradient(180deg, #E8C050 0%, #E67E22 50%, #D06020 100%); color: white; box-shadow: 0 1px 0 rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2); border: 1px solid #A04810; }
+        .badge--skeu.badge--danger { background: linear-gradient(180deg, #E86060 0%, #E74C3C 50%, #902020 100%); color: white; box-shadow: 0 1px 0 rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2); border: 1px solid #701818; }
+        .badge--skeu.badge--info { background: linear-gradient(180deg, #E8DECA 0%, #D4C4A8 50%, #C8B89A 100%); color: #2A1A0A; box-shadow: 0 1px 0 rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.5); border: 1px solid #A09080; }
+
+        .badge--glass { border-radius: 99px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        .badge--glass.badge--primary { background: rgba(200,75,49,0.6); color: white; border: 1px solid rgba(255,255,255,0.25); }
+        .badge--glass.badge--success { background: rgba(46,204,113,0.6); color: white; border: 1px solid rgba(255,255,255,0.25); }
+        .badge--glass.badge--warning { background: rgba(230,126,34,0.6); color: white; border: 1px solid rgba(255,255,255,0.25); }
+        .badge--glass.badge--danger { background: rgba(231,76,60,0.6); color: white; border: 1px solid rgba(255,255,255,0.25); }
+        .badge--glass.badge--info { background: rgba(45,53,97,0.6); color: white; border: 1px solid rgba(255,255,255,0.25); }
+
+        /* ============================================
+           ALERTS
+           ============================================ */
+        .alert { padding: 14px 16px; font-size: 14px; line-height: 1.5; display: flex; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+        .alert__icon { font-size: 18px; flex-shrink: 0; line-height: 1.4; }
+        .alert__content { flex: 1; }
+        .alert__title { font-weight: 700; margin-bottom: 2px; }
+        .alert__desc { font-size: 13px; opacity: 0.85; }
+
+        .alert--flat { border-radius: 0; }
+        .alert--flat.alert--success { background: rgba(46,204,113,0.1); border-left: 3px solid #2ECC71; color: var(--text-primary); }
+        .alert--flat.alert--success .alert__icon { color: #2ECC71; }
+        .alert--flat.alert--warning { background: rgba(230,126,34,0.1); border-left: 3px solid #E67E22; color: var(--text-primary); }
+        .alert--flat.alert--warning .alert__icon { color: #E67E22; }
+        .alert--flat.alert--danger { background: rgba(231,76,60,0.1); border-left: 3px solid #E74C3C; color: var(--text-primary); }
+        .alert--flat.alert--danger .alert__icon { color: #E74C3C; }
+        .alert--flat.alert--info { background: rgba(45,53,97,0.1); border-left: 3px solid #2D3561; color: var(--text-primary); }
+        .alert--flat.alert--info .alert__icon { color: #2D3561; }
+
+        .alert--skeu { border-radius: 6px; border: 1px solid; }
+        .alert--skeu.alert--success { background: linear-gradient(180deg, #E8F0E0 0%, #D8E8D0 100%); border-color: #A0C890; color: #1A3A10; box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 1px 3px rgba(0,0,0,0.08); }
+        .alert--skeu.alert--success .alert__icon { color: #2ECC71; }
+        .alert--skeu.alert--warning { background: linear-gradient(180deg, #F0E8D0 0%, #E8D8C0 100%); border-color: #C8A878; color: #3A2A10; box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 1px 3px rgba(0,0,0,0.08); }
+        .alert--skeu.alert--warning .alert__icon { color: #E67E22; }
+        .alert--skeu.alert--danger { background: linear-gradient(180deg, #F0D8D0 0%, #E8C8C0 100%); border-color: #C89080; color: #3A1010; box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 1px 3px rgba(0,0,0,0.08); }
+        .alert--skeu.alert--danger .alert__icon { color: #E74C3C; }
+        .alert--skeu.alert--info { background: linear-gradient(180deg, #E0E8F0 0%, #D0D8E8 100%); border-color: #90A0C0; color: #101A3A; box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 1px 3px rgba(0,0,0,0.08); }
+        .alert--skeu.alert--info .alert__icon { color: #2D3561; }
+        [data-theme="dark"] .alert--skeu.alert--success { background: linear-gradient(180deg, #2A3A28 0%, #1A2A18 100%); border-color: #2A5A28; color: #B8E8B0; }
+        [data-theme="dark"] .alert--skeu.alert--warning { background: linear-gradient(180deg, #3A3220 0%, #2A2818 100%); border-color: #5A4820; color: #E8D0A0; }
+        [data-theme="dark"] .alert--skeu.alert--danger { background: linear-gradient(180deg, #3A2020 0%, #2A1818 100%); border-color: #5A2828; color: #E8B0B0; }
+        [data-theme="dark"] .alert--skeu.alert--info { background: linear-gradient(180deg, #20283A 0%, #181E2A 100%); border-color: #28385A; color: #B0C8E8; }
+
+        .alert--glass { border-radius: 12px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12); }
+        .alert--glass.alert--success { background: rgba(46,204,113,0.15); color: var(--text-primary); }
+        .alert--glass.alert--success .alert__icon { color: #2ECC71; }
+        .alert--glass.alert--warning { background: rgba(230,126,34,0.15); color: var(--text-primary); }
+        .alert--glass.alert--warning .alert__icon { color: #E67E22; }
+        .alert--glass.alert--danger { background: rgba(231,76,60,0.15); color: var(--text-primary); }
+        .alert--glass.alert--danger .alert__icon { color: #E74C3C; }
+        .alert--glass.alert--info { background: rgba(45,53,97,0.15); color: var(--text-primary); }
+        .alert--glass.alert--info .alert__icon { color: #2D3561; }
+
+        /* ============================================
+           NOTIFICATIONS (TOASTS)
+           ============================================ */
+        .notif { padding: 12px 16px; min-width: 260px; display: flex; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+        .notif__icon { font-size: 16px; flex-shrink: 0; line-height: 1.4; }
+        .notif__body { flex: 1; }
+        .notif__title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+        .notif__desc { font-size: 13px; opacity: 0.8; }
+        .notif__time { font-size: 11px; opacity: 0.5; margin-top: 4px; }
+
+        .notif--flat { border-radius: 0; border-left: 3px solid; background: var(--bg-secondary); border: 1px solid var(--border-color); border-left-width: 3px; }
+        .notif--flat.notif--primary { border-left-color: #C84B31; }
+        .notif--flat.notif--success { border-left-color: #2ECC71; }
+        .notif--flat.notif--warning { border-left-color: #E67E22; }
+        .notif--flat.notif--danger { border-left-color: #E74C3C; }
+
+        .notif--skeu { border-radius: 6px; border: 1px solid var(--c-border); border-left: 3px solid; background: linear-gradient(180deg, var(--c-s2, #DDD0B8) 0%, var(--c-surface, #D4C4A8) 100%); box-shadow: 2px 3px 12px rgba(0,0,0,0.15); }
+        .notif--skeu.notif--primary { border-left-color: #C84B31; }
+        .notif--skeu.notif--success { border-left-color: #2ECC71; }
+        .notif--skeu.notif--warning { border-left-color: #E67E22; }
+        .notif--skeu.notif--danger { border-left-color: #E74C3C; }
+        [data-theme="dark"] .notif--skeu { background: linear-gradient(180deg, #3D3730 0%, #332E28 100%); border-color: #1A1612; box-shadow: 2px 3px 12px rgba(0,0,0,0.35); }
+
+        .notif--glass { border-radius: 12px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12); border-left: 3px solid; background: rgba(20,25,60,0.55); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+        .notif--glass.notif--primary { border-left-color: #C84B31; }
+        .notif--glass.notif--success { border-left-color: #2ECC71; }
+        .notif--glass.notif--warning { border-left-color: #E67E22; }
+        .notif--glass.notif--danger { border-left-color: #E74C3C; }
+        [data-theme="light"] .notif--glass { background: rgba(230,238,255,0.75); }
 
         /* ============================================
            RESPONSIVE
@@ -922,6 +1026,14 @@
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
                     <span class="icon-item__label">Volumen</span>
                 </div>
+                <div class="icon-item">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <span class="icon-item__label">Tema Claro</span>
+                </div>
+                <div class="icon-item">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <span class="icon-item__label">Tema Oscuro</span>
+                </div>
             </div>
             <h3 style="font-family:var(--font-title);font-size:18px;margin:32px 0 12px;font-weight:var(--font-weight-title);">Skeu Design</h3>
             <div class="icons-grid">
@@ -968,6 +1080,14 @@
                 <div class="icon-item">
                     <svg width="24" height="24" viewBox="0 0 24 24"><rect x="9" y="4" width="4" height="16" rx="1.5" fill="url(#sk-surface)" filter="url(#sk-shadow)"/><path d="M13 8l-6 4H3v2h4l6 4V8z" fill="url(#sk-primary)"/><path d="M17 9.5a4 4 0 010 5" stroke="#EDE8E0" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M20 7a7 7 0 010 10" stroke="#EDE8E0" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
                     <span class="icon-item__label">Volumen</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="url(#sk-primary)" filter="url(#sk-shadow)"/><circle cx="12" cy="12" r="9" fill="url(#sk-noise)" opacity="0.1"/><ellipse cx="11" cy="10" rx="2.5" ry="1.8" fill="var(--sk-hi)" opacity="0.25"/><circle cx="12" cy="7" r="1.5" fill="#fff"/><line x1="12" y1="10" x2="12" y2="17" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><line x1="7" y1="12" x2="17" y2="12" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/><line x1="8.5" y1="6.5" x2="15.5" y2="17.5" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/></svg>
+                    <span class="icon-item__label">Tema Claro</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="url(#sk-metal)" filter="url(#sk-shadow)"/><circle cx="12" cy="12" r="9" fill="url(#sk-noise)" opacity="0.15"/><ellipse cx="11" cy="9" rx="3.5" ry="2.5" fill="var(--sk-hi)" opacity="0.15"/><path d="M16 8c-5 0-9 4-9 9a7 7 0 008-9z" fill="var(--sk-bomb)" opacity="0.5"/><circle cx="16" cy="8" r="0.8" fill="var(--sk-hi)"/><circle cx="14" cy="6" r="0.5" fill="var(--sk-hi)"/><circle cx="18" cy="6.5" r="0.4" fill="var(--sk-hi)"/><circle cx="14.5" cy="10" r="0.6" fill="var(--sk-hi)"/></svg>
+                    <span class="icon-item__label">Tema Oscuro</span>
                 </div>
             </div>
         </section>
@@ -1207,46 +1327,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="window__resize-grip"></div>
-                        </div>
-                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Skeuomorphism</div>
-                    </div>
-
-                    <!-- GLASS WINDOW (Windows 11 Fluent) -->
-                    <div>
-                        <div class="window window--glass">
-                            <div class="window__titlebar">
-                                <div class="window__titlebar-left">
-                                    <span>Dashboard</span>
-                                </div>
-                                <div class="window__controls">
-                                    <button class="window__control window__control--minimize" aria-label="Minimizar">
-                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                                    </button>
-                                    <button class="window__control window__control--maximize" aria-label="Maximizar">
-                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-                                    </button>
-                                    <button class="window__control window__control--close" aria-label="Cerrar">
-                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="window__body">
-                                <div class="window__card">
-                                    <div class="window__card-row">
-                                        <div class="window__card">
-                                            <div class="stat-value">515</div>
-                                            <div class="stat-label">Usuarios</div>
-                                            <span class="stat-change stat-change--up">↑ 12%</span>
-                                        </div>
-                                        <div class="window__card">
-                                            <div class="stat-value">830</div>
-                                            <div class="stat-label">Requests</div>
-                                            <span class="stat-change stat-change--down">↓ 3%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="window__resize-grip" aria-label="Redimensionar"></div>
                         </div>
                         <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Glassmorphism (Windows 11)</div>
@@ -1358,6 +1438,181 @@
                             <label class="toggle toggle--glass"><input type="checkbox"><span class="toggle__slider"></span></label>
                         </div>
                         <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:16px;">Glassmorphism</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BADGES, ALERTS & NOTIFICATIONS -->
+        <section class="section" id="badges">
+            <h2 class="section__title">Badges, Alertas y Notificaciones</h2>
+            <p class="section__subtitle">Indicadores, mensajes y toasts para cada estilo visual.</p>
+            <hr class="section__divider">
+
+            <!-- FLAT -->
+            <div class="style-preview style-flat">
+                <div class="style-preview__label">Flat Design <span>— Sólido, sin bordes redondeados</span></div>
+
+                <div class="color-group">
+                    <div class="color-group__title">Badges</div>
+                    <div class="flex" style="display:flex;flex-wrap:wrap;gap:8px;">
+                        <span class="badge badge--flat badge--primary">Primary</span>
+                        <span class="badge badge--flat badge--success">Success</span>
+                        <span class="badge badge--flat badge--warning">Warning</span>
+                        <span class="badge badge--flat badge--danger">Danger</span>
+                        <span class="badge badge--flat badge--info">Info</span>
+                    </div>
+                </div>
+
+                <div class="color-group">
+                    <div class="color-group__title">Alertas</div>
+                    <div class="alert alert--flat alert--success">
+                        <span class="alert__icon">✓</span>
+                        <div class="alert__content"><div class="alert__title">Operación exitosa</div><div class="alert__desc">Los cambios se guardaron correctamente.</div></div>
+                    </div>
+                    <div class="alert alert--flat alert--warning">
+                        <span class="alert__icon">⚠</span>
+                        <div class="alert__content"><div class="alert__title">Atención</div><div class="alert__desc">Esta acción no se puede deshacer.</div></div>
+                    </div>
+                    <div class="alert alert--flat alert--danger">
+                        <span class="alert__icon">✕</span>
+                        <div class="alert__content"><div class="alert__title">Error de conexión</div><div class="alert__desc">No se pudo conectar al servidor.</div></div>
+                    </div>
+                    <div class="alert alert--flat alert--info">
+                        <span class="alert__icon">ℹ</span>
+                        <div class="alert__content"><div class="alert__title">Información</div><div class="alert__desc">Nueva versión disponible v2.5.</div></div>
+                    </div>
+                </div>
+
+                <div class="color-group">
+                    <div class="color-group__title">Notificaciones Toast</div>
+                    <div class="notif notif--flat notif--primary">
+                        <span class="notif__icon" style="color:#C84B31;">●</span>
+                        <div class="notif__body">
+                            <div class="notif__title">Nuevo mensaje</div>
+                            <div class="notif__desc">Tienes 3 mensajes sin leer.</div>
+                            <div class="notif__time">hace 2 min</div>
+                        </div>
+                    </div>
+                    <div class="notif notif--flat notif--success">
+                        <span class="notif__icon" style="color:#2ECC71;">●</span>
+                        <div class="notif__body">
+                            <div class="notif__title">Descarga completa</div>
+                            <div class="notif__desc">reporte_q4.pdf se descargó.</div>
+                            <div class="notif__time">hace 1 min</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKEU -->
+            <div class="style-preview style-skeu">
+                <div class="style-preview__label">Skeuomorphism <span>— Gradientes, sombras 3D, bordes biselados</span></div>
+
+                <div class="color-group">
+                    <div class="color-group__title">Badges</div>
+                    <div class="flex" style="display:flex;flex-wrap:wrap;gap:8px;">
+                        <span class="badge badge--skeu badge--primary">Primary</span>
+                        <span class="badge badge--skeu badge--success">Success</span>
+                        <span class="badge badge--skeu badge--warning">Warning</span>
+                        <span class="badge badge--skeu badge--danger">Danger</span>
+                        <span class="badge badge--skeu badge--info">Info</span>
+                    </div>
+                </div>
+
+                <div class="color-group">
+                    <div class="color-group__title">Alertas</div>
+                    <div class="alert alert--skeu alert--success">
+                        <span class="alert__icon">✓</span>
+                        <div class="alert__content"><div class="alert__title">Operación exitosa</div><div class="alert__desc">Los cambios se guardaron correctamente.</div></div>
+                    </div>
+                    <div class="alert alert--skeu alert--warning">
+                        <span class="alert__icon">⚠</span>
+                        <div class="alert__content"><div class="alert__title">Atención</div><div class="alert__desc">Esta acción no se puede deshacer.</div></div>
+                    </div>
+                    <div class="alert alert--skeu alert--danger">
+                        <span class="alert__icon">✕</span>
+                        <div class="alert__content"><div class="alert__title">Error de conexión</div><div class="alert__desc">No se pudo conectar al servidor.</div></div>
+                    </div>
+                    <div class="alert alert--skeu alert--info">
+                        <span class="alert__icon">ℹ</span>
+                        <div class="alert__content"><div class="alert__title">Información</div><div class="alert__desc">Nueva versión disponible v2.5.</div></div>
+                    </div>
+                </div>
+
+                <div class="color-group">
+                    <div class="color-group__title">Notificaciones Toast</div>
+                    <div class="notif notif--skeu notif--primary">
+                        <span class="notif__icon" style="color:#C84B31;">●</span>
+                        <div class="notif__body">
+                            <div class="notif__title">Nuevo mensaje</div>
+                            <div class="notif__desc">Tienes 3 mensajes sin leer.</div>
+                            <div class="notif__time">hace 2 min</div>
+                        </div>
+                    </div>
+                    <div class="notif notif--skeu notif--success">
+                        <span class="notif__icon" style="color:#2ECC71;">●</span>
+                        <div class="notif__body">
+                            <div class="notif__title">Descarga completa</div>
+                            <div class="notif__desc">reporte_q4.pdf se descargó.</div>
+                            <div class="notif__time">hace 1 min</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GLASS -->
+            <div class="style-preview style-glass">
+                <div class="style-preview__label">Glassmorphism <span>— Transparencia, blur, bordes luminosos</span></div>
+
+                <div class="color-group">
+                    <div class="color-group__title">Badges</div>
+                    <div class="flex" style="display:flex;flex-wrap:wrap;gap:8px;">
+                        <span class="badge badge--glass badge--primary">Primary</span>
+                        <span class="badge badge--glass badge--success">Success</span>
+                        <span class="badge badge--glass badge--warning">Warning</span>
+                        <span class="badge badge--glass badge--danger">Danger</span>
+                        <span class="badge badge--glass badge--info">Info</span>
+                    </div>
+                </div>
+
+                <div class="color-group">
+                    <div class="color-group__title">Alertas</div>
+                    <div class="alert alert--glass alert--success">
+                        <span class="alert__icon">✓</span>
+                        <div class="alert__content"><div class="alert__title">Operación exitosa</div><div class="alert__desc">Los cambios se guardaron correctamente.</div></div>
+                    </div>
+                    <div class="alert alert--glass alert--warning">
+                        <span class="alert__icon">⚠</span>
+                        <div class="alert__content"><div class="alert__title">Atención</div><div class="alert__desc">Esta acción no se puede deshacer.</div></div>
+                    </div>
+                    <div class="alert alert--glass alert--danger">
+                        <span class="alert__icon">✕</span>
+                        <div class="alert__content"><div class="alert__title">Error de conexión</div><div class="alert__desc">No se pudo conectar al servidor.</div></div>
+                    </div>
+                    <div class="alert alert--glass alert--info">
+                        <span class="alert__icon">ℹ</span>
+                        <div class="alert__content"><div class="alert__title">Información</div><div class="alert__desc">Nueva versión disponible v2.5.</div></div>
+                    </div>
+                </div>
+
+                <div class="color-group">
+                    <div class="color-group__title">Notificaciones Toast</div>
+                    <div class="notif notif--glass notif--primary">
+                        <span class="notif__icon" style="color:#C84B31;">●</span>
+                        <div class="notif__body">
+                            <div class="notif__title">Nuevo mensaje</div>
+                            <div class="notif__desc">Tienes 3 mensajes sin leer.</div>
+                            <div class="notif__time">hace 2 min</div>
+                        </div>
+                    </div>
+                    <div class="notif notif--glass notif--success">
+                        <span class="notif__icon" style="color:#2ECC71;">●</span>
+                        <div class="notif__body">
+                            <div class="notif__title">Descarga completa</div>
+                            <div class="notif__desc">reporte_q4.pdf se descargó.</div>
+                            <div class="notif__time">hace 1 min</div>
+                        </div>
                     </div>
                 </div>
             </div>
