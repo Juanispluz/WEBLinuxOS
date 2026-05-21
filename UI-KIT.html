@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebLinux — UI Kit (Adwaita Sans)</title>
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-adwaita-sans@latest/index.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --font-title: 'Adwaita Sans', sans-serif;
+            --font-body: 'Adwaita Sans', sans-serif;
+            --font-size-title: 36px;
+            --font-size-subtitle: 25px;
+            --font-size-body: 18px;
+            --font-size-desc: 15px;
+            --line-height: 1.5;
+            --font-weight-title: 700;
+            --font-weight-subtitle: 600;
+            --font-weight-body: 400;
+            --font-weight-bold: 600;
+            --sk-bomb: #5a5a5a;
+            --sk-screen: #2a4a2a;
+            --sk-muted: #8a8a8a;
+            --sk-paper-top: #FAF5ED;
+            --sk-paper-bot: #DCD0C0;
+            --sk-sfc-top: #4A4238;
+            --sk-sfc-bot: #2A2520;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f0f2f5;
+            --bg-tertiary: #e4e7ec;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a6a;
+            --text-muted: #8888a0;
+            --border-color: #d0d3dc;
+            --card-bg: #ffffff;
+            --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            --titlebar-bg: #e8eaf0;
+            --titlebar-text: #3a3a5a;
+            --sk-bomb: #666;
+            --sk-screen: #c8e0c8;
+            --sk-muted: #aaa;
+            --sk-paper-top: #FFFFFF;
+            --sk-paper-bot: #F0E8D8;
+            --sk-sfc-top: #E8DECA;
+            --sk-sfc-bot: #C8B89A;
+
+        [data-theme="dark"] {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #12122a;
+            --bg-tertiary: #1a1a3a;
+            --text-primary: #e8e8f0;
+            --text-secondary: #a0a0c0;
+            --text-muted: #6868a0;
+            --border-color: #2a2a4a;
+            --card-bg: #12122a;
+            --card-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            --titlebar-bg: #1a1a2e;
+            --titlebar-text: #b0b0d0;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            font-weight: var(--font-weight-body);
+            font-size: var(--font-size-body);
+            line-height: var(--line-height);
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        .uikit { max-width: 1500px; margin: 0 auto; padding: 40px 24px; }
+
+        .uikit__header {
+            text-align: center; margin-bottom: 60px; padding: 50px 40px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: white; position: relative; overflow: hidden;
+        }
+        .uikit__header::before { content: ''; position: absolute; inset: 0; background: rgba(10,10,30,0.35); }
+        .uikit__header-content { position: relative; z-index: 1; }
+        .uikit__header h1 {
+            font-family: var(--font-title); font-weight: var(--font-weight-title);
+            font-size: 44px; margin-bottom: 8px; letter-spacing: 0.5px;
+        }
+        .uikit__header p { font-size: 16px; opacity: 0.9; font-weight: 400; }
+        .uikit__theme-toggle {
+            position: absolute; top: 20px; right: 20px; z-index: 2;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 50%;
+            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: white; font-size: 20px; transition: all 0.3s;
+        }
+        .uikit__theme-toggle:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+        .section { margin-bottom: 80px; }
+        .section__title {
+            font-family: var(--font-title); font-weight: var(--font-weight-title);
+            font-size: var(--font-size-title); margin-bottom: 8px; letter-spacing: 0.3px;
+        }
+        .section__subtitle { font-size: var(--font-size-body); color: var(--text-secondary); margin-bottom: 28px; font-weight: 400; }
+        .section__divider {
+            height: 2px; background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            border: none; margin-bottom: 40px; border-radius: 1px;
+        }
+
+        .style-preview { padding: 32px; border-radius: 16px; margin-bottom: 48px; position: relative; }
+        .style-preview__label {
+            font-family: var(--font-title); font-weight: var(--font-weight-title);
+            font-size: var(--font-size-subtitle); margin-bottom: 24px; display: flex; align-items: center; gap: 12px;
+        }
+        .style-preview__label span {
+            font-family: var(--font-body); font-size: var(--font-size-desc);
+            font-weight: 400; color: var(--text-muted);
+        }
+
+        .style-flat { background: var(--bg-secondary); border: 1px solid var(--border-color); }
+        .style-skeu {
+            background: linear-gradient(180deg, #e8ecf1 0%, #d5dbe3 100%);
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.7);
+        }
+        .style-glass {
+            background: rgba(102, 126, 234, 0.08);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.18);
+        }
+        [data-theme="dark"] .style-glass { background: rgba(15, 15, 35, 0.5); border-color: rgba(255,255,255,0.08); }
+
+        /* ============================================
+           COLORS
+           ============================================ */
+        .color-group { margin-bottom: 28px; }
+        .color-group__title {
+            font-size: 13px; font-weight: var(--font-weight-bold); color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
+        }
+        .color-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+        .color-swatch {
+            width: 120px; text-align: center; border-radius: 12px;
+            overflow: hidden; box-shadow: var(--card-shadow); transition: transform 0.2s;
+        }
+        .color-swatch:hover { transform: translateY(-4px); }
+        .color-swatch__preview { height: 80px; display: flex; align-items: center; justify-content: center; }
+        .color-swatch__info {
+            padding: 10px 8px; background: var(--card-bg);
+            border: 1px solid var(--border-color); border-top: none; border-radius: 0 0 12px 12px;
+        }
+        .color-swatch__name { font-size: 12px; font-weight: var(--font-weight-bold); color: var(--text-primary); margin-bottom: 2px; }
+        .color-swatch__hex { font-size: 11px; color: var(--text-muted); font-family: monospace; }
+
+        .flat-c1 { background: #667eea; } .flat-c2 { background: #764ba2; } .flat-c3 { background: #f093fb; }
+        .flat-c4 { background: #48bb78; } .flat-c5 { background: #ed8936; } .flat-c6 { background: #f56565; }
+        .flat-c7 { background: #4299e1; } .flat-c8 { background: #2d3748; }
+        .flat-c9 { background: #edf2f7; border: 1px solid #e2e8f0; }
+
+        .skeu-c1 { background: linear-gradient(180deg, #8da4f0 0%, #5a7de0 50%, #4a6ad0 100%); }
+        .skeu-c2 { background: linear-gradient(180deg, #c4b4e8 0%, #9a7fd4 50%, #8868c4 100%); }
+        .skeu-c3 { background: linear-gradient(180deg, #f5c0e8 0%, #e894d0 50%, #d878b8 100%); }
+        .skeu-c4 { background: linear-gradient(180deg, #8ae0a0 0%, #5ac078 50%, #48a868 100%); }
+        .skeu-c5 { background: linear-gradient(180deg, #f5c080 0%, #e09850 50%, #d08040 100%); }
+        .skeu-c6 { background: linear-gradient(180deg, #f59090 0%, #e06060 50%, #d04848 100%); }
+        .skeu-c7 { background: linear-gradient(180deg, #70a8f0 0%, #5090d8 50%, #4080c8 100%); }
+        .skeu-c8 { background: linear-gradient(180deg, #5a6470 0%, #3a4450 50%, #2a3440 100%); }
+        .skeu-c9 { background: linear-gradient(180deg, #f8fafc 0%, #e8ecf0 50%, #d8dce0 100%); border: 1px solid #d8dce0; }
+
+        .glass-c1 { background: rgba(102, 126, 234, 0.65); } .glass-c2 { background: rgba(118, 75, 162, 0.65); }
+        .glass-c3 { background: rgba(240, 147, 251, 0.65); } .glass-c4 { background: rgba(72, 187, 120, 0.65); }
+        .glass-c5 { background: rgba(237, 137, 54, 0.65); } .glass-c6 { background: rgba(245, 101, 101, 0.65); }
+        .glass-c7 { background: rgba(66, 153, 225, 0.65); } .glass-c8 { background: rgba(20, 20, 40, 0.55); }
+        .glass-c9 { background: rgba(237, 242, 247, 0.4); }
+
+        /* ============================================
+           ICONS
+           ============================================ */
+        .icons-grid { display: flex; flex-wrap: wrap; gap: 16px; padding: 24px; background: var(--bg-secondary); border-radius: 16px; }
+        .icon-item {
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            padding: 16px; border-radius: 12px; transition: all 0.2s; cursor: pointer; width: 90px;
+        }
+        .icon-item:hover { background: var(--bg-tertiary); transform: scale(1.08); }
+        .icon-item svg { width: 36px; height: 36px; stroke: var(--text-primary); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+        .icon-item__label { font-size: 11px; color: var(--text-muted); text-align: center; line-height: 1.2; font-weight: 500; }
+
+        /* ============================================
+           TYPOGRAPHY
+           ============================================ */
+        .typo-grid { display: grid; gap: 24px; }
+        .typo-item { padding: 24px; background: var(--bg-secondary); border-radius: 12px; border-left: 4px solid #667eea; }
+        .typo-item__label { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: var(--font-weight-bold); text-transform: uppercase; letter-spacing: 1px; }
+        .typo-item__font { font-size: 14px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 400; }
+        .typo-item__sample { font-size: var(--font-size-title); color: var(--text-primary); line-height: 1.3; font-weight: var(--font-weight-title); }
+        .typo-item__meta { margin-top: 8px; font-size: 13px; color: var(--text-muted); font-weight: 400; }
+        .typo-sizes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+        .typo-size-demo { padding: 20px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 8px; display: flex; align-items: baseline; gap: 16px; }
+        .typo-size-demo__label { font-size: 13px; color: var(--text-muted); min-width: 180px; font-weight: 600; }
+        .typo-size-demo__text { color: var(--text-primary); }
+        .typo-size-demo__text--title { font-family: var(--font-title); font-size: 36px; font-weight: var(--font-weight-title); }
+        .typo-size-demo__text--subtitle { font-family: var(--font-title); font-size: 25px; font-weight: var(--font-weight-subtitle); }
+        .typo-size-demo__text--body { font-size: 18px; font-weight: 400; }
+        .typo-size-demo__text--desc { font-size: 15px; font-weight: 400; }
+
+        /* ============================================
+           BUTTONS BASE
+           ============================================ */
+        .btn {
+            font-family: var(--font-body); font-size: 14px; font-weight: var(--font-weight-bold);
+            padding: 10px 24px; border: none; cursor: pointer; transition: all 0.2s ease;
+            display: inline-flex; align-items: center; gap: 8px; text-decoration: none; line-height: 1.4; min-height: 40px;
+        }
+        .btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; flex-shrink: 0; }
+        .btn--rounded { border-radius: 20px; }
+        .btn--angular { clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%); border-radius: 0; }
+
+        .btn-state-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-bottom: 16px; }
+        .btn-state-label { min-width: 100px; font-size: 13px; font-weight: var(--font-weight-bold); color: var(--text-primary); text-align: right; }
+        .btn-states { display: flex; gap: 14px; flex-wrap: wrap; }
+        .btn-state { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .btn-state__label { font-size: 11px; color: var(--text-muted); text-align: center; font-weight: 500; }
+
+        .flat-btn--primary { background: #667eea; color: white; }
+        .flat-btn--primary:hover { background: #5a6fd6; transform: translateY(-1px); }
+        .flat-btn--primary:active { background: #4a5fc0; transform: translateY(0); }
+        .flat-btn--primary:disabled { background: #cbd5e0; color: #a0aec0; cursor: not-allowed; transform: none; }
+        .flat-btn--secondary { background: transparent; color: #667eea; border: 2px solid #667eea; }
+        .flat-btn--secondary:hover { background: #667eea; color: white; transform: translateY(-1px); }
+        .flat-btn--secondary:active { background: #4a5fc0; transform: translateY(0); }
+        .flat-btn--secondary:disabled { border-color: #cbd5e0; color: #a0aec0; cursor: not-allowed; transform: none; }
+
+        .skeu-btn--primary {
+            background: linear-gradient(180deg, #8da4f0 0%, #5a7de0 45%, #4a6ad0 55%, #3d5dc0 100%);
+            color: white; border-radius: 8px; border: 1px solid rgba(0,0,0,0.15);
+            box-shadow: 0 3px 0 #3450a0, 0 5px 12px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.1);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        .skeu-btn--primary:hover { background: linear-gradient(180deg, #9db0ff 0%, #6a8df0 45%, #5a7de0 55%, #4a6ad0 100%); transform: translateY(0); box-shadow: 0 2px 0 #3450a0, 0 3px 8px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.1); }
+        .skeu-btn--primary:active { background: linear-gradient(180deg, #4a6ad0 0%, #3d5dc0 45%, #3450a0 55%, #2d4590 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.25), 0 1px 0 rgba(0,0,0,0.1); transform: translateY(2px); }
+        .skeu-btn--primary:disabled { background: linear-gradient(180deg, #c8d0e0 0%, #b0b8c8 100%); color: #8890a0; box-shadow: 0 2px 0 #9098a8, inset 0 1px 0 rgba(255,255,255,0.3); cursor: not-allowed; transform: none; }
+        .skeu-btn--secondary {
+            background: linear-gradient(180deg, #f8fafc 0%, #e8ecf0 45%, #d8dce0 55%, #c8ccd0 100%);
+            color: #4a5a70; border: 2px solid #a0a8b8; border-radius: 8px;
+            box-shadow: 0 3px 0 #8890a0, 0 5px 12px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.05);
+            text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+        }
+        .skeu-btn--secondary:hover { background: linear-gradient(180deg, #fff 0%, #f0f4f8 45%, #e0e4e8 55%, #d0d4d8 100%); transform: translateY(0); }
+        .skeu-btn--secondary:active { background: linear-gradient(180deg, #d0d4d8 0%, #c0c4c8 45%, #b0b4b8 55%, #a0a4a8 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.15), 0 1px 0 rgba(0,0,0,0.08); transform: translateY(2px); }
+        .skeu-btn--secondary:disabled { background: linear-gradient(180deg, #e8ecf0 0%, #d8dce0 100%); color: #b0b8c0; box-shadow: 0 2px 0 #a0a8b0, inset 0 1px 0 rgba(255,255,255,0.5); cursor: not-allowed; transform: none; }
+
+        .glass-btn--primary {
+            background: linear-gradient(135deg, rgba(102,126,234,0.6) 0%, rgba(118,75,162,0.6) 100%);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.35); border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(102,126,234,0.25), 0 2px 8px rgba(0,0,0,0.08); color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .glass-btn--primary:hover { background: linear-gradient(135deg, rgba(102,126,234,0.75) 0%, rgba(118,75,162,0.75) 100%); box-shadow: 0 6px 28px rgba(102,126,234,0.35), 0 3px 12px rgba(0,0,0,0.12); transform: translateY(-1px); }
+        .glass-btn--primary:active { background: linear-gradient(135deg, rgba(102,126,234,0.5) 0%, rgba(118,75,162,0.5) 100%); box-shadow: 0 2px 10px rgba(102,126,234,0.2); transform: translateY(0); }
+        .glass-btn--primary:disabled { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.3); cursor: not-allowed; transform: none; }
+        .glass-btn--secondary {
+            background: rgba(255,255,255,0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(102,126,234,0.35); border-radius: 12px; color: #667eea; box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        }
+        .glass-btn--secondary:hover { background: rgba(102,126,234,0.15); border-color: rgba(102,126,234,0.55); transform: translateY(-1px); }
+        .glass-btn--secondary:active { background: rgba(102,126,234,0.25); transform: translateY(0); }
+        .glass-btn--secondary:disabled { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.2); cursor: not-allowed; transform: none; }
+
+        /* ============================================
+           WINDOWS — CORRECTED DESIGNS
+           ============================================ */
+        .comparison-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+        /* === BASE WINDOW === */
+        .window {
+            border-radius: 12px; overflow: hidden; position: relative;
+            display: flex; flex-direction: column; min-height: 320px;
+        }
+
+        /* Title Bar */
+        .window__titlebar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 12px; height: 38px; flex-shrink: 0;
+        }
+        .window__titlebar-left {
+            display: flex; align-items: center; gap: 8px;
+        }
+        .window__icon {
+            width: 16px; height: 16px; opacity: 0.7;
+        }
+        .window__titlebar-left span {
+            font-size: 13px; font-weight: 600;
+        }
+
+        /* Window Controls */
+        .window__controls {
+            display: flex; gap: 0; height: 100%;
+        }
+
+        .window__control {
+            width: 46px; height: 38px;
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.15s; border: none;
+            font-size: 10px; position: relative;
+        }
+
+        .window__control svg {
+            width: 10px; height: 10px;
+            stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        /* === FLAT WINDOW === */
+        .window--flat {
+            background: #FFFFFF;
+            border: 1px solid #C0C0D8;
+            border-top: 2px solid #C84B31;
+            box-shadow: none;
+            border-radius: 0;
+        }
+        .window--flat .window__titlebar {
+            background: #E8E8F5;
+            border-bottom: 1px solid #C0C0D8;
+            height: 36px;
+            padding: 0;
+            border-radius: 0;
+        }
+        .window--flat .window__titlebar-left {
+            flex: 1;
+            padding-left: 12px;
+        }
+        .window--flat .window__titlebar-left span {
+            color: #1A1A2E;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .window--flat .window__icon {
+            stroke: #5050A0; fill: none; stroke-width: 1.5;
+        }
+
+        .window--flat .window__controls {
+            display: flex;
+            height: 36px;
+        }
+        .window--flat .window__control {
+            width: 36px;
+            height: 36px;
+            color: #5050A0;
+            background: transparent;
+            border: none;
+            border-left: 1px solid #C0C0D8;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .window--flat .window__control:hover {
+            background: #E0E0F0;
+            color: #1A1A2E;
+        }
+        .window--flat .window__control--close:hover {
+            background: #E74C3C;
+            color: white;
+        }
+        .window--flat .window__control--maximize:hover {
+            background: #2ECC71;
+            color: white;
+        }
+        .window--flat .window__control--minimize:hover {
+            background: #E67E22;
+            color: white;
+        }
+
+        .window--flat .window__body {
+            padding: 20px;
+            flex: 1;
+        }
+        .window--flat .window__card {
+            background: #FFFFFF;
+            border: 1px solid #C0C0D8;
+            border-radius: 0;
+        }
+        .window--flat .stat-value { color: #C84B31; }
+        .window--flat .stat-label { color: #5050A0; }
+        .window--flat .stat-change--up { color: #2ECC71; background: rgba(46,204,113,0.08); }
+        .window--flat .stat-change--down { color: #E74C3C; background: rgba(231,76,60,0.08); }
+
+        .window--flat .window__resize-grip {
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 10px;
+            height: 10px;
+            cursor: se-resize;
+            background: #D5D5E8;
+        }
+        .window--flat .window__resize-grip:hover {
+            background: #C84B31;
+        }
+
+        [data-theme="dark"] .window--flat {
+            background: #111118;
+            border-color: #2E2E44;
+            border-top-color: #C84B31;
+        }
+        [data-theme="dark"] .window--flat .window__titlebar {
+            background: #0E0E18;
+            border-bottom-color: #2E2E44;
+        }
+        [data-theme="dark"] .window--flat .window__titlebar-left span {
+            color: #DCDCF0;
+        }
+        [data-theme="dark"] .window--flat .window__icon {
+            stroke: #6060A0;
+        }
+        [data-theme="dark"] .window--flat .window__control {
+            color: #6060A0;
+            border-left-color: #2E2E44;
+        }
+        [data-theme="dark"] .window--flat .window__control:hover {
+            background: #21212E;
+            color: #DCDCF0;
+        }
+        [data-theme="dark"] .window--flat .window__card {
+            background: #111118;
+            border-color: #2E2E44;
+        }
+        [data-theme="dark"] .window--flat .stat-label { color: #6060A0; }
+        [data-theme="dark"] .window--flat .window__resize-grip {
+            background: #2A2A3A;
+        }
+        [data-theme="dark"] .window--flat .window__resize-grip:hover {
+            background: #C84B31;
+        }
+
+        /* === SKEU WINDOW === */
+        .window--skeu {
+            border-radius: 10px;
+            background: #D4C4A8;
+            border: 1px solid #A09080;
+            box-shadow: 4px 6px 24px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.4);
+            --sk-hi: rgba(0,0,0,0.08);
+        }
+        .window--skeu .window__titlebar {
+            background: linear-gradient(180deg, #DDD0B8 0%, #C8B89A 50%, #BCA888 100%);
+            border-bottom: 1px solid #A09080;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 1px 3px rgba(0,0,0,0.3);
+            height: 36px;
+            padding: 0 0 0 12px;
+            border-radius: 9px 9px 0 0;
+        }
+        .window--skeu .window__titlebar-left {
+            flex: 1;
+        }
+        .window--skeu .window__titlebar-left span {
+            color: #3A2010;
+            font-size: 12px;
+            font-family: Georgia, 'Times New Roman', serif;
+            letter-spacing: 0.06em;
+        }
+        .window--skeu .window__icon {
+            stroke: #6A5040; fill: none; stroke-width: 1.5;
+        }
+
+        .window--skeu .window__controls {
+            display: flex;
+            height: 36px;
+            gap: 4px;
+            padding: 0 6px;
+            align-items: center;
+        }
+
+        .window--skeu .window__control {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: transform 0.12s ease;
+            border: none; position: relative; margin-top: 4px;
+        }
+        .window--skeu .window__control:hover {
+            transform: scale(1.25);
+        }
+
+        .window--skeu .window__control--close {
+            background: transparent;
+            box-shadow: none;
+        }
+        .window--skeu .window__control--minimize {
+            background: transparent;
+            box-shadow: none;
+        }
+        .window--skeu .window__control--maximize {
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .window--skeu .window__body {
+            padding: 20px;
+            flex: 1;
+        }
+        .window--skeu .window__card {
+            background: linear-gradient(180deg, #FAF5ED 0%, #E8DCC8 100%);
+            border: 1px solid #A09080;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 2px 4px rgba(0,0,0,0.06);
+            border-radius: 6px;
+        }
+        .window--skeu .stat-value { color: #3A2010; }
+        .window--skeu .stat-label { color: #6A5040; }
+        .window--skeu .stat-change--up { color: #2ECC71; background: rgba(46,204,113,0.12); }
+        .window--skeu .stat-change--down { color: #E74C3C; background: rgba(231,76,60,0.12); }
+
+        /* Dark mode - Skeu */
+        [data-theme="dark"] .window--skeu {
+            background: #332E28;
+            border-color: #1A1612;
+            box-shadow: 4px 6px 24px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.4);
+            --sk-hi: rgba(255,255,255,0.2);
+        }
+        [data-theme="dark"] .window--skeu .window__titlebar {
+            background: linear-gradient(180deg, #4A4238 0%, #332E28 50%, #2A2520 100%);
+            border-bottom-color: #1A1612;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+        }
+        [data-theme="dark"] .window--skeu .window__titlebar-left span { color: #ECDBBA; }
+        [data-theme="dark"] .window--skeu .window__icon { stroke: #8A7D6E; }
+        [data-theme="dark"] .window--skeu .window__card {
+            background: linear-gradient(180deg, #3D3730 0%, #332E28 100%);
+            border-color: #1A1612;
+        }
+        [data-theme="dark"] .window--skeu .stat-value { color: #ECDBBA; }
+        [data-theme="dark"] .window--skeu .stat-label { color: #8A7D6E; }
+
+        /* Resize grip - Skeu */
+        .window--skeu .window__resize-grip {
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 14px; height: 14px;
+            cursor: se-resize;
+            background: linear-gradient(135deg, transparent 40%, #A09080 40%);
+        }
+        [data-theme="dark"] .window--skeu .window__resize-grip {
+            background: linear-gradient(135deg, transparent 40%, #1A1612 40%);
+        }
+
+        /* === GLASS WINDOW === */
+        .window--glass {
+            background: rgba(230,238,255,0.60);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.55);
+            border-radius: 18px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.07);
+        }
+        .window--glass .window__titlebar {
+            background: rgba(255,255,255,0.20);
+            border-bottom: 1px solid rgba(0,0,0,0.07);
+            height: 38px;
+            padding: 0 0 0 14px;
+        }
+        .window--glass .window__titlebar-left {
+            flex: 1;
+        }
+        .window--glass .window__titlebar-left span {
+            color: rgba(10,15,40,0.92);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .window--glass .window__icon {
+            stroke: rgba(10,15,40,0.50);
+            fill: none; stroke-width: 1.5;
+        }
+
+        .window--glass .window__controls {
+            display: flex;
+            height: 38px;
+        }
+        .window--glass .window__control {
+            width: 38px;
+            height: 38px;
+            color: rgba(10,15,40,0.50);
+            background: transparent;
+            border: none;
+            border-left: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .window--glass .window__control:hover {
+            background: rgba(255,255,255,0.08);
+            color: rgba(10,15,40,0.92);
+        }
+        .window--glass .window__control--close:hover {
+            background: rgba(231,76,60,0.4);
+            color: white;
+        }
+        .window--glass .window__control--maximize:hover {
+            background: rgba(46,204,113,0.3);
+            color: white;
+        }
+        .window--glass .window__control--minimize:hover {
+            background: rgba(230,126,34,0.3);
+            color: white;
+        }
+
+        .window--glass .window__body {
+            padding: 20px;
+            flex: 1;
+        }
+        .window--glass .window__card {
+            background: rgba(255,255,255,0.35);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 12px;
+        }
+        .window--glass .stat-value { color: #C84B31; }
+        .window--glass .stat-label { color: rgba(10,15,40,0.50); }
+        .window--glass .stat-change--up { color: #2ECC71; background: rgba(46,204,113,0.12); }
+        .window--glass .stat-change--down { color: #E74C3C; background: rgba(231,76,60,0.12); }
+
+        .window--glass .window__resize-grip {
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 12px; height: 12px;
+            cursor: se-resize;
+            opacity: 0.5;
+        }
+
+        [data-theme="dark"] .window--glass {
+            background: rgba(8,12,35,0.60);
+            border-color: rgba(255,255,255,0.12);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.07);
+        }
+        [data-theme="dark"] .window--glass .window__titlebar {
+            background: rgba(255,255,255,0.05);
+            border-bottom-color: rgba(255,255,255,0.08);
+        }
+        [data-theme="dark"] .window--glass .window__titlebar-left span {
+            color: rgba(255,255,255,0.92);
+        }
+        [data-theme="dark"] .window--glass .window__icon {
+            stroke: rgba(255,255,255,0.42);
+        }
+        [data-theme="dark"] .window--glass .window__control {
+            color: rgba(255,255,255,0.42);
+            border-left-color: rgba(255,255,255,0.06);
+        }
+        [data-theme="dark"] .window--glass .window__control:hover {
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.92);
+        }
+        [data-theme="dark"] .window--glass .window__control--close:hover {
+            background: rgba(231,76,60,0.4);
+            color: white;
+        }
+        [data-theme="dark"] .window--glass .window__control--maximize:hover {
+            background: rgba(46,204,113,0.3);
+            color: white;
+        }
+        [data-theme="dark"] .window--glass .window__control--minimize:hover {
+            background: rgba(230,126,34,0.3);
+            color: white;
+        }
+        [data-theme="dark"] .window--glass .window__card {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.08);
+        }
+        [data-theme="dark"] .window--glass .stat-value { color: #C84B31; }
+        [data-theme="dark"] .window--glass .stat-label { color: rgba(255,255,255,0.42); }
+
+        /* Window Content Cards */
+        .window__card {
+            padding: 16px; border-radius: 10px;
+        }
+        .window__card-row { display: flex; gap: 16px; }
+        .window__card-row .window__card { flex: 1; text-align: center; }
+        .stat-value { font-size: 28px; font-weight: var(--font-weight-title); font-family: var(--font-title); }
+        .stat-label { font-size: 12px; margin-top: 4px; font-weight: 400; }
+        .stat-change { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: var(--font-weight-bold); margin-top: 8px; padding: 2px 8px; border-radius: 4px; }
+
+        /* ============================================
+           VOLUME SLIDER
+           ============================================ */
+        .volume-row { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
+        .volume-label { font-size: 13px; color: var(--text-secondary); font-weight: var(--font-weight-bold); }
+        .volume-slider { -webkit-appearance: none; appearance: none; width: 200px; height: 8px; border-radius: 4px; outline: none; cursor: pointer; }
+        .volume-slider--flat { background: var(--bg-tertiary); }
+        .volume-slider--flat::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 0; background: #C84B31; border: none; cursor: pointer; }
+        .volume-slider--skeu { background: linear-gradient(180deg, #D4C4A8 0%, #C8B89A 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 1px 0 rgba(255,255,255,0.4); border: 1px solid #A09080; border-radius: 4px; }
+        .volume-slider--skeu::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(180deg, #DDD0B8 0%, #C8B89A 50%, #BCA888 100%); border: 1px solid #A09080; box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.5); cursor: pointer; }
+        .volume-slider--glass { background: rgba(255,255,255,0.12); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.20); }
+        .volume-slider--glass::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: rgba(200,75,49,0.7); border: 2px solid rgba(255,255,255,0.5); box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer; }
+        .volume-value { font-size: 13px; color: var(--text-primary); font-weight: var(--font-weight-bold); min-width: 40px; }
+
+        .volume-row svg.vol-icon--flat { stroke: #5050A0; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .volume-row svg.vol-icon--skeu { stroke: #6A5040; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+        .volume-row svg.vol-icon--glass { stroke: rgba(10,15,40,0.50); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        [data-theme="dark"] .volume-row svg.vol-icon--flat { stroke: #6060A0; }
+        [data-theme="dark"] .volume-row svg.vol-icon--skeu { stroke: #8A7D6E; }
+        [data-theme="dark"] .volume-row svg.vol-icon--glass { stroke: rgba(255,255,255,0.42); }
+
+        /* ============================================
+           PROGRESS
+           ============================================ */
+        .progress { width: 100%; height: 8px; border-radius: 4px; overflow: hidden; }
+        .progress--flat { background: var(--bg-tertiary); }
+        .progress--flat .progress__fill { background: #C84B31; border-radius: 0; }
+        .progress--skeu { background: #C8B89A; box-shadow: inset 0 2px 4px rgba(0,0,0,0.15); border-radius: 4px; border: 1px solid #A09080; }
+        .progress--skeu .progress__fill { background: linear-gradient(180deg, #E86040 0%, #C84B31 50%, #A33A22 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.3); border-radius: 4px; }
+        .progress--glass { background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.08); }
+        .progress--glass .progress__fill { background: linear-gradient(90deg, rgba(200,75,49,0.7), rgba(163,58,34,0.7)); border-radius: 4px; }
+        [data-theme="dark"] .progress--glass { background: rgba(30,30,50,0.4); }
+        [data-theme="dark"] .progress--skeu { background: #3D3730; border-color: #1A1612; }
+        [data-theme="dark"] .volume-slider--skeu { background: linear-gradient(180deg, #3D3730 0%, #332E28 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.06); border-color: #1A1612; }
+        [data-theme="dark"] .volume-slider--skeu::-webkit-slider-thumb { background: linear-gradient(180deg, #4A4238 0%, #3D3730 50%, #332E28 100%); border-color: #1A1612; box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1); }
+        [data-theme="dark"] .volume-slider--glass { background: rgba(30,30,50,0.3); backdrop-filter: blur(4px); border-color: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .toggle--skeu .toggle__slider { background: linear-gradient(180deg, #3D3730 0%, #332E28 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.05); border-color: #1A1612; }
+        [data-theme="dark"] .toggle--skeu .toggle__slider::before { background: linear-gradient(180deg, #4A4238 0%, #3D3730 100%); border-color: #1A1612; box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08); }
+        [data-theme="dark"] .player-bar--skeu { background: linear-gradient(180deg, #3D3730 0%, #332E28 50%, #2A2520 100%); border-color: #1A1612; box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 2px 6px rgba(0,0,0,0.2); }
+        .progress__fill { height: 100%; transition: width 0.5s ease; }
+
+        /* ============================================
+           TOGGLE
+           ============================================ */
+        .toggle { position: relative; width: 48px; height: 26px; display: inline-block; }
+        .toggle input { opacity: 0; width: 0; height: 0; }
+        .toggle__slider { position: absolute; inset: 0; border-radius: 13px; cursor: pointer; transition: all 0.3s; }
+        .toggle__slider::before { content: ''; position: absolute; width: 20px; height: 20px; border-radius: 50%; top: 3px; left: 3px; transition: all 0.3s; }
+        .toggle--flat .toggle__slider { background: var(--border-color); border-radius: 0; }
+        .toggle--flat input:checked + .toggle__slider { background: #C84B31; }
+        .toggle--flat .toggle__slider::before { background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.2); border-radius: 0; }
+        .toggle--flat input:checked + .toggle__slider::before { transform: translateX(22px); }
+        .toggle--skeu .toggle__slider { background: linear-gradient(180deg, #C8B89A 0%, #BCA888 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 1px 0 rgba(255,255,255,0.4); border: 1px solid #A09080; }
+        .toggle--skeu input:checked + .toggle__slider { background: linear-gradient(180deg, #E86040 0%, #C84B31 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.15), 0 1px 0 rgba(255,255,255,0.2); border-color: #7A2818; }
+        .toggle--skeu .toggle__slider::before { background: linear-gradient(180deg, #DDD0B8 0%, #C8B89A 100%); box-shadow: 0 2px 4px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6); border: 1px solid #A09080; }
+        .toggle--skeu input:checked + .toggle__slider::before { transform: translateX(22px); }
+        .toggle--glass .toggle__slider { background: rgba(255,255,255,0.12); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.18); }
+        .toggle--glass input:checked + .toggle__slider { background: rgba(200,75,49,0.5); border-color: rgba(200,75,49,0.6); }
+        .toggle--glass .toggle__slider::before { background: rgba(255,255,255,0.9); backdrop-filter: blur(4px); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .toggle--glass input:checked + .toggle__slider::before { transform: translateX(22px); }
+        [data-theme="dark"] .toggle--glass .toggle__slider { background: rgba(30,30,50,0.4); border-color: rgba(255,255,255,0.08); }
+
+        /* ============================================
+           MEDIA PLAYER
+           ============================================ */
+        .player-bar { padding: 12px 20px; border-radius: 10px; display: flex; align-items: center; gap: 16px; margin-top: 16px; }
+        .player-bar--flat { background: var(--bg-primary); border: 1px solid var(--border-color); }
+        .player-bar--skeu { background: linear-gradient(180deg, #DDD0B8 0%, #C8B89A 50%, #BCA888 100%); border: 1px solid #A09080; box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 2px 6px rgba(0,0,0,0.12); }
+        .player-bar--glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.15); }
+        [data-theme="dark"] .player-bar--glass { background: rgba(25,25,50,0.4); border-color: rgba(255,255,255,0.08); }
+        .player-btn { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; border: none; }
+        .player-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .player-btn--flat { background: #C84B31; color: white; border-radius: 0; }
+        .player-btn--flat:hover { background: #A33A22; transform: scale(1.1); }
+        .player-btn--skeu { background: linear-gradient(180deg, #E86040 0%, #C84B31 40%, #A33A22 100%); color: white; border: 1px solid #7A2818; border-top-color: #E86040; box-shadow: 0 2px 0 #7A2818, 0 4px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.3); }
+        .player-btn--skeu:hover { background: linear-gradient(180deg, #E86040 0%, #D85535 40%, #B84222 100%); transform: scale(1.05); }
+        .player-btn--skeu:active { box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); transform: scale(0.98); }
+        .player-btn--glass { background: rgba(200,75,49,0.5); color: white; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        .player-btn--glass:hover { background: rgba(200,75,49,0.7); transform: scale(1.1); }
+        .player-time { font-size: 13px; color: var(--text-muted); font-family: monospace; font-weight: 400; }
+        .player-progress { flex: 1; }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 900px) { .comparison-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) {
+            .uikit__header h1 { font-size: 32px; }
+            .typo-sizes { grid-template-columns: 1fr; }
+            .btn-state-row { flex-direction: column; align-items: flex-start; }
+            .btn-state-label { text-align: left; }
+            .nav-demo__inner { flex-direction: column; gap: 12px; }
+            .nav-demo__links { gap: 10px; }
+            .window__card-row { flex-direction: column; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="uikit">
+        <!-- HEADER -->
+        <header class="uikit__header">
+            <button class="uikit__theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
+                <span id="theme-icon">🌙</span>
+            </button>
+            <div class="uikit__header-content">
+                <h1>WebLinux UI Kit</h1>
+                <p>Flat Design · Skeuomorphism · Glassmorphism — Ventanas corregidas con diseño real</p>
+            </div>
+        </header>
+
+        <!-- TYPOGRAPHY -->
+        <section class="section" id="typography">
+            <h2 class="section__title">Tipografía</h2>
+            <p class="section__subtitle">Adwaita Sans para todos los elementos — fuente del sistema GNOME, limpia y moderna.</p>
+            <hr class="section__divider">
+            <div class="typo-grid">
+                <div class="typo-item">
+                    <div class="typo-item__label">Título / Subtítulo</div>
+                    <div class="typo-item__font">Adwaita Sans · Sans-serif · Peso 700/600</div>
+                    <div class="typo-item__sample" style="font-family:'Adwaita Sans',sans-serif; font-weight:700;">Lorem ipsum dolor sit amet</div>
+                    <div class="typo-item__meta">36px Título (700) · 25px Subtítulo (600)</div>
+                </div>
+                <div class="typo-item">
+                    <div class="typo-item__label">Texto / Cuerpo</div>
+                    <div class="typo-item__font">Adwaita Sans · Sans-serif · Peso 400</div>
+                    <div class="typo-item__sample" style="font-family:'Adwaita Sans',sans-serif; font-weight:400;">Lorem ipsum dolor sit amet</div>
+                    <div class="typo-item__meta">18px Texto (400) · 15px Descripción (400)</div>
+                </div>
+            </div>
+            <div class="typo-sizes">
+                <div class="typo-size-demo">
+                    <span class="typo-size-demo__label">Título → 36px</span>
+                    <span class="typo-size-demo__text typo-size-demo__text--title">Lorem ipsum dolor sit amet</span>
+                </div>
+                <div class="typo-size-demo">
+                    <span class="typo-size-demo__label">Subtítulo → 25px</span>
+                    <span class="typo-size-demo__text typo-size-demo__text--subtitle">Lorem ipsum dolor sit amet</span>
+                </div>
+                <div class="typo-size-demo">
+                    <span class="typo-size-demo__label">Texto → 18px</span>
+                    <span class="typo-size-demo__text typo-size-demo__text--body">Lorem ipsum dolor sit amet</span>
+                </div>
+                <div class="typo-size-demo">
+                    <span class="typo-size-demo__label">Descripción → 15px</span>
+                    <span class="typo-size-demo__text typo-size-demo__text--desc">Lorem ipsum dolor sit amet</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- COLORS -->
+        <section class="section" id="colors">
+            <h2 class="section__title">Sistema de Colores</h2>
+            <p class="section__subtitle">Paletas reales extraídas de cada corriente visual.</p>
+            <hr class="section__divider">
+
+            <div class="style-preview style-flat">
+                <div class="style-preview__label">Flat Design <span>— Colores sólidos, sin gradientes</span></div>
+                <div class="color-group">
+                    <div class="color-group__title">Paleta Principal</div>
+                    <div class="color-grid">
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c1"><span style="color:white;font-size:12px;font-weight:700;">Primary</span></div><div class="color-swatch__info"><div class="color-swatch__name">Primary</div><div class="color-swatch__hex">#667eea</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c2"><span style="color:white;font-size:11px;font-weight:700;">Secondary</span></div><div class="color-swatch__info"><div class="color-swatch__name">Secondary</div><div class="color-swatch__hex">#764ba2</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c3"><span style="color:white;font-size:11px;font-weight:700;">Accent</span></div><div class="color-swatch__info"><div class="color-swatch__name">Accent</div><div class="color-swatch__hex">#f093fb</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c4"><span style="color:white;font-size:11px;font-weight:700;">Success</span></div><div class="color-swatch__info"><div class="color-swatch__name">Success</div><div class="color-swatch__hex">#48bb78</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c5"><span style="color:white;font-size:11px;font-weight:700;">Warning</span></div><div class="color-swatch__info"><div class="color-swatch__name">Warning</div><div class="color-swatch__hex">#ed8936</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c6"><span style="color:white;font-size:11px;font-weight:700;">Error</span></div><div class="color-swatch__info"><div class="color-swatch__name">Error</div><div class="color-swatch__hex">#f56565</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c7"><span style="color:white;font-size:11px;font-weight:700;">Info</span></div><div class="color-swatch__info"><div class="color-swatch__name">Info</div><div class="color-swatch__hex">#4299e1</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c8"><span style="color:white;font-size:11px;font-weight:700;">Dark</span></div><div class="color-swatch__info"><div class="color-swatch__name">Dark</div><div class="color-swatch__hex">#2d3748</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview flat-c9"><span style="color:#4a5568;font-size:11px;font-weight:700;">Light</span></div><div class="color-swatch__info"><div class="color-swatch__name">Light</div><div class="color-swatch__hex">#edf2f7</div></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="style-preview style-skeu">
+                <div class="style-preview__label">Skeuomorphism <span>— Gradientes multicapa, tonos suaves y profundos</span></div>
+                <div class="color-group">
+                    <div class="color-group__title">Paleta Principal</div>
+                    <div class="color-grid">
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c1"><span style="color:white;font-size:11px;font-weight:700;">Primary</span></div><div class="color-swatch__info"><div class="color-swatch__name">Primary</div><div class="color-swatch__hex">#5a7de0</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c2"><span style="color:white;font-size:11px;font-weight:700;">Secondary</span></div><div class="color-swatch__info"><div class="color-swatch__name">Secondary</div><div class="color-swatch__hex">#8868c4</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c3"><span style="color:white;font-size:11px;font-weight:700;">Accent</span></div><div class="color-swatch__info"><div class="color-swatch__name">Accent</div><div class="color-swatch__hex">#d878b8</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c4"><span style="color:white;font-size:11px;font-weight:700;">Success</span></div><div class="color-swatch__info"><div class="color-swatch__name">Success</div><div class="color-swatch__hex">#48a868</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c5"><span style="color:white;font-size:11px;font-weight:700;">Warning</span></div><div class="color-swatch__info"><div class="color-swatch__name">Warning</div><div class="color-swatch__hex">#d08040</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c6"><span style="color:white;font-size:11px;font-weight:700;">Error</span></div><div class="color-swatch__info"><div class="color-swatch__name">Error</div><div class="color-swatch__hex">#d04848</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c7"><span style="color:white;font-size:11px;font-weight:700;">Info</span></div><div class="color-swatch__info"><div class="color-swatch__name">Info</div><div class="color-swatch__hex">#4080c8</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c8"><span style="color:white;font-size:11px;font-weight:700;">Dark</span></div><div class="color-swatch__info"><div class="color-swatch__name">Dark</div><div class="color-swatch__hex">#2a3440</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview skeu-c9"><span style="color:#4a5a70;font-size:11px;font-weight:700;">Light</span></div><div class="color-swatch__info"><div class="color-swatch__name">Light</div><div class="color-swatch__hex">#e8ecf0</div></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="style-preview style-glass">
+                <div class="style-preview__label">Glassmorphism <span>— Colores con transparencia y opacidad</span></div>
+                <div class="color-group">
+                    <div class="color-group__title">Paleta Principal (rgba)</div>
+                    <div class="color-grid">
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c1"><span style="color:white;font-size:10px;font-weight:700;">Primary</span></div><div class="color-swatch__info"><div class="color-swatch__name">Primary</div><div class="color-swatch__hex">rgba(102,126,234,0.65)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c2"><span style="color:white;font-size:10px;font-weight:700;">Secondary</span></div><div class="color-swatch__info"><div class="color-swatch__name">Secondary</div><div class="color-swatch__hex">rgba(118,75,162,0.65)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c3"><span style="color:white;font-size:10px;font-weight:700;">Accent</span></div><div class="color-swatch__info"><div class="color-swatch__name">Accent</div><div class="color-swatch__hex">rgba(240,147,251,0.65)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c4"><span style="color:white;font-size:10px;font-weight:700;">Success</span></div><div class="color-swatch__info"><div class="color-swatch__name">Success</div><div class="color-swatch__hex">rgba(72,187,120,0.65)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c5"><span style="color:white;font-size:10px;font-weight:700;">Warning</span></div><div class="color-swatch__info"><div class="color-swatch__name">Warning</div><div class="color-swatch__hex">rgba(237,137,54,0.65)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c6"><span style="color:white;font-size:10px;font-weight:700;">Error</span></div><div class="color-swatch__info"><div class="color-swatch__name">Error</div><div class="color-swatch__hex">rgba(245,101,101,0.65)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c7"><span style="color:white;font-size:10px;font-weight:700;">Info</span></div><div class="color-swatch__info"><div class="color-swatch__name">Info</div><div class="color-swatch__hex">rgba(66,153,225,0.65)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c8"><span style="color:white;font-size:10px;font-weight:700;">Dark</span></div><div class="color-swatch__info"><div class="color-swatch__name">Dark</div><div class="color-swatch__hex">rgba(20,20,40,0.55)</div></div></div>
+                        <div class="color-swatch"><div class="color-swatch__preview glass-c9"><span style="color:#4a5568;font-size:10px;font-weight:700;">Light</span></div><div class="color-swatch__info"><div class="color-swatch__name">Light</div><div class="color-swatch__hex">rgba(237,242,247,0.4)</div></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ICONS -->
+        <section class="section" id="icons">
+            <h2 class="section__title">Iconos</h2>
+            <p class="section__subtitle">Iconos SVG lineales usados en la navegación y componentes.</p>
+            <hr class="section__divider">
+            <h3 style="font-family:var(--font-title);font-size:18px;margin:0 0 12px;font-weight:var(--font-weight-title);">Flat / Glass Design</h3>
+            <div class="icons-grid">
+                <div class="icon-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                    <span class="icon-item__label">Terminal</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                    <span class="icon-item__label">Explorador</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    <span class="icon-item__label">Reproductor</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>
+                    <span class="icon-item__label">Paint</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="13" r="7"/><path d="M14 4l2-2"/><line x1="11" y1="6" x2="14" y2="3"/></svg>
+                    <span class="icon-item__label">Buscaminas</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
+                    <span class="icon-item__label">Calculadora</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    <span class="icon-item__label">Editor</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                    <span class="icon-item__label">Ajustes</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <span class="icon-item__label">Acerca de</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+                    <span class="icon-item__label">Apagar</span>
+                </div>
+                <div class="icon-item">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    <span class="icon-item__label">Volumen</span>
+                </div>
+            </div>
+            <h3 style="font-family:var(--font-title);font-size:18px;margin:32px 0 12px;font-weight:var(--font-weight-title);">Skeu Design</h3>
+            <div class="icons-grid">
+                <div class="icon-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><rect x="1" y="2" width="22" height="17" rx="3" fill="url(#sk-metal)" filter="url(#sk-shadow)"/><rect x="2" y="3" width="20" height="15" rx="2.5" fill="#2a2a2a"/><rect x="3.5" y="4.5" width="17" height="12" rx="1.5" fill="var(--sk-screen)"/><rect x="1" y="2" width="22" height="2" rx="1" fill="var(--sk-hi)"/><rect x="9" y="19" width="6" height="2" rx="1" fill="#3a3a3a"/><rect x="8" y="20.5" width="8" height="1" fill="#2a2a2a"/><path d="M6 10l2.5-2-2.5-2" stroke="#33ff66" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="11" y1="12" x2="17" y2="12" stroke="#33ff66" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    <span class="icon-item__label">Terminal</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M2 8h7l2 2h9a2 2 0 012 2v7a2 2 0 01-2 2H4a2 2 0 01-2-2V8z" fill="url(#sk-folder)" filter="url(#sk-shadow)"/><path d="M2 8l2.5-4h5l1.5 4" fill="url(#sk-folder)" stroke="#8a7020" stroke-width="0.5"/><path d="M2 15h20v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" fill="#b89830" opacity="0.3"/><rect x="3" y="9.5" width="18" height="0.8" fill="var(--sk-hi)"/><rect x="6" y="17.5" width="5" height="0.6" rx="0.3" fill="#705818" opacity="0.7"/><rect x="6" y="18.7" width="7" height="0.6" rx="0.3" fill="#705818" opacity="0.5"/></svg>
+                    <span class="icon-item__label">Explorador</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><rect x="11" y="3" width="2.5" height="15" rx="0.8" fill="url(#sk-gold)" filter="url(#sk-shadow)"/><path d="M11 4l8-2v5l-8 2" fill="url(#sk-gold)"/><circle cx="7" cy="18" r="4.5" fill="url(#sk-gold)" filter="url(#sk-shadow)"/><circle cx="7" cy="18" r="2" fill="#2a2010" opacity="0.4"/><circle cx="18" cy="16" r="3.5" fill="url(#sk-gold)" filter="url(#sk-shadow)"/><circle cx="18" cy="16" r="1.5" fill="#2a2010" opacity="0.4"/></svg>
+                    <span class="icon-item__label">Reproductor</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="13" rx="9" ry="7" fill="url(#sk-wood)" filter="url(#sk-shadow)"/><ellipse cx="12" cy="13" rx="9" ry="7" fill="url(#sk-noise)" opacity="0.15"/><rect x="5" y="10" width="14" height="3" rx="1" fill="var(--sk-muted)" opacity="0.3"/><circle cx="8" cy="11" r="2.2" fill="#E86040"/><circle cx="12.5" cy="10" r="1.8" fill="#60A0F0"/><circle cx="16" cy="11.5" r="1.5" fill="#50D888"/><circle cx="10" cy="14.5" r="1.8" fill="#F5D890"/><circle cx="14.5" cy="14" r="1.2" fill="#9B59B6"/></svg>
+                    <span class="icon-item__label">Paint</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="14" r="7.5" fill="var(--sk-bomb)" filter="url(#sk-shadow)"/><circle cx="12" cy="14" r="7.5" fill="url(#sk-noise)"/><ellipse cx="10" cy="12" rx="3.5" ry="2.5" fill="var(--sk-hi)"/><path d="M14.5 5.5l2-2" stroke="var(--sk-muted)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M12.5 7l2-2.5" stroke="var(--sk-muted)" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M15.5 4l-1-1" stroke="var(--sk-muted)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M9 8.5c-2.5 0.5-3.5 3-3.5 3" stroke="#8a6040" stroke-width="2.5" stroke-linecap="round" fill="none"/><circle cx="8" cy="7.5" r="2" fill="#f5a020" filter="url(#sk-shadow)"/><circle cx="8" cy="7.5" r="1" fill="#ffdd44"/></svg>
+                    <span class="icon-item__label">Buscaminas</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.5" fill="url(#sk-metal)" filter="url(#sk-shadow)"/><rect x="3" y="3" width="18" height="1" rx="0.3" fill="var(--sk-hi)"/><rect x="4.5" y="5" width="15" height="4.5" rx="1" fill="var(--sk-screen)"/><rect x="4.5" y="5" width="15" height="4.5" rx="1" fill="url(#sk-noise)" opacity="0.08"/><rect x="6" y="6.5" width="2.5" height="1.8" rx="0.3" fill="#33ff66"/><rect x="9.5" y="6.5" width="2.5" height="1.8" rx="0.3" fill="#33ff66"/><rect x="13" y="6.5" width="2.5" height="1.8" rx="0.3" fill="#33ff66"/><rect x="4.5" y="11" width="7" height="2.5" rx="0.8" fill="var(--sk-muted)"/><rect x="12.5" y="11" width="7" height="2.5" rx="0.8" fill="#c84b31"/><rect x="4.5" y="14.5" width="7" height="2.5" rx="0.8" fill="var(--sk-muted)"/><rect x="12.5" y="14.5" width="7" height="2.5" rx="0.8" fill="var(--sk-muted)"/><rect x="4.5" y="18" width="15" height="2.5" rx="0.8" fill="var(--sk-muted)"/></svg>
+                    <span class="icon-item__label">Calculadora</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="1.5" fill="url(#sk-paper)" filter="url(#sk-shadow)"/><rect x="4" y="2" width="16" height="20" rx="1.5" fill="url(#sk-noise)" opacity="0.04"/><line x1="6.5" y1="3" x2="6.5" y2="21" stroke="var(--sk-muted)" stroke-width="0.8" stroke-linecap="round"/><circle cx="5.5" cy="4" r="1" fill="var(--sk-muted)"/><circle cx="5.5" cy="7.5" r="1" fill="var(--sk-muted)"/><circle cx="5.5" cy="11" r="1" fill="var(--sk-muted)"/><circle cx="5.5" cy="14.5" r="1" fill="var(--sk-muted)"/><circle cx="5.5" cy="18" r="1" fill="var(--sk-muted)"/><rect x="8" y="5.5" width="9" height="0.8" rx="0.3" fill="var(--sk-muted)"/><rect x="8" y="8" width="7" height="0.8" rx="0.3" fill="var(--sk-muted)"/><rect x="8" y="10.5" width="10" height="0.8" rx="0.3" fill="var(--sk-muted)"/><rect x="8" y="13" width="6" height="0.8" rx="0.3" fill="var(--sk-muted)"/><rect x="8" y="15.5" width="8" height="0.8" rx="0.3" fill="var(--sk-muted)"/></svg>
+                    <span class="icon-item__label">Editor</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" fill="url(#sk-metal)" filter="url(#sk-shadow)"/><circle cx="12" cy="12" r="3.5" fill="var(--sk-bomb)"/><circle cx="12" cy="12" r="2.5" fill="url(#sk-metal)"/><circle cx="12" cy="12" r="1.2" fill="var(--sk-hi)"/></svg>
+                    <span class="icon-item__label">Ajustes</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="url(#sk-blue)" filter="url(#sk-shadow)"/><circle cx="12" cy="12" r="10" fill="url(#sk-noise)"/><ellipse cx="10.5" cy="9.5" rx="3" ry="2" fill="var(--sk-hi)" opacity="0.3"/><circle cx="12" cy="7" r="1.8" fill="#fff"/><rect x="11" y="10" width="2" height="7" rx="0.6" fill="#fff"/><rect x="10" y="16" width="4" height="1" rx="0.3" fill="#fff" opacity="0.8"/></svg>
+                    <span class="icon-item__label">Acerca de</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="url(#sk-red)" filter="url(#sk-shadow)"/><circle cx="12" cy="12" r="10" fill="url(#sk-noise)" opacity="0.3"/><ellipse cx="10" cy="9" rx="4" ry="2.5" fill="var(--sk-hi)" opacity="0.25"/><path d="M12 4v8" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M7.5 7.5a7 7 0 109 0" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+                    <span class="icon-item__label">Apagar</span>
+                </div>
+                <div class="icon-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><rect x="9" y="4" width="4" height="16" rx="1.5" fill="url(#sk-surface)" filter="url(#sk-shadow)"/><path d="M13 8l-6 4H3v2h4l6 4V8z" fill="url(#sk-primary)"/><path d="M17 9.5a4 4 0 010 5" stroke="#EDE8E0" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M20 7a7 7 0 010 10" stroke="#EDE8E0" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                    <span class="icon-item__label">Volumen</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- BUTTONS -->
+        <section class="section" id="buttons">
+            <h2 class="section__title">Botones</h2>
+            <p class="section__subtitle">Forma redondeada y angular × variante primario y secundario × 4 estados.</p>
+            <hr class="section__divider">
+
+            <div class="style-preview style-flat">
+                <div class="style-preview__label">Flat Design <span>— Sin sombras, colores sólidos</span></div>
+                <div class="buttons-showcase">
+                    <div class="buttons-showcase__title" style="font-family:var(--font-title);font-size:22px;margin-bottom:20px;color:var(--text-primary);font-weight:var(--font-weight-title);">Opción 1 — Redondeado</div>
+                    <div class="btn-state-row">
+                        <div class="btn-state-label">Primario</div>
+                        <div class="btn-states">
+                            <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn flat-btn--primary btn--rounded">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn flat-btn--primary btn--rounded" style="background:#5a6fd6;transform:translateY(-1px);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn flat-btn--primary btn--rounded" style="background:#4a5fc0;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn flat-btn--primary btn--rounded" disabled style="background:#cbd5e0;color:#a0aec0;">Button</button></div>
+                        </div>
+                    </div>
+                    <div class="btn-state-row">
+                        <div class="btn-state-label">Secundario</div>
+                        <div class="btn-states">
+                            <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn flat-btn--secondary btn--rounded">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn flat-btn--secondary btn--rounded" style="background:#667eea;color:white;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn flat-btn--secondary btn--rounded" style="background:#4a5fc0;color:white;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn flat-btn--secondary btn--rounded" disabled style="border-color:#cbd5e0;color:#a0aec0;">Button</button></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons-showcase" style="margin-top:32px;">
+                    <div class="buttons-showcase__title" style="font-family:var(--font-title);font-size:22px;margin-bottom:20px;color:var(--text-primary);font-weight:var(--font-weight-title);">Opción 2 — Angular</div>
+                    <div class="btn-state-row">
+                        <div class="btn-state-label">Primario</div>
+                        <div class="btn-states">
+                            <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn flat-btn--primary btn--angular">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn flat-btn--primary btn--angular" style="background:#5a6fd6;transform:translateY(-1px);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn flat-btn--primary btn--angular" style="background:#4a5fc0;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn flat-btn--primary btn--angular" disabled style="background:#cbd5e0;color:#a0aec0;">Button</button></div>
+                        </div>
+                    </div>
+                    <div class="btn-state-row">
+                        <div class="btn-state-label">Secundario</div>
+                        <div class="btn-states">
+                            <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn flat-btn--secondary btn--angular">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn flat-btn--secondary btn--angular" style="background:#667eea;color:white;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn flat-btn--secondary btn--angular" style="background:#4a5fc0;color:white;">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn flat-btn--secondary btn--angular" disabled style="border-color:#cbd5e0;color:#a0aec0;">Button</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="style-preview style-skeu">
+                <div class="style-preview__label">Skeuomorphism <span>— Gradientes profundos, sombras duales, efecto 3D</span></div>
+                <div class="buttons-showcase">
+                    <div class="buttons-showcase__title" style="font-family:var(--font-title);font-size:22px;margin-bottom:20px;color:#2d3748;font-weight:var(--font-weight-title);">Opción 1 — Redondeado</div>
+                    <div class="btn-state-row">
+                        <div class="btn-state-label">Primario</div>
+                        <div class="btn-states">
+                            <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn skeu-btn--primary btn--rounded">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn skeu-btn--primary btn--rounded" style="background:linear-gradient(180deg,#9db0ff 0%,#6a8df0 45%,#5a7de0 55%,#4a6ad0 100%);box-shadow:0 2px 0 #3450a0,0 3px 8px rgba(0,0,0,0.18),inset 0 1px 0 rgba(255,255,255,0.35),inset 0 -1px 0 rgba(0,0,0,0.1);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn skeu-btn--primary btn--rounded" style="background:linear-gradient(180deg,#4a6ad0 0%,#3d5dc0 45%,#3450a0 55%,#2d4590 100%);box-shadow:inset 0 2px 4px rgba(0,0,0,0.25),0 1px 0 rgba(0,0,0,0.1);transform:translateY(2px);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn skeu-btn--primary btn--rounded" disabled style="background:linear-gradient(180deg,#c8d0e0 0%,#b0b8c8 100%);color:#8890a0;box-shadow:0 2px 0 #9098a8,inset 0 1px 0 rgba(255,255,255,0.3);">Button</button></div>
+                        </div>
+                    </div>
+                    <div class="btn-state-row">
+                        <div class="btn-state-label">Secundario</div>
+                        <div class="btn-states">
+                            <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn skeu-btn--secondary btn--rounded">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn skeu-btn--secondary btn--rounded" style="background:linear-gradient(180deg,#fff 0%,#f0f4f8 45%,#e0e4e8 55%,#d0d4d8 100%);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn skeu-btn--secondary btn--rounded" style="background:linear-gradient(180deg,#d0d4d8 0%,#c0c4c8 45%,#b0b4b8 55%,#a0a4a8 100%);box-shadow:inset 0 2px 4px rgba(0,0,0,0.15),0 1px 0 rgba(0,0,0,0.08);transform:translateY(2px);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn skeu-btn--secondary btn--rounded" disabled style="background:linear-gradient(180deg,#e8ecf0 0%,#d8dce0 100%);color:#b0b8c0;border-color:#b0b8c0;box-shadow:0 2px 0 #a0a8b0,inset 0 1px 0 rgba(255,255,255,0.5);">Button</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="style-preview style-glass">
+                <div class="style-preview__label">Glassmorphism <span>— Blur, transparencia, bordes luminosos</span></div>
+                <div class="buttons-showcase">
+                    <div class="buttons-showcase__title" style="font-family:var(--font-title);font-size:22px;margin-bottom:20px;color:var(--text-primary);font-weight:var(--font-weight-title);">Opción 1 — Redondeado</div>
+                    <div class="btn-state-row">
+                        <div class="btn-state-label">Primario</div>
+                        <div class="btn-states">
+                            <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn glass-btn--primary btn--rounded">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn glass-btn--primary btn--rounded" style="background:linear-gradient(135deg,rgba(102,126,234,0.75) 0%,rgba(118,75,162,0.75) 100%);box-shadow:0 6px 28px rgba(102,126,234,0.35),0 3px 12px rgba(0,0,0,0.12);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn glass-btn--primary btn--rounded" style="background:linear-gradient(135deg,rgba(102,126,234,0.5) 0%,rgba(118,75,162,0.5) 100%);box-shadow:0 2px 10px rgba(102,126,234,0.2);transform:translateY(0);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn glass-btn--primary btn--rounded" disabled style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.12);color:rgba(255,255,255,0.3);">Button</button></div>
+                        </div>
+                    </div>
+                    <div class="btn-state-row">
+                        <div class="btn-state-label">Secundario</div>
+                        <div class="btn-states">
+                            <div class="btn-state"><div class="btn-state__label">Normal</div><button class="btn glass-btn--secondary btn--rounded">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Hover</div><button class="btn glass-btn--secondary btn--rounded" style="background:rgba(102,126,234,0.15);border-color:rgba(102,126,234,0.55);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Presionado</div><button class="btn glass-btn--secondary btn--rounded" style="background:rgba(102,126,234,0.25);transform:translateY(0);">Button</button></div>
+                            <div class="btn-state"><div class="btn-state__label">Deshabilitado</div><button class="btn glass-btn--secondary btn--rounded" disabled style="background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.08);color:rgba(255,255,255,0.2);">Button</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPONENTS -->
+        <section class="section" id="components">
+            <h2 class="section__title">Componentes</h2>
+            <p class="section__subtitle">Ventanas, progress, toggles y reproductor.</p>
+            <hr class="section__divider">
+
+            <!-- Windows -->
+            <div class="style-preview style-flat">
+                <div class="style-preview__label">Ventanas <span style="font-size:13px;color:var(--text-muted);">Flat · Skeu · Glass</span></div>
+                <div class="comparison-grid">
+
+                    <!-- FLAT WINDOW (Windows 10/11) -->
+                    <div>
+                        <div class="window window--flat">
+                            <div class="window__titlebar">
+                                <div class="window__titlebar-left">
+                                    <svg class="window__icon" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="4" y1="4" x2="12" y2="4" stroke="currentColor" stroke-width="1"/></svg>
+                                    <span>Dashboard</span>
+                                </div>
+                                <div class="window__controls">
+                                    <button class="window__control window__control--minimize" aria-label="Minimizar">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                    </button>
+                                    <button class="window__control window__control--maximize" aria-label="Maximizar">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                                    </button>
+                                    <button class="window__control window__control--close" aria-label="Cerrar">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="window__body">
+                                <div class="window__card">
+                                    <div class="window__card-row">
+                                        <div class="window__card">
+                                            <div class="stat-value">515</div>
+                                            <div class="stat-label">Usuarios</div>
+                                            <span class="stat-change stat-change--up">↑ 12%</span>
+                                        </div>
+                                        <div class="window__card">
+                                            <div class="stat-value">830</div>
+                                            <div class="stat-label">Requests</div>
+                                            <span class="stat-change stat-change--down">↓ 3%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="window__resize-grip" aria-label="Redimensionar">
+                                <svg viewBox="0 0 16 16" width="16" height="16">
+                                    <line x1="14" y1="2" x2="2" y2="14"/>
+                                    <line x1="14" y1="8" x2="8" y2="14"/>
+                                    <line x1="14" y1="14" x2="14" y2="14"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Flat Design (Windows)</div>
+                    </div>
+
+                    <!-- SKEU WINDOW -->
+                    <div>
+                        <div class="window window--skeu">
+                            <div class="window__titlebar">
+                                <div class="window__titlebar-left">
+                                    <svg class="window__icon" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="4" y1="4" x2="12" y2="4" stroke="currentColor" stroke-width="1"/></svg>
+                                    <span>Dashboard</span>
+                                </div>
+                                <div class="window__controls">
+                                    <button class="window__control window__control--minimize" aria-label="Minimizar">
+                                        <svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="url(#sk-gold)" filter="url(#sk-shadow)"/><circle cx="12" cy="12" r="9.5" fill="url(#sk-noise)" opacity="0.2"/><ellipse cx="10" cy="9" rx="4" ry="2.5" fill="var(--sk-hi)" opacity="0.3"/><line x1="7.5" y1="12" x2="16.5" y2="12" stroke="#6a5010" stroke-width="3" stroke-linecap="round"/></svg>
+                                    </button>
+                                    <button class="window__control window__control--maximize" aria-label="Maximizar">
+                                        <svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="url(#sk-green)" filter="url(#sk-shadow)"/><circle cx="12" cy="12" r="9.5" fill="url(#sk-noise)" opacity="0.2"/><ellipse cx="10" cy="9" rx="4" ry="2.5" fill="var(--sk-hi)" opacity="0.3"/><rect x="8" y="8.5" width="8" height="7" rx="1" stroke="#1a4a20" stroke-width="2.5" fill="none"/></svg>
+                                    </button>
+                                    <button class="window__control window__control--close" aria-label="Cerrar">
+                                        <svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="url(#sk-red)" filter="url(#sk-shadow)"/><circle cx="12" cy="12" r="9.5" fill="url(#sk-noise)" opacity="0.3"/><ellipse cx="10" cy="9" rx="4" ry="2.5" fill="var(--sk-hi)" opacity="0.25"/><line x1="8" y1="8" x2="16" y2="16" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><line x1="16" y1="8" x2="8" y2="16" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="window__body">
+                                <div class="window__card">
+                                    <div class="window__card-row">
+                                        <div class="window__card">
+                                            <div class="stat-value">515</div>
+                                            <div class="stat-label">Usuarios</div>
+                                            <span class="stat-change stat-change--up">↑ 12%</span>
+                                        </div>
+                                        <div class="window__card">
+                                            <div class="stat-value">830</div>
+                                            <div class="stat-label">Requests</div>
+                                            <span class="stat-change stat-change--down">↓ 3%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="window__resize-grip"></div>
+                        </div>
+                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Skeuomorphism</div>
+                    </div>
+
+                    <!-- GLASS WINDOW (Windows 11 Fluent) -->
+                    <div>
+                        <div class="window window--glass">
+                            <div class="window__titlebar">
+                                <div class="window__titlebar-left">
+                                    <svg class="window__icon" viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="4" y1="4" x2="12" y2="4" stroke="currentColor" stroke-width="1"/></svg>
+                                    <span>Dashboard</span>
+                                </div>
+                                <div class="window__controls">
+                                    <button class="window__control window__control--minimize" aria-label="Minimizar">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                    </button>
+                                    <button class="window__control window__control--maximize" aria-label="Maximizar">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                                    </button>
+                                    <button class="window__control window__control--close" aria-label="Cerrar">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="window__body">
+                                <div class="window__card">
+                                    <div class="window__card-row">
+                                        <div class="window__card">
+                                            <div class="stat-value">515</div>
+                                            <div class="stat-label">Usuarios</div>
+                                            <span class="stat-change stat-change--up">↑ 12%</span>
+                                        </div>
+                                        <div class="window__card">
+                                            <div class="stat-value">830</div>
+                                            <div class="stat-label">Requests</div>
+                                            <span class="stat-change stat-change--down">↓ 3%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="window__resize-grip" aria-label="Redimensionar"></div>
+                        </div>
+                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Glassmorphism (Windows 11)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Media Player -->
+            <div class="style-preview style-flat">
+                <div class="style-preview__label">Reproductor de Media</div>
+                <div class="comparison-grid">
+                    <div>
+                        <div class="player-bar player-bar--flat">
+                            <button class="player-btn player-btn--flat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
+                            </button>
+                            <div class="player-progress">
+                                <div class="progress progress--flat"><div class="progress__fill" style="width:35%;"></div></div>
+                            </div>
+                            <span class="player-time">00:00</span>
+                        </div>
+                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Flat Design</div>
+                    </div>
+                    <div>
+                        <div class="player-bar player-bar--skeu">
+                            <button class="player-btn player-btn--skeu">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
+                            </button>
+                            <div class="player-progress">
+                                <div class="progress progress--skeu"><div class="progress__fill" style="width:35%;"></div></div>
+                            </div>
+                            <span class="player-time">00:00</span>
+                        </div>
+                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Skeuomorphism</div>
+                    </div>
+                    <div>
+                        <div class="player-bar player-bar--glass">
+                            <button class="player-btn player-btn--glass">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
+                            </button>
+                            <div class="player-progress">
+                                <div class="progress progress--glass"><div class="progress__fill" style="width:35%;"></div></div>
+                            </div>
+                            <span class="player-time">00:00</span>
+                        </div>
+                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Glassmorphism</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Volume Slider -->
+            <div class="style-preview style-flat">
+                <div class="style-preview__label">Volumen del Sistema</div>
+                <div class="comparison-grid">
+                    <div style="padding:16px;">
+                        <div class="volume-row">
+                            <svg class="vol-icon--flat" viewBox="0 0 24 24" width="20" height="20"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                            <input type="range" class="volume-slider volume-slider--flat" value="75" min="0" max="100">
+                            <span class="volume-value">75%</span>
+                        </div>
+                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Flat Design</div>
+                    </div>
+                    <div style="padding:16px;">
+                        <div class="volume-row">
+                            <svg class="vol-icon--skeu" viewBox="0 0 24 24" width="20" height="20"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                            <input type="range" class="volume-slider volume-slider--skeu" value="75" min="0" max="100">
+                            <span class="volume-value">75%</span>
+                        </div>
+                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Skeuomorphism</div>
+                    </div>
+                    <div style="padding:16px;">
+                        <div class="volume-row">
+                            <svg class="vol-icon--glass" viewBox="0 0 24 24" width="20" height="20"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                            <input type="range" class="volume-slider volume-slider--glass" value="75" min="0" max="100">
+                            <span class="volume-value">75%</span>
+                        </div>
+                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Glassmorphism</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress & Toggles -->
+            <div class="style-preview style-flat">
+                <div class="style-preview__label">Progress Bars y Toggles</div>
+                <div class="comparison-grid">
+                    <div>
+                        <div class="progress progress--flat" style="margin-bottom:16px;"><div class="progress__fill" style="width:75%;"></div></div>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <span style="font-size:13px;color:var(--text-secondary);">Toggle</span>
+                            <label class="toggle toggle--flat"><input type="checkbox" checked><span class="toggle__slider"></span></label>
+                            <label class="toggle toggle--flat"><input type="checkbox"><span class="toggle__slider"></span></label>
+                        </div>
+                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:16px;">Flat Design</div>
+                    </div>
+                    <div>
+                        <div class="progress progress--skeu" style="margin-bottom:16px;"><div class="progress__fill" style="width:75%;"></div></div>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <span style="font-size:13px;color:var(--text-secondary);">Toggle</span>
+                            <label class="toggle toggle--skeu"><input type="checkbox" checked><span class="toggle__slider"></span></label>
+                            <label class="toggle toggle--skeu"><input type="checkbox"><span class="toggle__slider"></span></label>
+                        </div>
+                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:16px;">Skeuomorphism</div>
+                    </div>
+                    <div>
+                        <div class="progress progress--glass" style="margin-bottom:16px;"><div class="progress__fill" style="width:75%;"></div></div>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <span style="font-size:13px;color:var(--text-secondary);">Toggle</span>
+                            <label class="toggle toggle--glass"><input type="checkbox" checked><span class="toggle__slider"></span></label>
+                            <label class="toggle toggle--glass"><input type="checkbox"><span class="toggle__slider"></span></label>
+                        </div>
+                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:16px;">Glassmorphism</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- THEME -->
+        <section class="section" id="theme">
+            <h2 class="section__title">Modo Oscuro / Claro</h2>
+            <p class="section__subtitle">Clic en 🌙/☀️ del header para alternar. Tokens CSS redefinidos con [data-theme="dark"].</p>
+            <hr class="section__divider">
+            <div class="style-preview style-flat">
+                <div style="text-align:center;padding:40px;">
+                    <p style="font-family:var(--font-title);font-size:24px;margin-bottom:12px;font-weight:var(--font-weight-title);">Dark Mode Adaptativo</p>
+                    <p style="color:var(--text-secondary);max-width:600px;margin:0 auto;line-height:1.8;">
+                        Todos los tokens se redefinen con <code style="background:var(--bg-tertiary);padding:2px 8px;border-radius:4px;font-size:13px;">[data-theme="dark"]</code>.
+                        Mismas estructuras visuales, paletas calibradas para ambos modos.
+                    </p>
+                    <div style="margin-top:24px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;font-size:13px;font-weight:600;">
+                        <span style="padding:4px 10px;border-radius:20px;background:rgba(102,126,234,0.12);color:#667eea;">prefers-color-scheme</span>
+                        <span style="padding:4px 10px;border-radius:20px;background:rgba(72,187,120,0.12);color:#48bb78;">WCAG AA Contrast</span>
+                        <span style="padding:4px 10px;border-radius:20px;background:rgba(237,137,54,0.12);color:#ed8936;">CSS Custom Properties</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                icon.textContent = '🌙';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                icon.textContent = '☀️';
+            }
+        }
+    </script>
+    <svg style="display:none;" aria-hidden="true">
+        <defs>
+            <linearGradient id="sk-metal" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#7a7a7a"/><stop offset="40%" stop-color="#555"/><stop offset="100%" stop-color="#333"/>
+            </linearGradient>
+            <linearGradient id="sk-metal-dark" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#999"/><stop offset="40%" stop-color="#777"/><stop offset="100%" stop-color="#555"/>
+            </linearGradient>
+            <linearGradient id="sk-surface" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="var(--sk-sfc-top,#4A4238)"/><stop offset="100%" stop-color="var(--sk-sfc-bot,#2A2520)"/>
+            </linearGradient>
+            <linearGradient id="sk-primary" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#E86040"/><stop offset="100%" stop-color="#A33A22"/>
+            </linearGradient>
+            <linearGradient id="sk-folder" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#D4B040"/><stop offset="100%" stop-color="#A07018"/>
+            </linearGradient>
+            <linearGradient id="sk-folder-dark" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#F0D8A0"/><stop offset="100%" stop-color="#D4B050"/>
+            </linearGradient>
+            <linearGradient id="sk-wood" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#D4A878"/><stop offset="100%" stop-color="#8A6040"/>
+            </linearGradient>
+            <linearGradient id="sk-wood-dark" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#D4B080"/><stop offset="100%" stop-color="#A07858"/>
+            </linearGradient>
+            <linearGradient id="sk-blue" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#60A0F0"/><stop offset="100%" stop-color="#2050A0"/>
+            </linearGradient>
+            <linearGradient id="sk-blue-dark" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#80C0FF"/><stop offset="100%" stop-color="#4070C0"/>
+            </linearGradient>
+            <linearGradient id="sk-paper" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="var(--sk-paper-top,#FAF5ED)"/><stop offset="100%" stop-color="var(--sk-paper-bot,#DCD0C0)"/>
+            </linearGradient>
+            <linearGradient id="sk-paper-dark" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4A4238"/><stop offset="100%" stop-color="#2A2520"/>
+            </linearGradient>
+            <linearGradient id="sk-primary-dark" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#F08060"/><stop offset="100%" stop-color="#C04830"/>
+            </linearGradient>
+            <linearGradient id="sk-red" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#E86060"/><stop offset="100%" stop-color="#902020"/>
+            </linearGradient>
+            <linearGradient id="sk-gold" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#E8C050"/><stop offset="100%" stop-color="#A87818"/>
+            </linearGradient>
+            <linearGradient id="sk-green" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#50D888"/><stop offset="100%" stop-color="#208040"/>
+            </linearGradient>
+            <linearGradient id="sk-red-dark" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#F07070"/><stop offset="100%" stop-color="#B04040"/>
+            </linearGradient>
+            <linearGradient id="sk-gold-dark" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FFE880"/><stop offset="100%" stop-color="#D4A848"/>
+            </linearGradient>
+            <linearGradient id="sk-green-dark" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#60E898"/><stop offset="100%" stop-color="#309050"/>
+            </linearGradient>
+            <filter id="sk-shadow" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#000" flood-opacity="0.5"/>
+            </filter>
+            <filter id="sk-noise" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" result="noise"/>
+                <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.06 0" in="noise" result="cn"/>
+                <feBlend mode="multiply" in="cn" in2="SourceGraphic"/>
+            </filter>
+        </defs>
+    </svg>
+</body>
+</html>
