@@ -209,15 +209,19 @@
             border: 1px solid rgba(0,0,0,0.08);
             box-shadow: 0 4px 16px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.6);
             gap: 8px; padding: 28px;
+            --sk-hi: rgba(0,0,0,0.08);
         }
-        [data-theme="dark"] .icons-grid--skeu { background: linear-gradient(180deg, #3D3730 0%, #332E28 100%); border-color: #1A1612; box-shadow: 0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05); }
+        [data-theme="dark"] .icons-grid--skeu {
+            background: linear-gradient(180deg, #3D3730 0%, #332E28 100%);
+            border-color: #1A1612;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+            --sk-hi: rgba(255,255,255,0.2);
+        }
         .icons-grid--skeu .icon-item {
             width: 110px; padding: 18px 12px; border-radius: 14px; gap: 10px;
         }
         .icons-grid--skeu .icon-item svg {
             width: 64px; height: 64px;
-            stroke: none; fill: none; overflow: visible;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.18));
         }
         .icons-grid--skeu .icon-item:hover {
             background: rgba(255,255,255,0.2);
@@ -512,19 +516,6 @@
             transform: scale(1.25);
         }
 
-        .window--skeu .window__control--close {
-            background: transparent;
-            box-shadow: none;
-        }
-        .window--skeu .window__control--minimize {
-            background: transparent;
-            box-shadow: none;
-        }
-        .window--skeu .window__control--maximize {
-            background: transparent;
-            box-shadow: none;
-        }
-
         .window--skeu .window__body {
             padding: 20px;
             flex: 1;
@@ -539,6 +530,23 @@
         .window--skeu .stat-label { color: #6A5040; }
         .window--skeu .stat-change--up { color: #2ECC71; background: rgba(46,204,113,0.12); }
         .window--skeu .stat-change--down { color: #E74C3C; background: rgba(231,76,60,0.12); }
+
+        .window--skeu .window__control--close,
+        .window--skeu .window__control--minimize,
+        .window--skeu .window__control--maximize {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            padding: 0;
+            background: none;
+            border: none;
+            box-shadow: none;
+            overflow: visible;
+        }
+        .window--skeu .window__control--close svg,
+        .window--skeu .window__control--minimize svg,
+        .window--skeu .window__control--maximize svg {
+            width: 22px; height: 22px;
+        }
 
         /* Dark mode - Skeu */
         [data-theme="dark"] .window--skeu {
@@ -708,20 +716,13 @@
            ============================================ */
         .volume-row { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
         .volume-label { font-size: 13px; color: var(--text-secondary); font-weight: var(--font-weight-bold); }
-        .volume-slider { -webkit-appearance: none; appearance: none; width: 200px; height: 8px; border-radius: 4px; outline: none; cursor: pointer; }
-        .volume-slider--flat { background: var(--bg-tertiary); }
-        .volume-slider--flat::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 0; background: #C84B31; border: none; cursor: pointer; }
-        .volume-slider--skeu { background: linear-gradient(180deg, #D4C4A8 0%, #C8B89A 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 1px 0 rgba(255,255,255,0.4); border: 1px solid #A09080; border-radius: 4px; }
-        .volume-slider--skeu::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(180deg, #DDD0B8 0%, #C8B89A 50%, #BCA888 100%); border: 1px solid #A09080; box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.5); cursor: pointer; }
-        .volume-slider--glass { background: rgba(255,255,255,0.12); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.20); }
-        .volume-slider--glass::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: rgba(200,75,49,0.7); border: 2px solid rgba(255,255,255,0.5); box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer; }
+        .volume-slider { width: 200px; height: 8px; outline: none; cursor: pointer; }
+        .volume-slider--flat { accent-color: #C84B31; }
         .volume-value { font-size: 13px; color: var(--text-primary); font-weight: var(--font-weight-bold); min-width: 40px; }
 
         .volume-row svg.vol-icon--flat { stroke: #5050A0; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-        .volume-row svg.vol-icon--skeu { stroke: #6A5040; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
         .volume-row svg.vol-icon--glass { stroke: rgba(10,15,40,0.50); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
         [data-theme="dark"] .volume-row svg.vol-icon--flat { stroke: #6060A0; }
-        [data-theme="dark"] .volume-row svg.vol-icon--skeu { stroke: #8A7D6E; }
         [data-theme="dark"] .volume-row svg.vol-icon--glass { stroke: rgba(255,255,255,0.42); }
 
         /* ============================================
@@ -736,9 +737,6 @@
         .progress--glass .progress__fill { background: linear-gradient(90deg, rgba(200,75,49,0.7), rgba(163,58,34,0.7)); border-radius: 4px; }
         [data-theme="dark"] .progress--glass { background: rgba(30,30,50,0.4); }
         [data-theme="dark"] .progress--skeu { background: #3D3730; border-color: #1A1612; }
-        [data-theme="dark"] .volume-slider--skeu { background: linear-gradient(180deg, #3D3730 0%, #332E28 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.06); border-color: #1A1612; }
-        [data-theme="dark"] .volume-slider--skeu::-webkit-slider-thumb { background: linear-gradient(180deg, #4A4238 0%, #3D3730 50%, #332E28 100%); border-color: #1A1612; box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1); }
-        [data-theme="dark"] .volume-slider--glass { background: rgba(30,30,50,0.3); backdrop-filter: blur(4px); border-color: rgba(255,255,255,0.08); }
         [data-theme="dark"] .toggle--skeu .toggle__slider { background: linear-gradient(180deg, #3D3730 0%, #332E28 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.05); border-color: #1A1612; }
         [data-theme="dark"] .toggle--skeu .toggle__slider::after { background: linear-gradient(180deg, #4A4238 0%, #3D3730 100%); border-color: #1A1612; box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08); }
         [data-theme="dark"] .player-bar--skeu { background: linear-gradient(180deg, #3D3730 0%, #332E28 50%, #2A2520 100%); border-color: #1A1612; box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 2px 6px rgba(0,0,0,0.2); }
@@ -774,13 +772,31 @@
         .player-bar--glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.15); }
         [data-theme="dark"] .player-bar--glass { background: rgba(25,25,50,0.4); border-color: rgba(255,255,255,0.08); }
         .player-btn { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; border: none; font-size: 18px; line-height: 1; }
-        .player-btn--flat { background: #C84B31; color: white; border-radius: 0; }
-        .player-btn--flat:hover { background: #A33A22; transform: scale(1.1); }
-        .player-btn--skeu { background: linear-gradient(180deg, #E86040 0%, #C84B31 40%, #A33A22 100%); color: white; border: 1px solid #7A2818; border-top-color: #E86040; box-shadow: 0 2px 0 #7A2818, 0 4px 8px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.3); }
-        .player-btn--skeu:hover { background: linear-gradient(180deg, #E86040 0%, #D85535 40%, #B84222 100%); transform: scale(1.05); }
-        .player-btn--skeu:active { box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); transform: scale(0.98); }
-        .player-btn--glass { background: rgba(200,75,49,0.5); color: white; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-        .player-btn--glass:hover { background: rgba(200,75,49,0.7); transform: scale(1.1); }
+        .player-btn--flat { background: #E8E8F5; color: #5050A0; border-radius: 0; }
+        .player-btn--flat:hover { background: #E0E0F0; color: #1A1A2E; transform: scale(1.1); }
+        .player-btn--flat.player-btn--play { background: #C84B31; color: white; }
+        .player-btn--flat.player-btn--play:hover { background: #A33A22; }
+        [data-theme="dark"] .player-btn--flat { background: #3A3A7A; color: white; }
+        [data-theme="dark"] .player-btn--flat:hover { background: #2A2A6A; }
+        [data-theme="dark"] .player-btn--flat.player-btn--play { background: #C84B31; color: white; }
+        [data-theme="dark"] .player-btn--flat.player-btn--play:hover { background: #A33A22; }
+        .player-btn--skeu { background: linear-gradient(180deg, #E8DECA 0%, #D4C4A8 60%, #C8B89A 100%); color: #2A1A0A; border: 1px solid #A09080; border-top-color: #C0A880; box-shadow: 0 2px 0 rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12); }
+        .player-btn--skeu:hover { background: linear-gradient(180deg, #624E40, #4A4238); color: #EDE8E0; transform: scale(1.05); }
+        .player-btn--skeu:active { background: linear-gradient(180deg, #3D3730, #332E28); box-shadow: inset 0 2px 4px rgba(0,0,0,0.4); transform: scale(0.98); }
+        .player-btn--skeu.player-btn--play { background: linear-gradient(180deg, #E05030 0%, #C84B31 100%); color: white; border-color: #7A2818; box-shadow: 0 2px 0 rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12); }
+        .player-btn--skeu.player-btn--play:hover { background: linear-gradient(180deg, #E86040 0%, #D85535 100%); }
+        .player-btn--glass { background: rgba(255,255,255,0.25); color: rgba(10,15,40,0.7); border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        .player-btn--glass:hover { background: rgba(255,255,255,0.4); transform: scale(1.1); }
+        .player-btn--glass.player-btn--play { background: rgba(200,75,49,0.5); color: white; border-color: rgba(255,255,255,0.3); }
+        .player-btn--glass.player-btn--play:hover { background: rgba(200,75,49,0.7); }
+        [data-theme="dark"] .player-btn--glass { background: rgba(60,70,130,0.5); color: white; border-color: rgba(255,255,255,0.1); }
+        [data-theme="dark"] .player-btn--glass:hover { background: rgba(60,70,130,0.7); }
+        [data-theme="dark"] .player-btn--glass.player-btn--play { background: rgba(200,75,49,0.6); color: white; border-color: rgba(255,255,255,0.2); }
+        [data-theme="dark"] .player-btn--glass.player-btn--play:hover { background: rgba(200,75,49,0.8); }
+        [data-theme="dark"] .player-btn--skeu { background: linear-gradient(180deg, #564D41 0%, #3D3730 60%, #332E28 100%); color: #EDE8E0; border-color: #1A1612; border-top-color: #6A5E50; box-shadow: 0 2px 0 rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12); }
+        [data-theme="dark"] .player-btn--skeu.player-btn--play { background: linear-gradient(180deg, #E05030 0%, #C84B31 100%); color: #fff; border-color: #7A2818; box-shadow: 0 2px 0 rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12); }
+        [data-theme="dark"] .player-btn--skeu.player-btn--play:hover { background: linear-gradient(180deg, #E86040 0%, #D85535 100%); }
+        [data-theme="dark"] .player-btn--skeu.player-btn--play:active { background: linear-gradient(180deg, #A33A22 0%, #902010 100%); box-shadow: inset 0 2px 4px rgba(0,0,0,0.4); }
         .player-time { font-size: 13px; color: var(--text-muted); font-family: monospace; font-weight: 400; }
         .player-progress { flex: 1; }
 
@@ -1168,15 +1184,15 @@
                     <span class="icon-item__label">Apagar</span>
                 </div>
                 <div class="icon-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><rect x="9" y="4" width="4" height="16" rx="1.5" fill="url(#sk-surface)" filter="url(#sk-shadow)"/><path d="M13 8l-6 4H3v2h4l6 4V8z" fill="url(#sk-primary)"/><path d="M17 9.5a4 4 0 010 5" stroke="#EDE8E0" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M20 7a7 7 0 010 10" stroke="#EDE8E0" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24"><rect x="8" y="5" width="4" height="14" rx="1" fill="url(#sk-surface)" filter="url(#sk-shadow)"/><path d="M12 9l-5 3H3v2h4l5 3V9z" fill="url(#sk-primary)"/><path d="M16 9.5a3.5 3.5 0 010 5" stroke="var(--c-text)" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M19 7.5a6.5 6.5 0 010 9" stroke="var(--c-text)" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
                     <span class="icon-item__label">Volumen</span>
                 </div>
                 <div class="icon-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="url(#sk-primary)" filter="url(#sk-shadow)"/><circle cx="12" cy="12" r="9" fill="url(#sk-noise)" opacity="0.1"/><ellipse cx="11" cy="10" rx="2.5" ry="1.8" fill="var(--sk-hi)" opacity="0.25"/><circle cx="12" cy="7" r="1.5" fill="#fff"/><line x1="12" y1="10" x2="12" y2="17" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><line x1="7" y1="12" x2="17" y2="12" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/><line x1="8.5" y1="6.5" x2="15.5" y2="17.5" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" fill="url(#sk-gold)" filter="url(#sk-shadow)"/><path d="M12 2v2M12 20v2M4 4l1.5 1.5M18.5 18.5L20 20M2 12h2M20 12h2M4 20l1.5-1.5M18.5 5.5L20 4" stroke="#B89030" stroke-width="1.5" stroke-linecap="round"/></svg>
                     <span class="icon-item__label">Tema Claro</span>
                 </div>
                 <div class="icon-item">
-                    <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="url(#sk-metal)" filter="url(#sk-shadow)"/><circle cx="12" cy="12" r="9" fill="url(#sk-noise)" opacity="0.15"/><ellipse cx="11" cy="9" rx="3.5" ry="2.5" fill="var(--sk-hi)" opacity="0.15"/><path d="M16 8c-5 0-9 4-9 9a7 7 0 008-9z" fill="var(--sk-bomb)" opacity="0.5"/><circle cx="16" cy="8" r="0.8" fill="var(--sk-hi)"/><circle cx="14" cy="6" r="0.5" fill="var(--sk-hi)"/><circle cx="18" cy="6.5" r="0.4" fill="var(--sk-hi)"/><circle cx="14.5" cy="10" r="0.6" fill="var(--sk-hi)"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="url(#sk-surface)" filter="url(#sk-shadow)"/><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="var(--c-text)"/></svg>
                     <span class="icon-item__label">Tema Oscuro</span>
                 </div>
                 <div class="icon-item">
@@ -1461,9 +1477,9 @@
                 <div class="comparison-grid">
                     <div>
                         <div class="player-bar player-bar--flat">
-                            <button class="player-btn player-btn--flat">
-                                <span>⏯</span>
-                            </button>
+                            <button class="player-btn player-btn--flat">⏮</button>
+                            <button class="player-btn player-btn--flat player-btn--play">▶</button>
+                            <button class="player-btn player-btn--flat">⏭</button>
                             <div class="player-progress">
                                 <div class="progress progress--flat"><div class="progress__fill" style="width:35%;"></div></div>
                             </div>
@@ -1473,9 +1489,9 @@
                     </div>
                     <div>
                         <div class="player-bar player-bar--skeu">
-                            <button class="player-btn player-btn--skeu">
-                                <span>⏯</span>
-                            </button>
+                            <button class="player-btn player-btn--skeu">⏮</button>
+                            <button class="player-btn player-btn--skeu player-btn--play">▶</button>
+                            <button class="player-btn player-btn--skeu">⏭</button>
                             <div class="player-progress">
                                 <div class="progress progress--skeu"><div class="progress__fill" style="width:35%;"></div></div>
                             </div>
@@ -1485,9 +1501,9 @@
                     </div>
                     <div>
                         <div class="player-bar player-bar--glass">
-                            <button class="player-btn player-btn--glass">
-                                <span>⏯</span>
-                            </button>
+                            <button class="player-btn player-btn--glass">⏮</button>
+                            <button class="player-btn player-btn--glass player-btn--play">▶</button>
+                            <button class="player-btn player-btn--glass">⏭</button>
                             <div class="player-progress">
                                 <div class="progress progress--glass"><div class="progress__fill" style="width:35%;"></div></div>
                             </div>
@@ -1501,30 +1517,11 @@
             <!-- Volume Slider -->
             <div class="style-preview style-flat">
                 <div class="style-preview__label">Volumen del Sistema</div>
-                <div class="comparison-grid">
-                    <div style="padding:16px;">
-                        <div class="volume-row">
-                            <svg class="vol-icon--flat" viewBox="0 0 24 24" width="20" height="20"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-                            <input type="range" class="volume-slider volume-slider--flat" value="75" min="0" max="100">
-                            <span class="volume-value">75%</span>
-                        </div>
-                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Flat Design</div>
-                    </div>
-                    <div style="padding:16px;">
-                        <div class="volume-row">
-                            <svg class="vol-icon--skeu" viewBox="0 0 24 24" width="20" height="20"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-                            <input type="range" class="volume-slider volume-slider--skeu" value="75" min="0" max="100">
-                            <span class="volume-value">75%</span>
-                        </div>
-                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Skeuomorphism</div>
-                    </div>
-                    <div style="padding:16px;">
-                        <div class="volume-row">
-                            <svg class="vol-icon--glass" viewBox="0 0 24 24" width="20" height="20"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-                            <input type="range" class="volume-slider volume-slider--glass" value="75" min="0" max="100">
-                            <span class="volume-value">75%</span>
-                        </div>
-                        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:8px;">Glassmorphism</div>
+                <div style="padding:16px;max-width:400px;">
+                    <div class="volume-row">
+                        <svg class="vol-icon--flat" viewBox="0 0 24 24" width="20" height="20"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                        <input type="range" class="volume-slider volume-slider--flat" id="vol-slider" value="75" min="0" max="100" oninput="updateVol(this)">
+                        <span class="volume-value" id="vol-val">75%</span>
                     </div>
                 </div>
             </div>
@@ -1742,6 +1739,10 @@
     </div>
 
     <script>
+        function updateVol(el) {
+            document.getElementById('vol-val').textContent = el.value + '%';
+        }
+        updateVol(document.getElementById('vol-slider'));
         function toggleTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
@@ -1754,7 +1755,7 @@
             }
         }
     </script>
-    <svg style="display:none;" aria-hidden="true">
+    <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
         <defs>
             <linearGradient id="sk-metal" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stop-color="#7a7a7a"/><stop offset="40%" stop-color="#555"/><stop offset="100%" stop-color="#333"/>
